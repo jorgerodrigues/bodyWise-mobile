@@ -9,9 +9,12 @@ const PrimaryButton = (props) => {
 
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          props.callback();
+        }}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>{props.title}</Text>
         </View>
       </TouchableOpacity>
     </View>

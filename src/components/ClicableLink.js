@@ -9,7 +9,10 @@ const ClickableLink = (props) => {
 
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          props.callback();
+        }}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>{props.text}</Text>
         </View>

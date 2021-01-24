@@ -23,6 +23,7 @@ const Logo = () => {
 const styles = StyleSheet.create({
   logo: {
     padding: 60,
+    alignSelf: 'center',
   },
 });
 

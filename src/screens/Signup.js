@@ -1,39 +1,28 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  SafeAreaView,
-  Button,
-} from 'react-native';
+import { StyleSheet, View, Text, TextInput, SafeAreaView } from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
 import WaveBottom from '../components/WaveBottom';
 import ClickableLink from '../components/ClicableLink';
 import Logo from '../components/Logo';
 import axios from 'axios';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { connect } from 'react-redux';
-import { userLoggedIn } from '../actions';
 
-const LoginScreen = (props) => {
+const SignupScreen = () => {
   const [user, setUser] = useState();
   const [usersPassword, setPassword] = useState();
+  const [usersPasswordConfirm, setPasswordConfirm] = useState();
+  console.log(user);
 
   useFonts({
     Oxygen_400Regular,
   });
 
-  const userLogin = async (user, password) => {
+  const userAccountCreation = async (user, password) => {
     const URL = 'http://127.0.0.1:3000';
+
+    // todo: create the account and store the userinfo and login
     try {
-      const response = await axios.post(`${URL}/users/login`, {
-        email: user,
-        password: password,
-      });
-      const stringResponse = JSON.stringify(response.data);
-      props.userLoggedIn(JSON.parse(stringResponse));
+      // todo save the response data to local storage so it can be checked next time the app is run
     } catch (e) {
       console.log(e);
     }
@@ -43,6 +32,16 @@ const LoginScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <Logo />
       <View style={styles.loginArea}>
+        <View style={styles.textFieldAndLabel}>
+          <Text style={styles.textLabel}>Your first name</Text>
+          <TextInput
+            autoCapitalize={'words'}
+            autoCompleteType={'name'}
+            autoCorrect={false}
+            style={styles.textInput}
+            onChangeText={(text) => setUser(text)}
+          />
+        </View>
         <View style={styles.textFieldAndLabel}>
           <Text style={styles.textLabel}>Email</Text>
           <TextInput
@@ -61,17 +60,19 @@ const LoginScreen = (props) => {
             onChangeText={(text) => setPassword(text)}
           />
         </View>
+        <View style={styles.textFieldAndLabel}>
+          <Text style={styles.textLabel}>Confirm Password</Text>
+          <TextInput
+            secureTextEntry={true}
+            style={styles.textInput}
+            onChangeText={(text) => setPasswordConfirm(text)}
+          />
+        </View>
         <PrimaryButton
-          title={'Login'}
+          title={'Create your account'}
           callback={() => userLogin(user, usersPassword)}
         />
       </View>
-      <ClickableLink
-        text={'Create an account'}
-        callback={() => {
-          props.navigation.navigate('Signup');
-        }}
-      />
       <WaveBottom style={styles.waveBottom} />
     </SafeAreaView>
   );
@@ -115,14 +116,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginArea: {
-    marginTop: 40,
+    marginTop: 0,
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    isUserLoggedIn: state.isLoggedIn,
-  };
-};
-
-export default connect(mapStateToProps, { userLoggedIn })(LoginScreen);
+export default SignupScreen;

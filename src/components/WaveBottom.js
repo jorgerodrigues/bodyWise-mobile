@@ -10,7 +10,7 @@ const WaveBottom = () => {
       <Svg
         width={`${windowWidth}`}
         // the multiplication in the height value makes sure that the wave overflow the window downwards
-        height={`${windowHeight * 1.22222} `}
+        height={`${windowHeight * 1.18} `}
         viewBox={`0 0 ${windowWidth} ${windowHeight}`}
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
