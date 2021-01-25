@@ -3,9 +3,17 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { useFonts, Oxygen_700Bold } from '@expo-google-fonts/oxygen';
 
 const PrimaryButton = (props) => {
-  useFonts({
+  const [loadedFont] = useFonts({
     Oxygen_700Bold,
   });
+
+  if (!loadedFont) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.buttonContainer}>

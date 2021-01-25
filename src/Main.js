@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 
 import allReducers from './reducers/index';
@@ -16,23 +15,21 @@ const store = createStore(allReducers);
 
 function Main(props) {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {props.isUserLoggedIn.user ? (
-            <>
-              <Stack.Screen name='NewUpdate' component={NewUpdateScreen} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name='Login' component={LoginScreen} />
-            </>
-          )}
+    <NavigationContainer>
+      <Stack.Navigator>
+        {props.isUserLoggedIn.isLogged ? (
+          <>
+            <Stack.Screen name='NewUpdate' component={NewUpdateScreen} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name='Login' component={LoginScreen} />
+          </>
+        )}
 
-          <Stack.Screen name='Signup' component={SignupScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+        <Stack.Screen name='Signup' component={SignupScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

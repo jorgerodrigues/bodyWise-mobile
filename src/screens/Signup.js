@@ -13,7 +13,7 @@ const SignupScreen = () => {
   const [usersPasswordConfirm, setPasswordConfirm] = useState();
   console.log(user);
 
-  useFonts({
+  const [loadedFont] = useFonts({
     Oxygen_400Regular,
   });
 
@@ -27,6 +27,14 @@ const SignupScreen = () => {
       console.log(e);
     }
   };
+
+  if (!loadedFont) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>

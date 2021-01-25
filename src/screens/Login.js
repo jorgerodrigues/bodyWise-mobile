@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  SafeAreaView,
-  Button,
-} from 'react-native';
+import { StyleSheet, View, Text, TextInput, SafeAreaView } from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
 import WaveBottom from '../components/WaveBottom';
 import ClickableLink from '../components/ClicableLink';
 import Logo from '../components/Logo';
 import axios from 'axios';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { userLoggedIn } from '../actions';
 
@@ -21,7 +13,7 @@ const LoginScreen = (props) => {
   const [user, setUser] = useState();
   const [usersPassword, setPassword] = useState();
 
-  useFonts({
+  const [loadedFont] = useFonts({
     Oxygen_400Regular,
   });
 
@@ -33,12 +25,20 @@ const LoginScreen = (props) => {
         password: password,
       });
       const stringResponse = JSON.stringify(response.data);
-      props.userLoggedIn(JSON.parse(stringResponse));
+      await props.userLoggedIn(JSON.parse(stringResponse));
+      console.log(props.isUserLoggedIn);
     } catch (e) {
       console.log(e);
     }
   };
 
+  if (!loadedFont) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Logo />
