@@ -1,32 +1,56 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, SafeAreaView } from 'react-native';
-import PrimaryButton from '../components/PrimaryButton';
-import WaveBottom from '../components/WaveBottom';
-import ClickableLink from '../components/ClicableLink';
-import Logo from '../components/Logo';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Keyboard,
+} from 'react-native';
+import { useHeaderHeight } from '@react-navigation/stack';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 
-const SignupScreen = () => {
+import PrimaryButton from '../components/PrimaryButton';
+import WaveBottom from '../components/WaveBottom';
+import Logo from '../components/Logo';
+import ErrorMessage from '../components/ErrorMessage';
+import { userLoggedIn, errorMessageCreated } from '../actions';
+
+const SignupScreen = (props) => {
   const [user, setUser] = useState();
+  const [name, setName] = useState();
   const [usersPassword, setPassword] = useState();
   const [usersPasswordConfirm, setPasswordConfirm] = useState();
-  console.log(user);
+  const [errorMessage = null, setErrorMessage] = useState();
+
+  const userAccountCreation = async (user, password, name) => {
+    const URL = 'http://127.0.0.1:3000';
+
+    if (password !== usersPasswordConfirm) {
+      return errorMessageCreated('The passwords do not match');
+    }
+
+    // todo: create the account and store the userinfo and login
+    try {
+      const response = await axios.post(`${URL}/users/signup`, {
+        name: name,
+        email: user,
+        password: password,
+      });
+      console.log(response.data);
+      console.log('User created!');
+      await props.userLoggedIn(response.data);
+    } catch (e) {
+      props.errorMessageCreated('The signup has failed');
+      setErrorMessage(props.errorOrSuccessMessage.message);
+    }
+  };
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
   });
-
-  const userAccountCreation = async (user, password) => {
-    const URL = 'http://127.0.0.1:3000';
-
-    // todo: create the account and store the userinfo and login
-    try {
-      // todo save the response data to local storage so it can be checked next time the app is run
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   if (!loadedFont) {
     return (
@@ -37,9 +61,13 @@ const SignupScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView
+      behavior='padding'
+      style={styles.container}
+      keyboardVerticalOffset={useHeaderHeight() + 68}>
       <Logo />
-      <View style={styles.loginArea}>
+      {errorMessage === null ? <></> : <ErrorMessage message={errorMessage} />}
+      <View style={styles.loginArea} onPress={Keyboard.dismiss}>
         <View style={styles.textFieldAndLabel}>
           <Text style={styles.textLabel}>Your first name</Text>
           <TextInput
@@ -47,7 +75,7 @@ const SignupScreen = () => {
             autoCompleteType={'name'}
             autoCorrect={false}
             style={styles.textInput}
-            onChangeText={(text) => setUser(text)}
+            onChangeText={(text) => setName(text)}
           />
         </View>
         <View style={styles.textFieldAndLabel}>
@@ -78,17 +106,17 @@ const SignupScreen = () => {
         </View>
         <PrimaryButton
           title={'Create your account'}
-          callback={() => userLogin(user, usersPassword)}
+          callback={() => userAccountCreation(user, usersPassword, name)}
         />
       </View>
       <WaveBottom style={styles.waveBottom} />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
   },
@@ -125,7 +153,16 @@ const styles = StyleSheet.create({
   },
   loginArea: {
     marginTop: 0,
+    justifyContent: 'flex-end',
   },
 });
 
-export default SignupScreen;
+const mapStateToProps = (state) => {
+  return {
+    errorOrSuccessMessage: state.errorOrSuccessMessage,
+  };
+};
+
+export default connect(mapStateToProps, { userLoggedIn, errorMessageCreated })(
+  SignupScreen
+);

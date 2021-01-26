@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { userLoggedIn, userSignedOut } from '../actions/index';
 
