@@ -2,16 +2,13 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createStore } from 'redux';
 import { connect } from 'react-redux';
 
-import allReducers from './reducers/index';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 
 const Stack = createStackNavigator();
-const store = createStore(allReducers);
 
 function Main(props) {
   return (
@@ -19,7 +16,20 @@ function Main(props) {
       <Stack.Navigator>
         {props.isUserLoggedIn.isLogged ? (
           <>
-            <Stack.Screen name='NewUpdate' component={NewUpdateScreen} />
+            <Stack.Screen
+              name='NewUpdate'
+              component={NewUpdateScreen}
+              options={{
+                title: '',
+                headerTintColor: '#F8FAFC',
+                headerTransparent: true,
+                headerStyle: {
+                  headerTitleStyle: {
+                    color: '#F8FAFC',
+                  },
+                },
+              }}
+            />
           </>
         ) : (
           <>
@@ -39,9 +49,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 244,
     height: 44,
-  },
-  waveBottom: {
-    width: 100,
   },
 });
 

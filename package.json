@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/nobile": "^0.1.0",
     "@expo-google-fonts/oxygen": "^0.1.0",
     "@react-native-async-storage/async-storage": "^1.13.3",
     "@react-native-community/masked-view": "0.1.10",

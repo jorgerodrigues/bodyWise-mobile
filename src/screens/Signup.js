@@ -39,10 +39,9 @@ const SignupScreen = (props) => {
         email: user,
         password: password,
       });
-      console.log(response.data);
-      console.log('User created!');
       await props.userLoggedIn(response.data);
     } catch (e) {
+      console.log(e.message);
       props.errorMessageCreated('The signup has failed');
       setErrorMessage(props.errorOrSuccessMessage.message);
     }
