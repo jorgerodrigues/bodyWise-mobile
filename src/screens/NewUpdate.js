@@ -9,9 +9,11 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { userLoggedIn, userSignedOut } from '../actions/index';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
+
+import { userLoggedIn, userSignedOut } from '../actions/index';
+import DateDisplay from '../components/DateDisplay';
 
 const NewUpdate = (props) => {
   const deviceWidth = Dimensions.get('window').width;
@@ -40,6 +42,7 @@ const NewUpdate = (props) => {
         source={require('../../assets/background.png')}
         style={{ width: deviceWidth, height: deviceHeight }}>
         <Text style={styles.mainHeader}>Hey {userName}</Text>
+        <DateDisplay></DateDisplay>
         <Button
           title={'Sign out'}
           onPress={() => {

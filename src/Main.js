@@ -23,11 +23,6 @@ function Main(props) {
                 title: '',
                 headerTintColor: '#F8FAFC',
                 headerTransparent: true,
-                headerStyle: {
-                  headerTitleStyle: {
-                    color: '#F8FAFC',
-                  },
-                },
               }}
             />
           </>

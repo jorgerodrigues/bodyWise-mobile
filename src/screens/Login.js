@@ -22,7 +22,7 @@ import ErrorMessage from '../components/ErrorMessage';
 const LoginScreen = (props) => {
   const [user, setUser] = useState();
   const [usersPassword, setPassword] = useState();
-  const [errorMessage = null, setErrorMessage] = useState();
+  const [errorMessage = '', setErrorMessage] = useState();
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
@@ -47,7 +47,7 @@ const LoginScreen = (props) => {
       await props.userLoggedIn(JSON.parse(stringResponse));
       console.log(props.isUserLoggedIn);
     } catch (e) {
-      props.errorMessageCreated('Login failed');
+      await props.errorMessageCreated('Login failed');
       setErrorMessage(props.errorOrSuccessMessage.message);
     }
   };
@@ -56,9 +56,9 @@ const LoginScreen = (props) => {
     <KeyboardAvoidingView
       behavior='padding'
       style={styles.container}
-      keyboardVerticalOffset={useHeaderHeight() + 68}>
+      keyboardVerticalOffset={useHeaderHeight() + 150}>
       <Logo />
-      {errorMessage === null ? <></> : <ErrorMessage message={errorMessage} />}
+      {errorMessage === '' ? <></> : <ErrorMessage message={errorMessage} />}
       <View style={styles.loginArea}>
         <View style={styles.textFieldAndLabel}>
           <Text style={styles.textLabel}>Email</Text>
