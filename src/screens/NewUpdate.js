@@ -14,6 +14,7 @@ import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 import { userLoggedIn, userSignedOut } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
+import SingleStatus from '../components/SingleStatus';
 
 const NewUpdate = (props) => {
   const deviceWidth = Dimensions.get('window').width;
@@ -43,6 +44,8 @@ const NewUpdate = (props) => {
         style={{ width: deviceWidth, height: deviceHeight }}>
         <Text style={styles.mainHeader}>Hey {userName}</Text>
         <DateDisplay></DateDisplay>
+        <Text style={styles.secondHeader}>How do you feel today?</Text>
+        <SingleStatus fill={'#D7D4F7'}></SingleStatus>
         <Button
           title={'Sign out'}
           onPress={() => {
@@ -61,6 +64,16 @@ const styles = StyleSheet.create({
     fontSize: 38,
     alignSelf: 'center',
     marginTop: 150,
+  },
+  secondHeader: {
+    fontFamily: 'Nobile_700Bold',
+    color: '#E9F1F7',
+    fontSize: 32,
+    alignSelf: 'center',
+    textAlign: 'center',
+    marginTop: 25,
+    marginBottom: 10,
+    marginHorizontal: 80,
   },
 });
 
