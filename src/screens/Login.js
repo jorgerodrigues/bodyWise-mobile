@@ -49,6 +49,7 @@ const LoginScreen = (props) => {
     } catch (e) {
       await props.errorMessageCreated('Login failed');
       setErrorMessage(props.errorOrSuccessMessage.message);
+      console.log(errorMessage);
     }
   };
 
@@ -66,6 +67,7 @@ const LoginScreen = (props) => {
             autoCapitalize={'none'}
             autoCompleteType={'off'}
             autoCorrect={false}
+            keyboardType={'email-address'}
             style={styles.textInput}
             onChangeText={(text) => setUser(text)}
           />
