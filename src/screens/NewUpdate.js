@@ -16,6 +16,7 @@ import { userLoggedIn, userSignedOut } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
 import SingleStatus from '../components/SingleStatus';
 import TextField from '../components/TextField';
+import PrimaryButton from '../components/PrimaryButton';
 
 const NewUpdate = (props) => {
   const deviceWidth = Dimensions.get('window').width;
@@ -47,8 +48,16 @@ const NewUpdate = (props) => {
         <DateDisplay></DateDisplay>
         <Text style={styles.secondHeader}>How do you feel today?</Text>
         <SingleStatus fill={'#D7D4F7'}></SingleStatus>
-        <Text>Here's the journal if you feel like doing it today</Text>
+        <Text style={styles.bodyText}>
+          Here's the journal if you feel like doing it today
+        </Text>
         <TextField></TextField>
+        <PrimaryButton
+          title={'Save update'}
+          callback={() => {
+            return null;
+          }}
+        />
         <Button
           title={'Sign out'}
           onPress={() => {
@@ -66,7 +75,7 @@ const styles = StyleSheet.create({
     color: '#F8FAFC',
     fontSize: 38,
     alignSelf: 'center',
-    marginTop: 150,
+    marginTop: 100,
   },
   secondHeader: {
     fontFamily: 'Nobile_700Bold',
@@ -74,9 +83,16 @@ const styles = StyleSheet.create({
     fontSize: 32,
     alignSelf: 'center',
     textAlign: 'center',
-    marginTop: 25,
-    marginBottom: 10,
+    marginTop: 40,
+    marginBottom: 20,
     marginHorizontal: 80,
+  },
+
+  bodyText: {
+    fontFamily: 'Oxygen_400Regular',
+    fontSize: 15,
+    color: '#D7D4F7',
+    textAlign: 'center',
   },
 });
 
