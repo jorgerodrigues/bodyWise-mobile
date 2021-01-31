@@ -11,6 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
+import axios from 'axios';
 
 import { userLoggedIn, userSignedOut } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
@@ -24,6 +25,27 @@ const NewUpdate = (props) => {
   // todo : Add a separate signout function. The function should send an api call to signout on the server and after that, trigger the signout action
 
   const signOut = () => {};
+
+  const saveUpdate = async (props) => {
+    const URL = 'http://127.0.0.1:3000';
+    try {
+      const response = await axios.post(
+        `${URL}/me/how-do-you-feel`,
+        {
+          howDoYouFeelToday: props.singleUpdate,
+          comments: props.journalText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   const userName = props.isUserLoggedIn.user.name;
 
@@ -61,7 +83,7 @@ const NewUpdate = (props) => {
         <PrimaryButton
           title={'Save update'}
           callback={() => {
-            return null;
+            saveUpdate(props);
           }}
         />
         <Button
@@ -105,6 +127,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     isUserLoggedIn: state.isLoggedIn,
+    journalText: state.journalText,
+    singleUpdate: state.singleUpdate,
   };
 };
 
