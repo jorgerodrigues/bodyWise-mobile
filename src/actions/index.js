@@ -11,3 +11,13 @@ export const errorMessageCreated = (data) => ({
   type: 'ERROR_MESSAGE_THROWN',
   payload: data,
 });
+
+export const singleUpdateIsSet = (data) => ({
+  type: 'UPDATE_IS_SET',
+  payload: data,
+});
+
+export const journalIsUpdated = () => ({
+  type: 'JOURNAL_IS_UPDATED',
+  payload: data,
+});

@@ -15,7 +15,7 @@ import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import { userLoggedIn, userSignedOut } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
 import SingleStatus from '../components/SingleStatus';
-import TextField from '../components/TextField';
+import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 
 const NewUpdate = (props) => {
@@ -51,7 +51,13 @@ const NewUpdate = (props) => {
         <Text style={styles.bodyText}>
           Here's the journal if you feel like doing it today
         </Text>
-        <TextField></TextField>
+        <JournalTextField></JournalTextField>
+        <Button
+          title={'Sign out'}
+          onPress={() => {
+            props.userSignedOut();
+          }}
+        />
         <PrimaryButton
           title={'Save update'}
           callback={() => {
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
     color: '#F8FAFC',
     fontSize: 38,
     alignSelf: 'center',
-    marginTop: 100,
+    marginTop: 75,
   },
   secondHeader: {
     fontFamily: 'Nobile_700Bold',

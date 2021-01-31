@@ -44,12 +44,10 @@ const LoginScreen = (props) => {
         password: password,
       });
       const stringResponse = JSON.stringify(response.data);
-      await props.userLoggedIn(JSON.parse(stringResponse));
-      console.log(props.isUserLoggedIn);
+      props.userLoggedIn(JSON.parse(stringResponse));
     } catch (e) {
-      await props.errorMessageCreated('Login failed');
+      props.errorMessageCreated('Login failed');
       setErrorMessage(props.errorOrSuccessMessage.message);
-      console.log(errorMessage);
     }
   };
 
