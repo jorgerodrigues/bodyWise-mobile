@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   day: {
     fontFamily: 'Oxygen_300Light',
     alignContent: 'center',
+    textAlign: 'center',
   },
   month: {
     color: '#F5E7B8',
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
   monthAndYearContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    textAlign: 'center',
   },
 });
 
