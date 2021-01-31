@@ -17,7 +17,7 @@ export const singleUpdateIsSet = (data) => ({
   payload: data,
 });
 
-export const journalIsUpdated = () => ({
+export const journalIsUpdated = (data) => ({
   type: 'JOURNAL_IS_UPDATED',
   payload: data,
 });
