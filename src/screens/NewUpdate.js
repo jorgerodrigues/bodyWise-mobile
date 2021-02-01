@@ -74,10 +74,18 @@ const NewUpdate = (props) => {
         <DateDisplay></DateDisplay>
         <Text style={styles.secondHeader}>How do you feel today?</Text>
         <SingleStatus fill={'#D7D4F7'}></SingleStatus>
-        <Text style={styles.bodyText}>
-          Here's the journal if you feel like doing it today
-        </Text>
-        <JournalTextField></JournalTextField>
+
+        {props.singleUpdate ? (
+          <View>
+            <Text style={styles.bodyText}>
+              Here's the journal if you feel like doing it today
+            </Text>
+            <JournalTextField></JournalTextField>
+          </View>
+        ) : (
+          <></>
+        )}
+
         <Button
           title={'Sign out'}
           onPress={() => {
@@ -88,12 +96,6 @@ const NewUpdate = (props) => {
           title={'Save update'}
           callback={() => {
             saveUpdate(props);
-          }}
-        />
-        <Button
-          title={'Sign out'}
-          onPress={() => {
-            props.userSignedOut();
           }}
         />
       </ImageBackground>

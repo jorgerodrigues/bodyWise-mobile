@@ -45,6 +45,7 @@ const LoginScreen = (props) => {
       });
       const stringResponse = JSON.stringify(response.data);
       props.userLoggedIn(JSON.parse(stringResponse));
+      props.errorMessageCreated(null);
     } catch (e) {
       props.errorMessageCreated('Login failed');
       setErrorMessage(props.errorOrSuccessMessage.message);
