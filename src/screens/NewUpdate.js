@@ -22,9 +22,25 @@ import PrimaryButton from '../components/PrimaryButton';
 const NewUpdate = (props) => {
   const deviceWidth = Dimensions.get('window').width;
   const deviceHeight = Dimensions.get('window').height;
+  const URL = 'http://127.0.0.1:3000';
   // todo : Add a separate signout function. The function should send an api call to signout on the server and after that, trigger the signout action
 
-  const signOut = () => {
+  const signOut = async () => {
+    try {
+      const response = await axios.post(
+        `${URL}/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e.message);
+    }
+
     props.userSignedOut();
   };
 
@@ -33,7 +49,6 @@ const NewUpdate = (props) => {
   };
 
   const saveUpdate = async (props) => {
-    const URL = 'http://127.0.0.1:3000';
     try {
       const response = await axios.post(
         `${URL}/me/how-do-you-feel`,
