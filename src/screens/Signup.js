@@ -23,13 +23,12 @@ const SignupScreen = (props) => {
   const [name, setName] = useState();
   const [usersPassword, setPassword] = useState();
   const [usersPasswordConfirm, setPasswordConfirm] = useState();
-  const [errorMessage = null, setErrorMessage] = useState();
 
   const userAccountCreation = async (user, password, name) => {
     const URL = 'http://127.0.0.1:3000';
 
     if (password !== usersPasswordConfirm) {
-      return errorMessageCreated('The passwords do not match');
+      return props.errorMessageCreated('The passwords do not match');
     }
 
     // todo: create the account and store the userinfo and login
@@ -40,10 +39,10 @@ const SignupScreen = (props) => {
         password: password,
       });
       await props.userLoggedIn(response.data);
+      props.errorMessageCreated('');
     } catch (e) {
       console.log(e.message);
       props.errorMessageCreated('The signup has failed');
-      setErrorMessage(props.errorOrSuccessMessage.message);
     }
   };
 
@@ -65,7 +64,11 @@ const SignupScreen = (props) => {
       style={styles.container}
       keyboardVerticalOffset={useHeaderHeight() + 68}>
       <Logo />
-      {errorMessage === null ? <></> : <ErrorMessage message={errorMessage} />}
+      {props.errorOrSuccessMessage.message === undefined ? (
+        <></>
+      ) : (
+        <ErrorMessage message={props.errorOrSuccessMessage.message} />
+      )}
       <View style={styles.loginArea} onPress={Keyboard.dismiss}>
         <View style={styles.textFieldAndLabel}>
           <Text style={styles.textLabel}>Your first name</Text>

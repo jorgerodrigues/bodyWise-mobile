@@ -24,7 +24,9 @@ const NewUpdate = (props) => {
   const deviceHeight = Dimensions.get('window').height;
   // todo : Add a separate signout function. The function should send an api call to signout on the server and after that, trigger the signout action
 
-  const signOut = () => {};
+  const signOut = () => {
+    props.userSignedOut();
+  };
 
   const checkForExistingUpdate = () => {
     // write a function to check for an existing update for the date already.
