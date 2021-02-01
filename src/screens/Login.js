@@ -57,7 +57,11 @@ const LoginScreen = (props) => {
       style={styles.container}
       keyboardVerticalOffset={useHeaderHeight() + 150}>
       <Logo />
-      {errorMessage === '' ? <></> : <ErrorMessage message={errorMessage} />}
+      {props.errorOrSuccessMessage.message === '' ? (
+        <></>
+      ) : (
+        <ErrorMessage message={props.errorOrSuccessMessage.message} />
+      )}
       <View style={styles.loginArea}>
         <View style={styles.textFieldAndLabel}>
           <Text style={styles.textLabel}>Email</Text>

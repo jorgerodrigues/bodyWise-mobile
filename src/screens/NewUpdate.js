@@ -26,6 +26,10 @@ const NewUpdate = (props) => {
 
   const signOut = () => {};
 
+  const checkForExistingUpdate = () => {
+    // write a function to check for an existing update for the date already.
+  };
+
   const saveUpdate = async (props) => {
     const URL = 'http://127.0.0.1:3000';
     try {
