@@ -6,7 +6,8 @@ import {
   Button,
   KeyboardAvoidingView,
   ImageBackground,
-  Dimensions,
+  ScrollView,
+  useWindowDimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
@@ -20,8 +21,9 @@ import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 
 const NewUpdate = (props) => {
-  const deviceWidth = Dimensions.get('window').width;
-  const deviceHeight = Dimensions.get('window').height;
+  const deviceWidth = useWindowDimensions.width;
+  const deviceHeight = useWindowDimensions().height;
+
   const URL = 'http://127.0.0.1:3000';
   // todo : Add a separate signout function. The function should send an api call to signout on the server and after that, trigger the signout action
 
@@ -79,10 +81,10 @@ const NewUpdate = (props) => {
   }
 
   return (
-    <View>
+    <ScrollView>
       <ImageBackground
         source={require('../../assets/background.png')}
-        style={{ width: deviceWidth, height: deviceHeight }}>
+        style={{ width: deviceWidth, height: deviceHeight + 100 }}>
         <Text style={styles.mainHeader}>Hey {userName}</Text>
         <DateDisplay></DateDisplay>
         <Text style={styles.secondHeader}>How do you feel today?</Text>
@@ -112,7 +114,7 @@ const NewUpdate = (props) => {
           }}
         />
       </ImageBackground>
-    </View>
+    </ScrollView>
   );
 };
 
