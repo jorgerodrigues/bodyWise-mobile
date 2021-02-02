@@ -44,10 +44,6 @@ const NewUpdate = (props) => {
     props.userSignedOut();
   };
 
-  const checkForExistingUpdate = () => {
-    // write a function to check for an existing update for the date already.
-  };
-
   const saveUpdate = async (props) => {
     try {
       const response = await axios.post(
