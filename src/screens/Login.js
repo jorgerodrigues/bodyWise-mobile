@@ -57,7 +57,7 @@ const LoginScreen = (props) => {
       style={styles.container}
       keyboardVerticalOffset={useHeaderHeight() + 150}>
       <Logo />
-      {props.errorOrSuccessMessage.message == undefined ? (
+      {props.errorOrSuccessMessage.message == undefined || '' ? (
         <></>
       ) : (
         <ErrorMessage message={props.errorOrSuccessMessage.message} />

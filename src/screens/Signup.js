@@ -58,13 +58,15 @@ const SignupScreen = (props) => {
     );
   }
 
+  console.log(props.errorOrSuccessMessage.message);
+
   return (
     <KeyboardAvoidingView
       behavior='padding'
       style={styles.container}
       keyboardVerticalOffset={useHeaderHeight() + 68}>
       <Logo />
-      {props.errorOrSuccessMessage.message === undefined ? (
+      {props.errorOrSuccessMessage.message == undefined || '' || null ? (
         <></>
       ) : (
         <ErrorMessage message={props.errorOrSuccessMessage.message} />
