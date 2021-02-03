@@ -43,7 +43,6 @@ const LoginScreen = (props) => {
         email: user,
         password: password,
       });
-      const stringResponse = JSON.stringify(response.data);
       props.userLoggedIn(response.data);
       await SecureStore.setItemAsync('token', response.data.token);
       props.errorMessageCreated(null);

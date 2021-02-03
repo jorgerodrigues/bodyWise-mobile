@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
-import { userLoggedIn } from './actions/index';
+import { userLoggedIn, userSignedOut } from './actions/index';
 
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
@@ -31,12 +31,13 @@ const Main = (props) => {
 
       return true;
     }
+    props.userSignedOut();
     return false;
   };
 
   useEffect(() => {
     isUserLoggedIn();
-  }, [props.isUserLoggedIn]);
+  }, []);
 
   return (
     <NavigationContainer>
@@ -80,4 +81,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { userLoggedIn })(Main);
+export default connect(mapStateToProps, { userLoggedIn, userSignedOut })(Main);

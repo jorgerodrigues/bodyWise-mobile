@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 import { userLoggedIn, userSignedOut } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
@@ -38,12 +39,12 @@ const NewUpdate = (props) => {
           },
         }
       );
-      console.log(response);
+      console.log(response.message);
     } catch (e) {
       console.log(e.message);
     }
-
     props.userSignedOut();
+    await SecureStore.deleteItemAsync('token');
   };
 
   const saveUpdate = async (props) => {
@@ -104,7 +105,7 @@ const NewUpdate = (props) => {
         <Button
           title={'Sign out'}
           onPress={() => {
-            props.userSignedOut();
+            signOut();
           }}
         />
         <PrimaryButton
