@@ -67,7 +67,6 @@ const NewUpdate = (props) => {
   };
 
   const userName = props.isUserLoggedIn.user.name;
-  console.log(`From login!: ${JSON.stringify(props.isUserLoggedIn)}`);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,

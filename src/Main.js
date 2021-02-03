@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -25,7 +25,6 @@ const Main = (props) => {
           },
         });
         props.userLoggedIn(response.data);
-        // todo run the function one time upon login (maybe using useEffect)
       } catch (e) {
         console.log(e.message);
       }
@@ -34,6 +33,10 @@ const Main = (props) => {
     }
     return false;
   };
+
+  useEffect(() => {
+    isUserLoggedIn();
+  }, [props.isUserLoggedIn]);
 
   return (
     <NavigationContainer>
