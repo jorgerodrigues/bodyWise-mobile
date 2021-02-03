@@ -12,6 +12,7 @@ import Logo from '../components/Logo';
 import axios from 'axios';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { connect } from 'react-redux';
+import * as SecureStore from 'expo-secure-store';
 
 import { userLoggedIn, errorMessageCreated } from '../actions';
 import PrimaryButton from '../components/PrimaryButton';
@@ -43,7 +44,8 @@ const LoginScreen = (props) => {
         password: password,
       });
       const stringResponse = JSON.stringify(response.data);
-      props.userLoggedIn(JSON.parse(stringResponse));
+      props.userLoggedIn(response.data);
+      await SecureStore.setItemAsync('token', response.data.token);
       props.errorMessageCreated(null);
     } catch (e) {
       props.errorMessageCreated('Login failed');

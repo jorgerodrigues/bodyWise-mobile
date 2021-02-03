@@ -3,14 +3,38 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
+import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
+import { userLoggedIn } from './actions/index';
 
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 
+const URL = 'http://127.0.0.1:3000';
 const Stack = createStackNavigator();
 
-function Main(props) {
+const Main = (props) => {
+  const isUserLoggedIn = async () => {
+    const secureToken = await SecureStore.getItemAsync('token');
+    if (secureToken) {
+      try {
+        const response = await axios.get(`${URL}/me`, {
+          headers: {
+            Authorization: `Bearer ${secureToken}`,
+          },
+        });
+        props.userLoggedIn(response.data);
+        // todo run the function one time upon login (maybe using useEffect)
+      } catch (e) {
+        console.log(e.message);
+      }
+
+      return true;
+    }
+    return false;
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -35,7 +59,7 @@ function Main(props) {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
   textInput: {
@@ -53,4 +77,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, { userLoggedIn })(Main);
