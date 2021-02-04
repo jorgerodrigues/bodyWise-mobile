@@ -11,6 +11,7 @@ import { useHeaderHeight } from '@react-navigation/stack';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
+import * as SecureStore from 'expo-secure-store';
 
 import PrimaryButton from '../components/PrimaryButton';
 import WaveBottom from '../components/WaveBottom';
@@ -31,7 +32,6 @@ const SignupScreen = (props) => {
       return props.errorMessageCreated('The passwords do not match');
     }
 
-    // todo: create the account and store the userinfo and login
     try {
       const response = await axios.post(`${URL}/users/signup`, {
         name: name,
@@ -39,6 +39,7 @@ const SignupScreen = (props) => {
         password: password,
       });
       props.userLoggedIn(response.data);
+      await SecureStore.setItemAsync('token', response.data.token);
       props.errorMessageCreated(null);
     } catch (e) {
       console.log(e.message);
@@ -57,8 +58,6 @@ const SignupScreen = (props) => {
       </View>
     );
   }
-
-  console.log(props.errorOrSuccessMessage.message);
 
   return (
     <KeyboardAvoidingView

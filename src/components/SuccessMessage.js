@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { connect } from 'react-redux';
 
-const ErrorMessage = (props) => {
+const SuccessMessage = (props) => {
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
   });
@@ -16,15 +16,16 @@ const ErrorMessage = (props) => {
   }
 
   return (
-    <View style={styles.errorMessage}>
-      <Text style={styles.errorTextStyle}>{props.message}</Text>
+    <View style={styles.successMessage}>
+      <Text style={styles.successTextStyle}>{props.message}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  errorMessage: {
-    backgroundColor: '#F2D9D9',
+  successMessage: {
+    backgroundColor: '#786EE2',
+    marginTop: 20,
     width: 200,
     borderRadius: 50,
     alignSelf: 'center',
@@ -37,8 +38,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
   },
-  errorTextStyle: {
-    color: '#C24749',
+  successTextStyle: {
+    color: '#D7D4F7',
     padding: 15,
     fontFamily: 'Oxygen_400Regular',
   },
@@ -50,4 +51,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ErrorMessage);
+export default connect(mapStateToProps)(SuccessMessage);

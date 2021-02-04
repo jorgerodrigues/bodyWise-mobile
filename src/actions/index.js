@@ -12,6 +12,11 @@ export const errorMessageCreated = (data) => ({
   payload: data,
 });
 
+export const successMessageCreated = (data) => ({
+  type: 'SUCCESS_MESSAGE_CREATED',
+  payload: data,
+});
+
 export const singleUpdateIsSet = (data) => ({
   type: 'UPDATE_IS_SET',
   payload: data,

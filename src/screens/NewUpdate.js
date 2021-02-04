@@ -15,18 +15,28 @@ import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-import { userLoggedIn, userSignedOut } from '../actions/index';
+import {
+  userLoggedIn,
+  userSignedOut,
+  successMessageCreated,
+} from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
 import SingleStatus from '../components/SingleStatus';
 import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
+import SuccessMessage from '../components/SuccessMessage';
 
 const NewUpdate = (props) => {
   const deviceWidth = useWindowDimensions.width;
   const deviceHeight = useWindowDimensions().height;
 
   const URL = 'http://127.0.0.1:3000';
-  // todo : Add a separate signout function. The function should send an api call to signout on the server and after that, trigger the signout action
+  const userName = props.isUserLoggedIn.user.name;
+
+  const [loadedFont] = useFonts({
+    Oxygen_400Regular,
+    Nobile_700Bold,
+  });
 
   const signOut = async () => {
     try {
@@ -61,18 +71,13 @@ const NewUpdate = (props) => {
           },
         }
       );
-      console.log(response);
+      props.successMessageCreated('Your update was saved.');
+      console.log(props.errorOrSuccessMessage);
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  const userName = props.isUserLoggedIn.user.name;
-
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-    Nobile_700Bold,
-  });
   if (!loadedFont) {
     return (
       <View>
@@ -87,6 +92,11 @@ const NewUpdate = (props) => {
         source={require('../../assets/background.png')}
         style={{ width: deviceWidth, height: deviceHeight + 100 }}>
         <Text style={styles.mainHeader}>Hey {userName}</Text>
+        {props.errorOrSuccessMessage.message == undefined || '' || null ? (
+          <></>
+        ) : (
+          <SuccessMessage message={props.errorOrSuccessMessage.message} />
+        )}
         <DateDisplay></DateDisplay>
         <Text style={styles.secondHeader}>How do you feel today?</Text>
         <SingleStatus fill={'#D7D4F7'}></SingleStatus>
@@ -151,9 +161,12 @@ const mapStateToProps = (state) => {
     isUserLoggedIn: state.isLoggedIn,
     journalText: state.journalText,
     singleUpdate: state.singleUpdate,
+    errorOrSuccessMessage: state.errorOrSuccessMessage,
   };
 };
 
-export default connect(mapStateToProps, { userLoggedIn, userSignedOut })(
-  NewUpdate
-);
+export default connect(mapStateToProps, {
+  userLoggedIn,
+  userSignedOut,
+  successMessageCreated,
+})(NewUpdate);

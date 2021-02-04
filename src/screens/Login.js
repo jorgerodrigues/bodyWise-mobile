@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  SafeAreaView,
   KeyboardAvoidingView,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
