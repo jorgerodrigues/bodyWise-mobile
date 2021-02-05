@@ -24,7 +24,7 @@ const Main = (props) => {
             Authorization: `Bearer ${secureToken}`,
           },
         });
-        props.userLoggedIn(response.data);
+        props.userLoggedIn({ ...response.data, token: secureToken });
       } catch (e) {
         console.log(e.message);
       }

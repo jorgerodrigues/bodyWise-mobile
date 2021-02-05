@@ -58,6 +58,7 @@ const NewUpdate = (props) => {
   };
 
   const saveUpdate = async (props) => {
+    console.log(props.isUserLoggedIn);
     try {
       const response = await axios.post(
         `${URL}/me/how-do-you-feel`,
@@ -71,6 +72,7 @@ const NewUpdate = (props) => {
           },
         }
       );
+      console.log(response.message);
       props.successMessageCreated('Your update was saved.');
       console.log(props.errorOrSuccessMessage);
     } catch (e) {
