@@ -10,6 +10,7 @@ import { userLoggedIn, userSignedOut } from './actions/index';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
+import UserProfile from './screens/UserProfile';
 
 const URL = 'http://127.0.0.1:3000';
 const Stack = createStackNavigator();
@@ -60,6 +61,14 @@ const Main = (props) => {
             <Stack.Screen name='Signup' component={SignupScreen} />
           </>
         )}
+        <Stack.Screen
+          name='UserProfile'
+          component={UserProfile}
+          options={{
+            title: '',
+            headerTransparent: true,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

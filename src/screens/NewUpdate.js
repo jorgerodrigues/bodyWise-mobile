@@ -40,7 +40,7 @@ const NewUpdate = (props) => {
 
   const signOut = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${URL}/users/logout`,
         {},
         {
@@ -49,16 +49,14 @@ const NewUpdate = (props) => {
           },
         }
       );
-      console.log(response.message);
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
     }
     props.userSignedOut();
     await SecureStore.deleteItemAsync('token');
   };
 
   const saveUpdate = async (props) => {
-    console.log(props.isUserLoggedIn);
     try {
       const response = await axios.post(
         `${URL}/me/how-do-you-feel`,
@@ -76,7 +74,7 @@ const NewUpdate = (props) => {
       props.successMessageCreated('Your update was saved.');
       console.log(props.errorOrSuccessMessage);
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
     }
   };
 
@@ -99,6 +97,12 @@ const NewUpdate = (props) => {
         ) : (
           <SuccessMessage message={props.errorOrSuccessMessage.message} />
         )}
+        <Button
+          title={'Profile'}
+          onPress={() => {
+            props.navigation.navigate('UserProfile');
+          }}
+        />
         <DateDisplay></DateDisplay>
         <Text style={styles.secondHeader}>How do you feel today?</Text>
         <SingleStatus fill={'#D7D4F7'}></SingleStatus>
