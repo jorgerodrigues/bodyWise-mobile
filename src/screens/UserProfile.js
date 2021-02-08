@@ -5,6 +5,8 @@ import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 
+import StatusDisplayProfile from '../components/StatusDisplayProfile';
+
 const UserProfile = (props) => {
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
@@ -35,13 +37,18 @@ const UserProfile = (props) => {
     }
   };
 
-  getPastUserUpdates();
-
   return (
     <View>
       <View style={styles.usernameAndEmailContainer}>
         <Text style={styles.userName}>{props.isUserLoggedIn.user.name}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
+      </View>
+      <View style={styles.allUpdates}>
+        <StatusDisplayProfile />
+        <StatusDisplayProfile />
+        <StatusDisplayProfile />
+        <StatusDisplayProfile />
+        <StatusDisplayProfile />
       </View>
     </View>
   );
@@ -62,6 +69,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Oxygen_400Regular',
     fontSize: 14,
     color: '#A8A1EC',
+  },
+  allUpdates: {
+    marginTop: 30,
   },
 });
 
