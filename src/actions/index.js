@@ -26,3 +26,8 @@ export const journalIsUpdated = (data) => ({
   type: 'JOURNAL_IS_UPDATED',
   payload: data,
 });
+
+export const updatesAreFetched = (data) => ({
+  type: 'UPDATES_ARE_FETCHED',
+  payload: data,
+});

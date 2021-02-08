@@ -18,11 +18,14 @@ const StatusDisplayProfile = (props) => {
     );
   }
 
+  console.log('Receiving component props:');
+  console.log(props);
+
   return (
     <View style={styles.updatesContainer}>
       <View style={styles.statusContainer}>
-        <Text style={styles.date}>20-Jan-2021</Text>
-        <Text style={styles.status}>Very Well</Text>
+        <Text style={styles.date}>{props.date}</Text>
+        <Text style={styles.status}>{props.update}</Text>
       </View>
       <View style={styles.dot}>
         <Svg
