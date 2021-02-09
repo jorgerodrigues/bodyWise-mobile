@@ -43,8 +43,17 @@ const styles = StyleSheet.create({
 
   statusContainer: {
     marginTop: 25,
+    padding: 10,
+    paddingHorizontal: 40,
     alignSelf: 'center',
     alignItems: 'center',
+    shadowColor: '#732628',
+    shadowOffset: {
+      width: 1,
+      height: 1.5,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   date: {
     fontFamily: 'Oxygen_300Light',
@@ -54,8 +63,10 @@ const styles = StyleSheet.create({
   },
   status: {
     fontFamily: 'Nobile_700Bold',
-    fontSize: 28,
+    fontSize: 32,
     color: '#786EE2',
+    // shadowOpacity: 0,
+    // shadowRadius: 0,
   },
   dot: {
     alignSelf: 'center',
