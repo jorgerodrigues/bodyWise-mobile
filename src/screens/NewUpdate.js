@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ScrollView,
   useWindowDimensions,
+  TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
@@ -25,6 +26,7 @@ import SingleStatus from '../components/SingleStatus';
 import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
+import ProfileIcon from '../components/ProfileIcon';
 
 const NewUpdate = (props) => {
   const deviceWidth = useWindowDimensions.width;
@@ -37,24 +39,6 @@ const NewUpdate = (props) => {
     Oxygen_400Regular,
     Nobile_700Bold,
   });
-
-  const signOut = async () => {
-    try {
-      await axios.post(
-        `${URL}/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-          },
-        }
-      );
-    } catch (e) {
-      console.log(e);
-    }
-    props.userSignedOut();
-    await SecureStore.deleteItemAsync('token');
-  };
 
   const saveUpdate = async (props) => {
     try {
@@ -70,9 +54,7 @@ const NewUpdate = (props) => {
           },
         }
       );
-      console.log(response.message);
       props.successMessageCreated('Your update was saved.');
-      console.log(props.errorOrSuccessMessage);
     } catch (e) {
       console.log(e);
     }
@@ -91,18 +73,19 @@ const NewUpdate = (props) => {
       <ImageBackground
         source={require('../../assets/background.png')}
         style={{ width: deviceWidth, height: deviceHeight + 100 }}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate('UserProfile');
+          }}>
+          <ProfileIcon style={styles.profileIcon} />
+        </TouchableOpacity>
+
         <Text style={styles.mainHeader}>Hey {userName}</Text>
         {props.errorOrSuccessMessage.message == undefined || '' || null ? (
           <></>
         ) : (
           <SuccessMessage message={props.errorOrSuccessMessage.message} />
         )}
-        <Button
-          title={'Profile'}
-          onPress={() => {
-            props.navigation.navigate('UserProfile');
-          }}
-        />
         <DateDisplay></DateDisplay>
         <Text style={styles.secondHeader}>How do you feel today?</Text>
         <SingleStatus fill={'#D7D4F7'}></SingleStatus>
@@ -118,12 +101,6 @@ const NewUpdate = (props) => {
           <></>
         )}
 
-        <Button
-          title={'Sign out'}
-          onPress={() => {
-            signOut();
-          }}
-        />
         <PrimaryButton
           title={'Save update'}
           callback={() => {
@@ -136,12 +113,15 @@ const NewUpdate = (props) => {
 };
 
 const styles = StyleSheet.create({
+  profileIcon: {
+    marginTop: 30,
+  },
   mainHeader: {
     fontFamily: 'Nobile_700Bold',
     color: '#F8FAFC',
     fontSize: 38,
     alignSelf: 'center',
-    marginTop: 75,
+    marginTop: 15,
   },
   secondHeader: {
     fontFamily: 'Nobile_700Bold',

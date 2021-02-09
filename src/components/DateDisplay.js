@@ -66,7 +66,7 @@ const DateDisplay = () => {
 
 const styles = StyleSheet.create({
   dateContainer: {
-    marginVertical: 30,
+    marginVertical: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-end',

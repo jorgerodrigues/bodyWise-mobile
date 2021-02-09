@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import * as SecureStore from 'expo-secure-store';
 
 import { updatesAreFetched } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
@@ -22,6 +23,25 @@ const UserProfile = (props) => {
   //     </View>
   //   );
   // }
+
+  const signOut = async () => {
+    try {
+      await axios.post(
+        `${URL}/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    props.userSignedOut();
+    await SecureStore.deleteItemAsync('token');
+  };
+
   const getPastUserUpdates = async () => {
     const URL = 'http://127.0.0.1:3000';
     const allUpdates = [];
@@ -64,13 +84,21 @@ const UserProfile = (props) => {
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
       <View style={styles.allUpdates}>{updatesComponent}</View>
+      <View style={styles.signOutButton}>
+        <Button
+          title={'Sign out'}
+          onPress={() => {
+            signOut();
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   usernameAndEmailContainer: {
-    marginTop: 100,
+    marginTop: 120,
     alignItems: 'center',
   },
   userName: {
@@ -86,6 +114,9 @@ const styles = StyleSheet.create({
   },
   allUpdates: {
     marginTop: 30,
+  },
+  signOutButton: {
+    marginVertical: 75,
   },
 });
 
