@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
-import { updatesAreFetched } from '../actions';
+import dayjs from 'dayjs';
 
+import { updatesAreFetched } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 
 const UserProfile = (props) => {
-  console.log(props);
   // const [loadedFont] = useFonts({
   //   Oxygen_400Regular,
   //   Nobile_700Bold,
@@ -45,7 +45,7 @@ const UserProfile = (props) => {
   const updatesComponent = props.updatesFetched.map((update) => {
     return (
       <StatusDisplayProfile
-        date={update.createdAt}
+        date={dayjs(update.createdAt).format('DD-MMM-YYYY')}
         update={update.howDoYouFeelToday}
       />
     );

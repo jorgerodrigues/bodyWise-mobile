@@ -18,9 +18,6 @@ const StatusDisplayProfile = (props) => {
     );
   }
 
-  console.log('Receiving component props:');
-  console.log(props);
-
   return (
     <View style={styles.updatesContainer}>
       <View style={styles.statusContainer}>
@@ -53,6 +50,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Oxygen_300Light',
     fontSize: 14,
     color: '#786EE2',
+    marginBottom: 10,
   },
   status: {
     fontFamily: 'Nobile_700Bold',
