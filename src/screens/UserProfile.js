@@ -1,49 +1,18 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { ScrollView, View, StyleSheet, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import * as SecureStore from 'expo-secure-store';
+import { URL } from '../config/environment';
 
-import { updatesAreFetched } from '../actions';
+import { updatesAreFetched, userSignedOut } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 
 const UserProfile = (props) => {
-  // const [loadedFont] = useFonts({
-  //   Oxygen_400Regular,
-  //   Nobile_700Bold,
-  // });
-
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
-  const signOut = async () => {
-    try {
-      await axios.post(
-        `${URL}/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-          },
-        }
-      );
-    } catch (e) {
-      console.log(e);
-    }
-    props.userSignedOut();
-    await SecureStore.deleteItemAsync('token');
-  };
-
   const getPastUserUpdates = async () => {
-    const URL = 'http://127.0.0.1:3000';
     const allUpdates = [];
     try {
       const response = await axios.get(`${URL}/updates/me`, {
@@ -61,12 +30,12 @@ const UserProfile = (props) => {
     }
   };
 
-  //TODO : format the date to show according to mockups
-  const updatesComponent = props.updatesFetched.map((update) => {
+  const updatesComponent = props.updatesFetched.map((update, index) => {
     return (
       <StatusDisplayProfile
         date={dayjs(update.createdAt).format('DD-MMM-YYYY')}
         update={update.howDoYouFeelToday}
+        key={index}
       />
     );
   });
@@ -77,8 +46,39 @@ const UserProfile = (props) => {
     // eslint-disable-next-line
   }, []);
 
+  const signOut = async () => {
+    try {
+      await axios.post(
+        `http://127.0.0.1:3000/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+          },
+        }
+      );
+      props.userSignedOut();
+      await SecureStore.deleteItemAsync('token');
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  // const [loadedFont] = useFonts({
+  //   Oxygen_400Regular,
+  //   Nobile_700Bold,
+  // });
+
+  // if (!loadedFont) {
+  //   return (
+  //     <View>
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
+  // }
+
   return (
-    <View>
+    <ScrollView>
       <View style={styles.usernameAndEmailContainer}>
         <Text style={styles.userName}>{props.isUserLoggedIn.user.name}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
@@ -86,13 +86,13 @@ const UserProfile = (props) => {
       <View style={styles.allUpdates}>{updatesComponent}</View>
       <View style={styles.signOutButton}>
         <Button
-          title={'Sign out'}
+          title={'Log out'}
           onPress={() => {
             signOut();
           }}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -128,4 +128,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { updatesAreFetched })(UserProfile);
+export default connect(mapStateToProps, { updatesAreFetched, userSignedOut })(
+  UserProfile
+);

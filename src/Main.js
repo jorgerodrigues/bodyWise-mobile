@@ -54,6 +54,14 @@ const Main = (props) => {
                 headerTransparent: true,
               }}
             />
+            <Stack.Screen
+              name='UserProfile'
+              component={UserProfile}
+              options={{
+                title: '',
+                headerTransparent: true,
+              }}
+            />
           </>
         ) : (
           <>
@@ -61,14 +69,6 @@ const Main = (props) => {
             <Stack.Screen name='Signup' component={SignupScreen} />
           </>
         )}
-        <Stack.Screen
-          name='UserProfile'
-          component={UserProfile}
-          options={{
-            title: '',
-            headerTransparent: true,
-          }}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );

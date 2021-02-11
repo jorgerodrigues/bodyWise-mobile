@@ -27,12 +27,11 @@ import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
 import ProfileIcon from '../components/ProfileIcon';
+import { URL } from '../config/environment';
 
 const NewUpdate = (props) => {
   const deviceWidth = useWindowDimensions.width;
   const deviceHeight = useWindowDimensions().height;
-
-  const URL = 'http://127.0.0.1:3000';
   const userName = props.isUserLoggedIn.user.name;
 
   const [loadedFont] = useFonts({
@@ -105,6 +104,12 @@ const NewUpdate = (props) => {
           title={'Save update'}
           callback={() => {
             saveUpdate(props);
+          }}
+        />
+        <Button
+          title={'Logout'}
+          onPress={() => {
+            signOut();
           }}
         />
       </ImageBackground>

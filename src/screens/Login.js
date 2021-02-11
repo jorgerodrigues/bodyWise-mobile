@@ -18,6 +18,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import WaveBottom from '../components/WaveBottom';
 import ClickableLink from '../components/ClicableLink';
 import ErrorMessage from '../components/ErrorMessage';
+import { URL } from '../config/environment';
 
 const LoginScreen = (props) => {
   const [user, setUser] = useState();
@@ -36,8 +37,8 @@ const LoginScreen = (props) => {
   }
 
   const userLogin = async (user, password) => {
-    const URL = 'http://127.0.0.1:3000';
     try {
+      console.log(URL);
       const response = await axios.post(`${URL}/users/login`, {
         email: user,
         password: password,

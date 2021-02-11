@@ -18,6 +18,7 @@ import WaveBottom from '../components/WaveBottom';
 import Logo from '../components/Logo';
 import ErrorMessage from '../components/ErrorMessage';
 import { userLoggedIn, errorMessageCreated } from '../actions';
+import { URL } from '../config/environment';
 
 const SignupScreen = (props) => {
   const [user, setUser] = useState();
@@ -26,8 +27,6 @@ const SignupScreen = (props) => {
   const [usersPasswordConfirm, setPasswordConfirm] = useState();
 
   const userAccountCreation = async (user, password, name) => {
-    const URL = 'http://127.0.0.1:3000';
-
     if (password !== usersPasswordConfirm) {
       return props.errorMessageCreated('The passwords do not match');
     }
