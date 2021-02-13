@@ -31,3 +31,8 @@ export const updatesAreFetched = (data) => ({
   type: 'UPDATES_ARE_FETCHED',
   payload: data,
 });
+
+export const todaysUpdatesAlreadyExists = (data) => ({
+  type: 'UPDATE_EXISTS',
+  payload: data,
+});

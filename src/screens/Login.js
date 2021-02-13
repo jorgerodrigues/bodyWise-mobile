@@ -26,7 +26,6 @@ const LoginScreen = (props) => {
 
   const userLogin = async (user, password) => {
     try {
-      console.log(URL);
       const response = await axios.post(`${URL}/users/login`, {
         email: user,
         password: password,

@@ -4,6 +4,7 @@ import errorOrSuccessMessageReducer from './errorOrSuccessMessageReducer';
 import singleUpdateReducer from './singleUpdateReducer';
 import journalTextReducer from './journalTextReducer';
 import updatesAreFetched from './updatesAreFetchedReducer';
+import updateAlreadyExistsReducer from './updateAlreadyExistsReducer';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -11,6 +12,7 @@ const allReducers = combineReducers({
   singleUpdate: singleUpdateReducer,
   journalText: journalTextReducer,
   updatesFetched: updatesAreFetched,
+  updateAlreadyExists: updateAlreadyExistsReducer,
 });
 
 export default allReducers;

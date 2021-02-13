@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
   Text,
-  Button,
-  KeyboardAvoidingView,
   ImageBackground,
   ScrollView,
   useWindowDimensions,
@@ -15,7 +13,6 @@ import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import * as SecureStore from 'expo-secure-store';
 
 import {
   userLoggedIn,
@@ -23,6 +20,7 @@ import {
   successMessageCreated,
   singleUpdateIsSet,
   journalIsUpdated,
+  todaysUpdatesAlreadyExists,
 } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
 import SingleStatus from '../components/SingleStatus';
@@ -68,7 +66,7 @@ const NewUpdate = (props) => {
       const todaysDate = dayjs().format('DD-MMM-YYYY');
       const updateDate = dayjs(fullData.createdAt).format('DD-MMM-YYYY');
       if (todaysDate == updateDate) {
-        // here we need to pass the update data to the redux state
+        props.todaysUpdatesAlreadyExists(fullData);
         props.singleUpdateIsSet(fullData.howDoYouFeelToday);
         props.journalIsUpdated(fullData.comments);
       }
@@ -76,6 +74,30 @@ const NewUpdate = (props) => {
       console.log(e.message);
     }
   };
+
+  const updateCurrentUpdate = async () => {
+    const itemToBeUpdated = props.updateAlreadyExists._id;
+    try {
+      await axios.patch(
+        `${URL}/updates/${itemToBeUpdated}`,
+        {
+          howDoYouFeelToday: props.singleUpdate,
+          comments: props.journalText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  useEffect(() => {
+    checkForUpdate();
+  }, []);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
@@ -89,7 +111,6 @@ const NewUpdate = (props) => {
       </View>
     );
   }
-
   return (
     <ScrollView>
       <ImageBackground
@@ -123,18 +144,21 @@ const NewUpdate = (props) => {
           <></>
         )}
 
-        <PrimaryButton
-          title={'Save update'}
-          callback={() => {
-            saveUpdate(props);
-          }}
-        />
-        <Button
-          title={'Get latest'}
-          onPress={() => {
-            checkForUpdate();
-          }}
-        />
+        {!props.updateAlreadyExists ? (
+          <PrimaryButton
+            title={'Save update'}
+            callback={() => {
+              saveUpdate(props);
+            }}
+          />
+        ) : (
+          <PrimaryButton
+            title={'Save update'}
+            callback={() => {
+              updateCurrentUpdate(props);
+            }}
+          />
+        )}
       </ImageBackground>
     </ScrollView>
   );
@@ -176,6 +200,7 @@ const mapStateToProps = (state) => {
     journalText: state.journalText,
     singleUpdate: state.singleUpdate,
     errorOrSuccessMessage: state.errorOrSuccessMessage,
+    updateAlreadyExists: state.updateAlreadyExists,
   };
 };
 
@@ -185,4 +210,5 @@ export default connect(mapStateToProps, {
   successMessageCreated,
   singleUpdateIsSet,
   journalIsUpdated,
+  todaysUpdatesAlreadyExists,
 })(NewUpdate);
