@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
-import { userLoggedIn, userSignedOut } from './actions/index';
 
+import { userLoggedIn, userSignedOut } from './actions/index';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 import UserProfile from './screens/UserProfile';
+import { URL } from './config/environment';
 
-const URL = 'http://127.0.0.1:3000';
 const Stack = createStackNavigator();
 
 const Main = (props) => {
@@ -34,6 +34,24 @@ const Main = (props) => {
     }
     props.userSignedOut();
     return false;
+  };
+
+  const signOut = async () => {
+    try {
+      await axios.post(
+        `${URL}/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+          },
+        }
+      );
+      props.userSignedOut();
+      await SecureStore.deleteItemAsync('token');
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   useEffect(() => {
@@ -60,6 +78,9 @@ const Main = (props) => {
               options={{
                 title: '',
                 headerTransparent: true,
+                headerRight: () => (
+                  <Button onPress={() => signOut()} title='Logout' />
+                ),
               }}
             />
           </>
