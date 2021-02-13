@@ -14,12 +14,15 @@ import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import * as SecureStore from 'expo-secure-store';
 
 import {
   userLoggedIn,
   userSignedOut,
   successMessageCreated,
+  singleUpdateIsSet,
+  journalIsUpdated,
 } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
 import SingleStatus from '../components/SingleStatus';
@@ -30,14 +33,9 @@ import ProfileIcon from '../components/ProfileIcon';
 import { URL } from '../config/environment';
 
 const NewUpdate = (props) => {
-  const deviceWidth = useWindowDimensions.width;
+  const deviceWidth = useWindowDimensions().width;
   const deviceHeight = useWindowDimensions().height;
   const userName = props.isUserLoggedIn.user.name;
-
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-    Nobile_700Bold,
-  });
 
   const saveUpdate = async (props) => {
     try {
@@ -58,6 +56,31 @@ const NewUpdate = (props) => {
       console.log(e);
     }
   };
+
+  const checkForUpdate = async () => {
+    try {
+      const response = await axios.get(`${URL}/updates/latest`, {
+        headers: {
+          Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+        },
+      });
+      const fullData = response.data;
+      const todaysDate = dayjs().format('DD-MMM-YYYY');
+      const updateDate = dayjs(fullData.createdAt).format('DD-MMM-YYYY');
+      if (todaysDate == updateDate) {
+        // here we need to pass the update data to the redux state
+        props.singleUpdateIsSet(fullData.howDoYouFeelToday);
+        props.journalIsUpdated(fullData.comments);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const [loadedFont] = useFonts({
+    Oxygen_400Regular,
+    Nobile_700Bold,
+  });
 
   if (!loadedFont) {
     return (
@@ -107,9 +130,9 @@ const NewUpdate = (props) => {
           }}
         />
         <Button
-          title={'Logout'}
+          title={'Get latest'}
           onPress={() => {
-            signOut();
+            checkForUpdate();
           }}
         />
       </ImageBackground>
@@ -160,4 +183,6 @@ export default connect(mapStateToProps, {
   userLoggedIn,
   userSignedOut,
   successMessageCreated,
+  singleUpdateIsSet,
+  journalIsUpdated,
 })(NewUpdate);

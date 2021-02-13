@@ -40,12 +40,6 @@ const UserProfile = (props) => {
     );
   });
 
-  useEffect(() => {
-    getPastUserUpdates();
-
-    // eslint-disable-next-line
-  }, []);
-
   const signOut = async () => {
     try {
       await axios.post(
@@ -64,18 +58,24 @@ const UserProfile = (props) => {
     }
   };
 
-  // const [loadedFont] = useFonts({
-  //   Oxygen_400Regular,
-  //   Nobile_700Bold,
-  // });
+  useEffect(() => {
+    getPastUserUpdates();
 
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
+    // eslint-disable-next-line
+  }, []);
+
+  const [loadedFont] = useFonts({
+    Oxygen_400Regular,
+    Nobile_700Bold,
+  });
+
+  if (!loadedFont) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView>

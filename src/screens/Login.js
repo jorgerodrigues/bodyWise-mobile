@@ -24,18 +24,6 @@ const LoginScreen = (props) => {
   const [user, setUser] = useState();
   const [usersPassword, setPassword] = useState();
 
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-  });
-
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
   const userLogin = async (user, password) => {
     try {
       console.log(URL);
@@ -50,6 +38,18 @@ const LoginScreen = (props) => {
       props.errorMessageCreated('Login failed');
     }
   };
+
+  const [loadedFont] = useFonts({
+    Oxygen_400Regular,
+  });
+
+  if (!loadedFont) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
