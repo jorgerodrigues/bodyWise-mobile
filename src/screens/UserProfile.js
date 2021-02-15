@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 import * as SecureStore from 'expo-secure-store';
 import { URL } from '../config/environment';
 
+import {} from '../firebase/Firebase';
+
 import { updatesAreFetched, userSignedOut } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 

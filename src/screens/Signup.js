@@ -6,12 +6,15 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Keyboard,
+  Button,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import * as SecureStore from 'expo-secure-store';
+
+import { createUserAccount } from '../Modules/firebaseFunctions';
 
 import PrimaryButton from '../components/PrimaryButton';
 import WaveBottom from '../components/WaveBottom';
@@ -109,6 +112,14 @@ const SignupScreen = (props) => {
         <PrimaryButton
           title={'Create your account'}
           callback={() => userAccountCreation(user, usersPassword, name)}
+        />
+        <Button
+          title={'Create Google Auth'}
+          onPress={() => {
+            console.log(user);
+            console.log(usersPassword);
+            createUserAccount(user, usersPassword);
+          }}
         />
       </View>
       <WaveBottom style={styles.waveBottom} />
