@@ -84,14 +84,7 @@ const UserProfile = (props) => {
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
       <View style={styles.allUpdates}>{updatesComponent}</View>
-      <View style={styles.signOutButton}>
-        <Button
-          title={'Log out'}
-          onPress={() => {
-            signOut();
-          }}
-        />
-      </View>
+      <View style={styles.signOutButton}></View>
     </ScrollView>
   );
 };
