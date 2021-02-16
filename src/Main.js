@@ -12,6 +12,7 @@ import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 import UserProfile from './screens/UserProfile';
 import { URL } from './config/environment';
+import { loggingOut } from './Modules/firebaseFunctions';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,7 @@ const Main = (props) => {
           },
         }
       );
+      await loggingOut();
       props.userSignedOut();
       await SecureStore.deleteItemAsync('token');
     } catch (e) {

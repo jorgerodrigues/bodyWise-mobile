@@ -1,5 +1,4 @@
 import * as firebase from 'firebase';
-import auth from '../firebase/Firebase';
 
 export const signIn = async (email, password) => {
   try {
@@ -23,7 +22,7 @@ export const loggingOut = async () => {
 export const createUserAccount = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    const currentUser = await firebase.auth().currentUser;
+    const currentUser = firebase.auth().currentUser;
     console.log(currentUser);
   } catch (err) {
     console.log(err);
