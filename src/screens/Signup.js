@@ -38,7 +38,6 @@ const SignupScreen = (props) => {
       const response = await axios.post(`${URL}/users/signup`, {
         name: name,
         email: user,
-        password: password,
       });
       props.userLoggedIn(response.data);
       await SecureStore.setItemAsync('token', response.data.token);
@@ -115,10 +114,9 @@ const SignupScreen = (props) => {
         />
         <Button
           title={'Create Google Auth'}
-          onPress={() => {
-            console.log(user);
-            console.log(usersPassword);
-            createUserAccount(user, usersPassword);
+          onPress={async () => {
+            await createUserAccount(user, usersPassword);
+            await userAccountCreation(user, usersPassword, name);
           }}
         />
       </View>

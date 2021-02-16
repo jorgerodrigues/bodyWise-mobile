@@ -1,6 +1,5 @@
 import * as firebase from 'firebase';
 import auth from '../firebase/Firebase';
-import firestore from '../firebase/Firebase';
 
 export const signIn = async (email, password) => {
   try {
@@ -24,12 +23,8 @@ export const loggingOut = async () => {
 export const createUserAccount = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    const currentUser = auth.currentUser;
+    const currentUser = await firebase.auth().currentUser;
     console.log(currentUser);
-    // firestore.collection('users').doc(currentUser.uid).set({
-    //   email: currentUser.email,
-    //   firstName: firstName,
-    // });
   } catch (err) {
     console.log(err);
   }
