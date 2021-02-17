@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
-import { userLoggedIn, userSignedOut } from './actions/index';
+import {
+  userLoggedIn,
+  userSignedOut,
+  errorMessageCreated,
+} from './actions/index';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
@@ -51,6 +55,7 @@ const Main = (props) => {
       await loggingOut();
       props.userSignedOut();
       await SecureStore.deleteItemAsync('token');
+      props.errorMessageCreated(null);
     } catch (e) {
       console.log(e.message);
     }
@@ -113,4 +118,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { userLoggedIn, userSignedOut })(Main);
+export default connect(mapStateToProps, {
+  userLoggedIn,
+  userSignedOut,
+  errorMessageCreated,
+})(Main);

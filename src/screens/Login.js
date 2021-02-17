@@ -13,6 +13,7 @@ import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
+import { firebaseSignIn } from '../Modules/firebaseFunctions';
 import { userLoggedIn, errorMessageCreated } from '../actions';
 import PrimaryButton from '../components/PrimaryButton';
 import WaveBottom from '../components/WaveBottom';
@@ -24,11 +25,11 @@ const LoginScreen = (props) => {
   const [user, setUser] = useState();
   const [usersPassword, setPassword] = useState();
 
-  const userLogin = async (user, password) => {
+  const userLogin = async () => {
     try {
+      const firebaseResponse = await firebaseSignIn(user, usersPassword);
       const response = await axios.post(`${URL}/users/login`, {
-        email: user,
-        password: password,
+        email: firebaseResponse.user.email,
       });
       props.userLoggedIn(response.data);
       await SecureStore.setItemAsync('token', response.data.token);

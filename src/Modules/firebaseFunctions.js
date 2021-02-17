@@ -1,13 +1,13 @@
 import * as firebase from 'firebase';
 
-export const signIn = async (email, password) => {
+export const firebaseSignIn = async (email, password) => {
   try {
     const response = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-    console.log(response);
+    return response;
   } catch (err) {
-    Alert.alert('Login has failed', err.message);
+    console.log('Login has failed', err.message);
   }
 };
 
@@ -15,7 +15,7 @@ export const loggingOut = async () => {
   try {
     await firebase.auth().signOut();
   } catch (err) {
-    Alert.alert('Logout has failed', err.message);
+    return console.log('Logout has failed. ', err.message);
   }
 };
 
