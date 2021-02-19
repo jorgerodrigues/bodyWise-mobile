@@ -1,12 +1,44 @@
 import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import { Line } from 'react-native-svg';
+import { connect } from 'react-redux';
+import dayjs from 'dayjs';
 
-const ProfileChart = () => {
-  const labels = ['12-Jan', '13-Jan', '14-Jan', '15-Jan', '16-Jan'];
+const ProfileChart = (props) => {
+  // const labels = ['12-Jan', '13-Jan', '14-Jan', '15-Jan', '16-Jan'];
   const fakeData = [1, 2, 4, 5, 5];
+  var data = [];
+  var labels = [];
 
+  const dates = props.updatesFetched.map((update) => {
+    return dayjs(update.createdAt).format('DD-MMM');
+  });
+  const updateData = props.updatesFetched.map((update) => {
+    switch (update.howDoYouFeelToday) {
+      case 'Very Bad':
+        return 1;
+      case 'Not well':
+        return 2;
+      case 'Ok':
+        return 3;
+      case 'Well':
+        return 4;
+      case 'Very Well':
+        return 5;
+      default:
+        break;
+    }
+  });
+
+  if (updateData.length >= 10) {
+    for (let i = updateData.length; i > updateData.length - 10; i--) {
+      data.push(updateData[i]);
+      labels.push(dates[i]);
+    }
+  } else {
+    data = updateData;
+    labels = dates;
+  }
   return (
     <View>
       <LineChart
@@ -14,7 +46,7 @@ const ProfileChart = () => {
           labels: labels,
           datasets: [
             {
-              data: [...fakeData],
+              data: [...data],
             },
           ],
         }}
@@ -49,4 +81,10 @@ const ProfileChart = () => {
   );
 };
 
-export default ProfileChart;
+const mapStateToProps = (state) => {
+  return {
+    updatesFetched: state.updatesFetched,
+  };
+};
+
+export default connect(mapStateToProps, {})(ProfileChart);

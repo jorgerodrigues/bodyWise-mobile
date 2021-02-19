@@ -41,24 +41,6 @@ const UserProfile = (props) => {
     );
   });
 
-  const signOut = async () => {
-    try {
-      await axios.post(
-        `http://127.0.0.1:3000/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-          },
-        }
-      );
-      props.userSignedOut();
-      await SecureStore.deleteItemAsync('token');
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
   useEffect(() => {
     getPastUserUpdates();
 
