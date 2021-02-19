@@ -1,10 +1,9 @@
 import * as firebase from 'firebase';
+import { auth } from '../firebase/Firebase';
 
 export const firebaseSignIn = async (email, password) => {
   try {
-    const response = await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password);
+    const response = await auth.signInWithEmailAndPassword(email, password);
     return response;
   } catch (err) {
     console.log('Login has failed', err.message);

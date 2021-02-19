@@ -8,10 +8,9 @@ import dayjs from 'dayjs';
 import * as SecureStore from 'expo-secure-store';
 import { URL } from '../config/environment';
 
-import {} from '../firebase/Firebase';
-
 import { updatesAreFetched, userSignedOut } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
+import ProfileChart from '../components/ProfileChart';
 
 const UserProfile = (props) => {
   const getPastUserUpdates = async () => {
@@ -80,11 +79,12 @@ const UserProfile = (props) => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.fullView}>
       <View style={styles.usernameAndEmailContainer}>
         <Text style={styles.userName}>{props.isUserLoggedIn.user.name}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
+      <ProfileChart />
       <View style={styles.allUpdates}>{updatesComponent}</View>
       <View style={styles.signOutButton}></View>
     </ScrollView>
@@ -92,9 +92,13 @@ const UserProfile = (props) => {
 };
 
 const styles = StyleSheet.create({
+  fullView: {
+    backgroundColor: '#F8FAFC',
+  },
   usernameAndEmailContainer: {
     marginTop: 120,
     alignItems: 'center',
+    marginBottom: 50,
   },
   userName: {
     fontFamily: 'Nobile_700Bold',
