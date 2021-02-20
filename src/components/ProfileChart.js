@@ -13,7 +13,7 @@ const ProfileChart = (props) => {
   const dates = props.updatesFetched.map((update) => {
     return dayjs(update.createdAt).format('DD-MMM');
   });
-  const updateData = props.updatesFetched.map((update) => {
+  var updateData = props.updatesFetched.map((update) => {
     switch (update.howDoYouFeelToday) {
       case 'Very Bad':
         return 1;
@@ -35,10 +35,15 @@ const ProfileChart = (props) => {
       data.push(updateData[i]);
       labels.push(dates[i]);
     }
+  } else if (updateData.length < 1) {
+    updateData = [0];
+    data = updateData;
+    labels = ['No data yet'];
   } else {
     data = updateData;
     labels = dates;
   }
+
   return (
     <View>
       <LineChart
@@ -50,11 +55,11 @@ const ProfileChart = (props) => {
             },
           ],
         }}
-        width={Dimensions.get('window').width} // from react-native
+        width={Dimensions.get('window').width - 10} // from react-native
         height={220}
         yAxisLabel=''
         yAxisSuffix=''
-        yAxisInterval={1} // optional, defaults to 1>
+        yAxisInterval={1}
         chartConfig={{
           backgroundColor: '#F8FAFC',
           backgroundGradientFrom: '#F8FAFC',

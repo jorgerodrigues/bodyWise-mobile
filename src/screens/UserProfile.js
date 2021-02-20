@@ -13,8 +13,8 @@ import StatusDisplayProfile from '../components/StatusDisplayProfile';
 import ProfileChart from '../components/ProfileChart';
 
 const UserProfile = (props) => {
+  const allUpdates = [];
   const getPastUserUpdates = async () => {
-    const allUpdates = [];
     try {
       const response = await axios.get(`${URL}/updates/me`, {
         headers: {
@@ -66,7 +66,8 @@ const UserProfile = (props) => {
         <Text style={styles.userName}>{props.isUserLoggedIn.user.name}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
-      <ProfileChart />
+      {allUpdates != [] ? <ProfileChart /> : <Text>No updates yet</Text>}
+
       <View style={styles.allUpdates}>{updatesComponent}</View>
       <View style={styles.signOutButton}></View>
     </ScrollView>

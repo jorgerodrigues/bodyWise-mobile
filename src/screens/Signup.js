@@ -29,8 +29,8 @@ const SignupScreen = (props) => {
   const [usersPassword, setPassword] = useState();
   const [usersPasswordConfirm, setPasswordConfirm] = useState();
 
-  const userAccountCreation = async (user, password, name) => {
-    if (password !== usersPasswordConfirm) {
+  const userAccountCreation = async () => {
+    if (usersPassword !== usersPasswordConfirm) {
       return props.errorMessageCreated('The passwords do not match');
     }
 
@@ -41,6 +41,7 @@ const SignupScreen = (props) => {
       });
       props.userLoggedIn(response.data);
       await SecureStore.setItemAsync('token', response.data.token);
+      await createUserAccount(user, usersPassword);
       props.errorMessageCreated(null);
     } catch (e) {
       console.log(e.message);
@@ -108,15 +109,10 @@ const SignupScreen = (props) => {
             onChangeText={(text) => setPasswordConfirm(text)}
           />
         </View>
-        <PrimaryButton
-          title={'Create your account'}
-          callback={() => userAccountCreation(user, usersPassword, name)}
-        />
         <Button
-          title={'Create Google Auth'}
-          onPress={async () => {
-            await createUserAccount(user, usersPassword);
-            await userAccountCreation(user, usersPassword, name);
+          title={'Create Account'}
+          onPress={() => {
+            userAccountCreation();
           }}
         />
       </View>
