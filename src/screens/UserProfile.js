@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { ScrollView, View, StyleSheet, Text, Button } from 'react-native';
+import { ScrollView, View, StyleSheet, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import * as SecureStore from 'expo-secure-store';
 import { URL } from '../config/environment';
 
 import { updatesAreFetched, userSignedOut } from '../actions';
