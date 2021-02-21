@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Button,
+  ScrollView,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import axios from 'axios';
@@ -17,7 +18,6 @@ import * as SecureStore from 'expo-secure-store';
 import { createUserAccount } from '../Modules/firebaseFunctions';
 
 import PrimaryButton from '../components/PrimaryButton';
-import WaveBottom from '../components/WaveBottom';
 import Logo from '../components/Logo';
 import ErrorMessage from '../components/ErrorMessage';
 import { userLoggedIn, errorMessageCreated } from '../actions';
@@ -66,57 +66,58 @@ const SignupScreen = (props) => {
       behavior='padding'
       style={styles.container}
       keyboardVerticalOffset={useHeaderHeight() + 68}>
-      <Logo />
-      {props.errorOrSuccessMessage.message == undefined || '' || null ? (
-        <></>
-      ) : (
-        <ErrorMessage message={props.errorOrSuccessMessage.message} />
-      )}
-      <View style={styles.loginArea} onPress={Keyboard.dismiss}>
-        <View style={styles.textFieldAndLabel}>
-          <Text style={styles.textLabel}>Your first name</Text>
-          <TextInput
-            autoCapitalize={'words'}
-            autoCompleteType={'name'}
-            autoCorrect={false}
-            style={styles.textInput}
-            onChangeText={(text) => setName(text)}
+      <ScrollView>
+        <Logo />
+        {props.errorOrSuccessMessage.message == undefined || '' || null ? (
+          <></>
+        ) : (
+          <ErrorMessage message={props.errorOrSuccessMessage.message} />
+        )}
+        <View style={styles.loginArea} onPress={Keyboard.dismiss}>
+          <View style={styles.textFieldAndLabel}>
+            <Text style={styles.textLabel}>Your first name</Text>
+            <TextInput
+              autoCapitalize={'words'}
+              autoCompleteType={'name'}
+              autoCorrect={false}
+              style={styles.textInput}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={styles.textFieldAndLabel}>
+            <Text style={styles.textLabel}>Email</Text>
+            <TextInput
+              autoCapitalize={'none'}
+              autoCompleteType={'off'}
+              autoCorrect={false}
+              style={styles.textInput}
+              onChangeText={(text) => setUser(text)}
+            />
+          </View>
+          <View style={styles.textFieldAndLabel}>
+            <Text style={styles.textLabel}>Password</Text>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.textInput}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+          <View style={styles.textFieldAndLabel}>
+            <Text style={styles.textLabel}>Confirm Password</Text>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.textInput}
+              onChangeText={(text) => setPasswordConfirm(text)}
+            />
+          </View>
+          <Button
+            title={'Create Account'}
+            onPress={() => {
+              userAccountCreation();
+            }}
           />
         </View>
-        <View style={styles.textFieldAndLabel}>
-          <Text style={styles.textLabel}>Email</Text>
-          <TextInput
-            autoCapitalize={'none'}
-            autoCompleteType={'off'}
-            autoCorrect={false}
-            style={styles.textInput}
-            onChangeText={(text) => setUser(text)}
-          />
-        </View>
-        <View style={styles.textFieldAndLabel}>
-          <Text style={styles.textLabel}>Password</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.textInput}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
-        <View style={styles.textFieldAndLabel}>
-          <Text style={styles.textLabel}>Confirm Password</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.textInput}
-            onChangeText={(text) => setPasswordConfirm(text)}
-          />
-        </View>
-        <Button
-          title={'Create Account'}
-          onPress={() => {
-            userAccountCreation();
-          }}
-        />
-      </View>
-      <WaveBottom style={styles.waveBottom} />
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -161,6 +162,10 @@ const styles = StyleSheet.create({
   loginArea: {
     marginTop: 0,
     justifyContent: 'flex-end',
+  },
+  waveBottom: {
+    position: 'absolute',
+    bottom: 0,
   },
 });
 

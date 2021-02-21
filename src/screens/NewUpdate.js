@@ -112,7 +112,7 @@ const NewUpdate = (props) => {
     );
   }
   return (
-    <ScrollView>
+    <View>
       <ImageBackground
         source={require('../../assets/background.png')}
         style={{ width: deviceWidth, height: deviceHeight + 100 }}>
@@ -130,37 +130,39 @@ const NewUpdate = (props) => {
           <SuccessMessage message={props.errorOrSuccessMessage.message} />
         )}
         <DateDisplay></DateDisplay>
-        <Text style={styles.secondHeader}>How do you feel today?</Text>
-        <SingleStatus fill={'#D7D4F7'}></SingleStatus>
+        <ScrollView>
+          <Text style={styles.secondHeader}>How do you feel today?</Text>
+          <SingleStatus fill={'#D7D4F7'}></SingleStatus>
 
-        {props.singleUpdate ? (
-          <View>
-            <Text style={styles.bodyText}>
-              Here's the journal if you feel like doing it today
-            </Text>
-            <JournalTextField></JournalTextField>
-          </View>
-        ) : (
-          <></>
-        )}
+          {props.singleUpdate ? (
+            <View>
+              <Text style={styles.bodyText}>
+                Here's the journal if you feel like doing it today
+              </Text>
+              <JournalTextField></JournalTextField>
+            </View>
+          ) : (
+            <></>
+          )}
 
-        {!props.updateAlreadyExists ? (
-          <PrimaryButton
-            title={'Save update'}
-            callback={() => {
-              saveUpdate(props);
-            }}
-          />
-        ) : (
-          <PrimaryButton
-            title={'Save update'}
-            callback={() => {
-              updateCurrentUpdate(props);
-            }}
-          />
-        )}
+          {!props.updateAlreadyExists ? (
+            <PrimaryButton
+              title={'Update'}
+              callback={() => {
+                saveUpdate(props);
+              }}
+            />
+          ) : (
+            <PrimaryButton
+              title={'Save update'}
+              callback={() => {
+                updateCurrentUpdate(props);
+              }}
+            />
+          )}
+        </ScrollView>
       </ImageBackground>
-    </ScrollView>
+    </View>
   );
 };
 

@@ -16,7 +16,6 @@ import * as SecureStore from 'expo-secure-store';
 import { firebaseSignIn } from '../Modules/firebaseFunctions';
 import { userLoggedIn, errorMessageCreated } from '../actions';
 import PrimaryButton from '../components/PrimaryButton';
-import WaveBottom from '../components/WaveBottom';
 import ClickableLink from '../components/ClicableLink';
 import ErrorMessage from '../components/ErrorMessage';
 import { URL } from '../config/environment';
@@ -93,7 +92,6 @@ const LoginScreen = (props) => {
           props.navigation.navigate('Signup');
         }}
       />
-      <WaveBottom style={styles.waveBottom} />
     </KeyboardAvoidingView>
   );
 };
