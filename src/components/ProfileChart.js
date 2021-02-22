@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Text } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
@@ -39,6 +39,11 @@ const ProfileChart = (props) => {
     updateData = [0];
     data = updateData;
     labels = ['No data yet'];
+    return (
+      <View>
+        <Text>No updates yet.</Text>
+      </View>
+    );
   } else {
     data = updateData;
     labels = dates;
@@ -65,8 +70,8 @@ const ProfileChart = (props) => {
           backgroundGradientFrom: '#F8FAFC',
           backgroundGradientTo: '#F8FAFC',
           decimalPlaces: 0, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(120, 110, 226, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(120, 110, 226, ${opacity})`,
+          color: (opacity = 1) => `rgba(120, 110, 226, 1)`,
+          labelColor: (opacity = 1) => `rgba(120, 110, 226, 1)`,
           style: {
             borderRadius: 16,
           },

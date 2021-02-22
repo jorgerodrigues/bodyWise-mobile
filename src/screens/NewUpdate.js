@@ -7,12 +7,14 @@ import {
   ScrollView,
   useWindowDimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { useHeaderHeight } from '@react-navigation/stack';
 
 import {
   userLoggedIn,
@@ -112,25 +114,26 @@ const NewUpdate = (props) => {
     );
   }
   return (
-    <View>
-      <ImageBackground
-        source={require('../../assets/background.png')}
-        style={{ width: deviceWidth, height: deviceHeight + 100 }}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior='position'
+      keyboardVerticalOffset={1}>
+      <ScrollView>
         <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('UserProfile');
           }}>
           <ProfileIcon style={styles.profileIcon} />
         </TouchableOpacity>
+        <View>
+          <Text style={styles.mainHeader}>Hey {userName}</Text>
+          {props.errorOrSuccessMessage.message == undefined || '' || null ? (
+            <></>
+          ) : (
+            <SuccessMessage message={props.errorOrSuccessMessage.message} />
+          )}
+          <DateDisplay></DateDisplay>
 
-        <Text style={styles.mainHeader}>Hey {userName}</Text>
-        {props.errorOrSuccessMessage.message == undefined || '' || null ? (
-          <></>
-        ) : (
-          <SuccessMessage message={props.errorOrSuccessMessage.message} />
-        )}
-        <DateDisplay></DateDisplay>
-        <ScrollView>
           <Text style={styles.secondHeader}>How do you feel today?</Text>
           <SingleStatus fill={'#D7D4F7'}></SingleStatus>
 
@@ -160,13 +163,20 @@ const NewUpdate = (props) => {
               }}
             />
           )}
-        </ScrollView>
-      </ImageBackground>
-    </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#786EE2',
+  },
+  scrollViewContainer: {
+    justifyContent: 'flex-end',
+  },
   profileIcon: {
     marginTop: 30,
   },
