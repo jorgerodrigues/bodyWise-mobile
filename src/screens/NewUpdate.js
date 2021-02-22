@@ -52,6 +52,7 @@ const NewUpdate = (props) => {
         }
       );
       props.successMessageCreated('Your update was saved.');
+      props.todaysUpdatesAlreadyExists(response);
     } catch (e) {
       console.log(e);
     }
@@ -148,16 +149,16 @@ const NewUpdate = (props) => {
             <></>
           )}
 
-          {!props.updateAlreadyExists ? (
+          {props.updateAlreadyExists == null ? (
             <PrimaryButton
-              title={'Update'}
+              title={'Save update'}
               callback={() => {
                 saveUpdate(props);
               }}
             />
           ) : (
             <PrimaryButton
-              title={'Save update'}
+              title={'Update'}
               callback={() => {
                 updateCurrentUpdate(props);
               }}

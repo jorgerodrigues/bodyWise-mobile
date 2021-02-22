@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Dimensions, Text } from 'react-native';
+import { View, Dimensions, Text, StyleSheet } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
+import { useFonts, Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 const ProfileChart = (props) => {
   // const labels = ['12-Jan', '13-Jan', '14-Jan', '15-Jan', '16-Jan'];
@@ -41,12 +42,24 @@ const ProfileChart = (props) => {
     labels = ['No data yet'];
     return (
       <View>
-        <Text>No updates yet.</Text>
+        <Text style={styles.noUpdates}>No updates yet</Text>
       </View>
     );
   } else {
     data = updateData;
     labels = dates;
+  }
+
+  const [loadedFont] = useFonts({
+    Nobile_700Bold,
+  });
+
+  if (!loadedFont) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
   return (
@@ -90,6 +103,15 @@ const ProfileChart = (props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  noUpdates: {
+    alignSelf: 'center',
+    fontSize: 30,
+    color: '#A8A1EC',
+    fontFamily: 'Nobile_700Bold',
+  },
+});
 
 const mapStateToProps = (state) => {
   return {
