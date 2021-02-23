@@ -36,3 +36,11 @@ export const todaysUpdatesAlreadyExists = (data) => ({
   type: 'UPDATE_EXISTS',
   payload: data,
 });
+
+export const shouldStartLoading = () => ({
+  type: 'START_LOADING',
+});
+
+export const shouldStopLoading = () => ({
+  type: 'STOP_LOADING',
+});

@@ -5,6 +5,7 @@ import singleUpdateReducer from './singleUpdateReducer';
 import journalTextReducer from './journalTextReducer';
 import updatesAreFetched from './updatesAreFetchedReducer';
 import updateAlreadyExistsReducer from './updateAlreadyExistsReducer';
+import isLoadingReducer from './isLoadingReducer';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -13,6 +14,7 @@ const allReducers = combineReducers({
   journalText: journalTextReducer,
   updatesFetched: updatesAreFetched,
   updateAlreadyExists: updateAlreadyExistsReducer,
+  isLoading: isLoadingReducer,
 });
 
 export default allReducers;

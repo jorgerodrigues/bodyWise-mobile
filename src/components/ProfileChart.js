@@ -46,8 +46,8 @@ const ProfileChart = (props) => {
       </View>
     );
   } else {
-    data = updateData;
-    labels = dates;
+    data = updateData.reverse();
+    labels = dates.reverse();
   }
 
   const [loadedFont] = useFonts({

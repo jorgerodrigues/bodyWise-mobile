@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import Logo from '../components/Logo';
@@ -14,7 +15,12 @@ import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
 import { firebaseSignIn } from '../Modules/firebaseFunctions';
-import { userLoggedIn, errorMessageCreated } from '../actions';
+import {
+  userLoggedIn,
+  errorMessageCreated,
+  shouldStartLoading,
+  shouldStopLoading,
+} from '../actions';
 import PrimaryButton from '../components/PrimaryButton';
 import ClickableLink from '../components/ClicableLink';
 import ErrorMessage from '../components/ErrorMessage';
@@ -25,6 +31,7 @@ const LoginScreen = (props) => {
   const [usersPassword, setPassword] = useState();
 
   const userLogin = async () => {
+    props.shouldStartLoading();
     try {
       const firebaseResponse = await firebaseSignIn(user, usersPassword);
       const response = await axios.post(`${URL}/users/login`, {
@@ -34,7 +41,9 @@ const LoginScreen = (props) => {
       await SecureStore.setItemAsync('token', response.data.token);
       props.errorMessageCreated(null);
     } catch (e) {
+      props.shouldStopLoading();
       props.errorMessageCreated('Login failed');
+      // add action ot move the loading status to false
     }
   };
 
@@ -85,10 +94,14 @@ const LoginScreen = (props) => {
             onChangeText={(text) => setPassword(text)}
           />
         </View>
-        <PrimaryButton
-          title={'Login'}
-          callback={() => userLogin(user, usersPassword)}
-        />
+        {props.isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <PrimaryButton
+            title={'Login'}
+            callback={() => userLogin(user, usersPassword)}
+          />
+        )}
       </View>
       <ClickableLink
         text={'Create an account'}
@@ -147,9 +160,13 @@ const mapStateToProps = (state) => {
   return {
     isUserLoggedIn: state.isLoggedIn,
     errorOrSuccessMessage: state.errorOrSuccessMessage,
+    isLoading: state.isLoading,
   };
 };
 
-export default connect(mapStateToProps, { userLoggedIn, errorMessageCreated })(
-  LoginScreen
-);
+export default connect(mapStateToProps, {
+  userLoggedIn,
+  errorMessageCreated,
+  shouldStartLoading,
+  shouldStopLoading,
+})(LoginScreen);
