@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -37,6 +37,10 @@ const LoginScreen = (props) => {
       props.errorMessageCreated('Login failed');
     }
   };
+
+  useEffect(() => {
+    props.errorMessageCreated(null);
+  }, []);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,

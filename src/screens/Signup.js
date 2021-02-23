@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -23,7 +23,7 @@ import ErrorMessage from '../components/ErrorMessage';
 import { userLoggedIn, errorMessageCreated } from '../actions';
 import { URL } from '../config/environment';
 
-const SignupScreen = (props) => {
+const SignupScreen = (props, { navigation }) => {
   const [user, setUser] = useState();
   const [name, setName] = useState();
   const [usersPassword, setPassword] = useState();
@@ -48,6 +48,10 @@ const SignupScreen = (props) => {
       props.errorMessageCreated('The signup has failed');
     }
   };
+
+  useEffect(() => {
+    props.errorMessageCreated(null);
+  }, []);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,

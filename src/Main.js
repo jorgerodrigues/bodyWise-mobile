@@ -78,6 +78,11 @@ const Main = (props) => {
                 headerTintColor: '#F8FAFC',
                 headerTransparent: true,
               }}
+              listeners={{
+                transitionStart: () => {
+                  props.errorMessageCreated(null);
+                },
+              }}
             />
             <Stack.Screen
               name='UserProfile'
@@ -94,7 +99,15 @@ const Main = (props) => {
         ) : (
           <>
             <Stack.Screen name='Login' component={LoginScreen} />
-            <Stack.Screen name='Signup' component={SignupScreen} />
+            <Stack.Screen
+              name='Signup'
+              component={SignupScreen}
+              listeners={{
+                beforeRemove: () => {
+                  props.errorMessageCreated(null);
+                },
+              }}
+            />
           </>
         )}
       </Stack.Navigator>
