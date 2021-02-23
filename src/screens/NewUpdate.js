@@ -51,7 +51,7 @@ const NewUpdate = (props) => {
           },
         }
       );
-      props.successMessageCreated('Your update was saved.');
+      props.successMessageCreated('Your status was saved. :)');
       props.todaysUpdatesAlreadyExists(response);
     } catch (e) {
       console.log(e);
@@ -93,6 +93,7 @@ const NewUpdate = (props) => {
           },
         }
       );
+      props.successMessageCreated('Your status was updated :)');
     } catch (e) {
       console.log(e.message);
     }
