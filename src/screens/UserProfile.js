@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
@@ -26,6 +27,7 @@ const UserProfile = (props) => {
   const allUpdates = [];
 
   const getPastUserUpdates = async () => {
+    console.log(allUpdates);
     props.shouldStartLoading();
     try {
       const response = await axios.get(`${URL}/updates/me`, {
@@ -33,6 +35,7 @@ const UserProfile = (props) => {
           Authorization: `Bearer ${props.isUserLoggedIn.token}`,
         },
       });
+      console.log(response.data);
       response.data.forEach((update) => {
         allUpdates.push(update);
       });
@@ -57,7 +60,7 @@ const UserProfile = (props) => {
 
   useEffect(() => {
     getPastUserUpdates();
-
+    console.log('Effect ran!');
     // eslint-disable-next-line
   }, []);
 
@@ -83,7 +86,12 @@ const UserProfile = (props) => {
       {allUpdates != [] ? <ProfileChart /> : <Text>No updates yet</Text>}
 
       <View style={styles.allUpdates}>{updatesComponent}</View>
-      <View style={styles.signOutButton}></View>
+      <Button
+        title='Refresh'
+        onPress={() => {
+          getPastUserUpdates();
+        }}
+      />
     </ScrollView>
   );
 };
@@ -124,7 +132,9 @@ const mapStateToProps = (state) => {
     isUserLoggedIn: state.isLoggedIn,
     errorOrSuccessMessage: state.errorOrSuccessMessage,
     updatesFetched: state.updatesFetched,
+    singleUpdate: state.singleUpdate,
     isLoading: state.isLoading,
+    journalText: state.journalText,
   };
 };
 

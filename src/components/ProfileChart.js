@@ -1,16 +1,19 @@
 import React from 'react';
-import { View, Dimensions, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Dimensions,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 import { useFonts, Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 const ProfileChart = (props) => {
-  // const labels = ['12-Jan', '13-Jan', '14-Jan', '15-Jan', '16-Jan'];
-  const fakeData = [1, 2, 4, 5, 5];
   var data = [];
   var labels = [];
-
   const dates = props.updatesFetched.map((update) => {
     return dayjs(update.createdAt).format('DD-MMM');
   });
