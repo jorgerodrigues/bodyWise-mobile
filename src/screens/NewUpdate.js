@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
@@ -20,6 +21,8 @@ import {
   singleUpdateIsSet,
   journalIsUpdated,
   todaysUpdatesAlreadyExists,
+  shouldStartLoading,
+  shouldStopLoading,
 } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
 import SingleStatus from '../components/SingleStatus';
@@ -34,6 +37,7 @@ const NewUpdate = (props) => {
   const [today, setToday] = useState(dayjs().format('DD-MMM-YYYY'));
 
   const saveUpdate = async (props) => {
+    props.shouldStartLoading();
     try {
       const response = await axios.post(
         `${URL}/me/how-do-you-feel`,
@@ -49,12 +53,15 @@ const NewUpdate = (props) => {
       );
       props.successMessageCreated('Your status was saved. :)');
       props.todaysUpdatesAlreadyExists(response);
+      props.shouldStopLoading();
     } catch (e) {
       console.log(e);
+      props.shouldStopLoading();
     }
   };
 
   const checkForUpdate = async () => {
+    props.shouldStartLoading();
     try {
       const response = await axios.get(`${URL}/updates/latest`, {
         headers: {
@@ -69,12 +76,14 @@ const NewUpdate = (props) => {
         props.singleUpdateIsSet(fullData.howDoYouFeelToday);
         props.journalIsUpdated(fullData.comments);
       }
+      props.shouldStopLoading();
     } catch (e) {
       console.log(e.message);
     }
   };
 
   const updateCurrentUpdate = async () => {
+    props.shouldStartLoading();
     const itemToBeUpdated = props.updateAlreadyExists._id;
     try {
       await axios.patch(
@@ -90,12 +99,14 @@ const NewUpdate = (props) => {
         }
       );
       props.successMessageCreated('Your status was updated :)');
+      props.shouldStopLoading();
     } catch (e) {
       console.log(e.message);
     }
   };
 
   useEffect(() => {
+    props.shouldStopLoading();
     checkForUpdate();
   }, [today]);
 
@@ -145,8 +156,9 @@ const NewUpdate = (props) => {
           ) : (
             <></>
           )}
-
-          {props.updateAlreadyExists == null ? (
+          {props.isLoading == true ? (
+            <ActivityIndicator />
+          ) : props.updateAlreadyExists == null ? (
             <PrimaryButton
               title={'Save update'}
               callback={() => {
@@ -211,6 +223,7 @@ const mapStateToProps = (state) => {
     singleUpdate: state.singleUpdate,
     errorOrSuccessMessage: state.errorOrSuccessMessage,
     updateAlreadyExists: state.updateAlreadyExists,
+    isLoading: state.isLoading,
   };
 };
 
@@ -221,4 +234,6 @@ export default connect(mapStateToProps, {
   singleUpdateIsSet,
   journalIsUpdated,
   todaysUpdatesAlreadyExists,
+  shouldStartLoading,
+  shouldStopLoading,
 })(NewUpdate);
