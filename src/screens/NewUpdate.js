@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
   Text,
-  ImageBackground,
   ScrollView,
-  useWindowDimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -14,7 +12,6 @@ import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { useHeaderHeight } from '@react-navigation/stack';
 
 import {
   userLoggedIn,
@@ -33,9 +30,8 @@ import ProfileIcon from '../components/ProfileIcon';
 import { URL } from '../config/environment';
 
 const NewUpdate = (props) => {
-  const deviceWidth = useWindowDimensions().width;
-  const deviceHeight = useWindowDimensions().height;
   const userName = props.isUserLoggedIn.user.name;
+  const [today, setToday] = useState(dayjs().format('DD-MMM-YYYY'));
 
   const saveUpdate = async (props) => {
     try {
@@ -101,7 +97,7 @@ const NewUpdate = (props) => {
 
   useEffect(() => {
     checkForUpdate();
-  }, []);
+  }, [today]);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,

@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { ScrollView, View, StyleSheet, Text } from 'react-native';
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
@@ -7,13 +13,20 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { URL } from '../config/environment';
 
-import { updatesAreFetched, userSignedOut } from '../actions';
+import {
+  updatesAreFetched,
+  userSignedOut,
+  shouldStartLoading,
+  shouldStopLoading,
+} from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 import ProfileChart from '../components/ProfileChart';
 
 const UserProfile = (props) => {
   const allUpdates = [];
+
   const getPastUserUpdates = async () => {
+    props.shouldStartLoading();
     try {
       const response = await axios.get(`${URL}/updates/me`, {
         headers: {
@@ -24,9 +37,11 @@ const UserProfile = (props) => {
         allUpdates.push(update);
       });
       props.updatesAreFetched(allUpdates);
+      props.shouldStopLoading();
       return allUpdates;
     } catch (error) {
       console.log(error.message);
+      props.shouldStopLoading();
     }
   };
 
@@ -51,10 +66,10 @@ const UserProfile = (props) => {
     Nobile_700Bold,
   });
 
-  if (!loadedFont) {
+  if (props.isLoading == true) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={styles.activtyIndicator}>
+        <ActivityIndicator size='large' color='#A8A1EC' />
       </View>
     );
   }
@@ -99,6 +114,9 @@ const styles = StyleSheet.create({
   signOutButton: {
     marginVertical: 75,
   },
+  activtyIndicator: {
+    paddingVertical: 300,
+  },
 });
 
 const mapStateToProps = (state) => {
@@ -106,9 +124,13 @@ const mapStateToProps = (state) => {
     isUserLoggedIn: state.isLoggedIn,
     errorOrSuccessMessage: state.errorOrSuccessMessage,
     updatesFetched: state.updatesFetched,
+    isLoading: state.isLoading,
   };
 };
 
-export default connect(mapStateToProps, { updatesAreFetched, userSignedOut })(
-  UserProfile
-);
+export default connect(mapStateToProps, {
+  updatesAreFetched,
+  userSignedOut,
+  shouldStartLoading,
+  shouldStopLoading,
+})(UserProfile);
