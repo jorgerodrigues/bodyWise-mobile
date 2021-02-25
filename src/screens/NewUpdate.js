@@ -61,6 +61,7 @@ const NewUpdate = (props) => {
   };
 
   const checkForUpdate = async () => {
+    props.updateAlreadyExists(null);
     props.shouldStartLoading();
     try {
       const response = await axios.get(`${URL}/updates/latest`, {

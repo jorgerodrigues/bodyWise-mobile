@@ -86,12 +86,6 @@ const UserProfile = (props) => {
       {allUpdates != [] ? <ProfileChart /> : <Text>No updates yet</Text>}
 
       <View style={styles.allUpdates}>{updatesComponent}</View>
-      <Button
-        title='Refresh'
-        onPress={() => {
-          getPastUserUpdates();
-        }}
-      />
     </ScrollView>
   );
 };
