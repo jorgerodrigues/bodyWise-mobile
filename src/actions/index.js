@@ -44,3 +44,8 @@ export const shouldStartLoading = () => ({
 export const shouldStopLoading = () => ({
   type: 'STOP_LOADING',
 });
+
+export const todaysDateIsSet = (data) => ({
+  type: 'TODAYS_DATE',
+  payload: data,
+});

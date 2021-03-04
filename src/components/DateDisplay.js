@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, AppState } from 'react-native';
 import dayjs from 'dayjs';
 import { useFonts, Oxygen_300Light } from '@expo-google-fonts/oxygen';
-
 import SingleDate from './SingleDate';
+import { todaysDateIsSet } from '../actions/index';
+import { connect } from 'react-redux';
 
-const DateDisplay = () => {
+const DateDisplay = (props) => {
   const [currentFullDate, setCurrentFullDate] = useState(
     dayjs().format('DD-MMM-YYYY')
   );
@@ -16,13 +17,12 @@ const DateDisplay = () => {
     dayjs().subtract(1, 'day').format('DD-MMM-YYYY')
   );
 
-  const [currentAppState, setCurrentAppState] = useState();
-
   useEffect(() => {
     AppState.addEventListener('change', handleAppStateChange);
     setCurrentFullDate(dayjs().format('DD-MMM-YYYY'));
     setTomorrowFullDate(dayjs().add(1, 'day').format('DD-MMM-YYYY'));
     setYestdayFullDate(dayjs().subtract(1, 'day').format('DD-MMM-YYYY'));
+    props.todaysDateIsSet(currentFullDate);
 
     return () => {
       AppState.removeEventListener('change', handleAppStateChange);
@@ -33,6 +33,7 @@ const DateDisplay = () => {
     setCurrentFullDate(dayjs().format('DD-MMM-YYYY'));
     setTomorrowFullDate(dayjs().add(1, 'day').format('DD-MMM-YYYY'));
     setYestdayFullDate(dayjs().subtract(1, 'day').format('DD-MMM-YYYY'));
+    props.todaysDateIsSet(currentFullDate);
   };
 
   const monthsShort = [
@@ -119,4 +120,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DateDisplay;
+const mapStateToProps = (state) => {
+  return {
+    todaysDate: state.todaysDate,
+  };
+};
+
+export default connect(mapStateToProps, { todaysDateIsSet })(DateDisplay);

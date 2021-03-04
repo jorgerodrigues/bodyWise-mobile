@@ -27,6 +27,8 @@ const UserProfile = (props) => {
 
   const getPastUserUpdates = async () => {
     props.shouldStartLoading();
+    props.updatesAreFetched([]);
+
     try {
       const response = await axios.get(`${URL}/updates/me`, {
         headers: {
@@ -57,7 +59,7 @@ const UserProfile = (props) => {
 
   useEffect(() => {
     getPastUserUpdates();
-  }, []);
+  }, [props.updateAlreadyExists]);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
@@ -124,6 +126,7 @@ const mapStateToProps = (state) => {
     singleUpdate: state.singleUpdate,
     isLoading: state.isLoading,
     journalText: state.journalText,
+    updateAlreadyExists: state.updateAlreadyExists,
   };
 };
 

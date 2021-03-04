@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Dimensions,
@@ -17,7 +17,8 @@ const ProfileChart = (props) => {
   const dates = props.updatesFetched.map((update) => {
     return dayjs(update.createdAt).format('DD-MMM');
   });
-  var updateData = props.updatesFetched.map((update) => {
+  var updateData = [];
+  updateData = props.updatesFetched.map((update) => {
     switch (update.howDoYouFeelToday) {
       case 'Very Bad':
         return 1;
@@ -33,11 +34,10 @@ const ProfileChart = (props) => {
         break;
     }
   });
-
-  if (updateData.length >= 10) {
-    for (let i = updateData.length; i > updateData.length - 10; i--) {
-      data.push(updateData[i]);
-      labels.push(dates[i]);
+  if (updateData.length >= 5) {
+    for (let i = 2; i <= 7; i++) {
+      data.push(updateData[updateData.length - i]);
+      labels.push(dates[updateData.length - i]);
     }
   } else if (updateData.length < 1) {
     updateData = [0];

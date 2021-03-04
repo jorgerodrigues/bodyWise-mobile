@@ -73,6 +73,10 @@ const NewUpdate = (props) => {
       const fullData = response.data;
       const todaysDate = dayjs().format('DD-MMM-YYYY');
       const updateDate = dayjs(fullData.createdAt).format('DD-MMM-YYYY');
+      console.log('Server response: ', response.data);
+      console.log('Todays date  ', todaysDate);
+      console.log('UpdatesDate, ', updateDate);
+
       if (todaysDate == updateDate) {
         props.todaysUpdatesAlreadyExists(fullData);
         props.singleUpdateIsSet(fullData.howDoYouFeelToday);
@@ -81,6 +85,7 @@ const NewUpdate = (props) => {
       props.shouldStopLoading();
     } catch (e) {
       console.log(e.message);
+      props.shouldStopLoading();
     }
   };
 
@@ -108,10 +113,15 @@ const NewUpdate = (props) => {
   };
 
   useEffect(() => {
+    console.log('Single useEffect ran');
     setToday(dayjs().format('DD-MMM-YYYY'));
-  });
+    props.todaysUpdatesAlreadyExists(null);
+    props.shouldStopLoading();
+    checkForUpdate();
+  }, []);
 
   useEffect(() => {
+    console.log('Use effect with return ran');
     let mounted = true;
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
@@ -120,7 +130,7 @@ const NewUpdate = (props) => {
     return () => {
       mounted = false;
     };
-  }, [today]);
+  }, [props.todaysDate]);
 
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
@@ -236,6 +246,7 @@ const mapStateToProps = (state) => {
     errorOrSuccessMessage: state.errorOrSuccessMessage,
     updateAlreadyExists: state.updateAlreadyExists,
     isLoading: state.isLoading,
+    todaysDate: state.todaysDate,
   };
 };
 

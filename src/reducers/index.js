@@ -6,6 +6,7 @@ import journalTextReducer from './journalTextReducer';
 import updatesAreFetched from './updatesAreFetchedReducer';
 import updateAlreadyExistsReducer from './updateAlreadyExistsReducer';
 import isLoadingReducer from './isLoadingReducer';
+import todaysDateReducer from './todaysDateReducer';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
   updatesFetched: updatesAreFetched,
   updateAlreadyExists: updateAlreadyExistsReducer,
   isLoading: isLoadingReducer,
+  todaysDate: todaysDateReducer,
 });
 
 export default allReducers;
