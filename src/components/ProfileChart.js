@@ -34,8 +34,9 @@ const ProfileChart = (props) => {
         break;
     }
   });
+  updateData.reverse();
   if (updateData.length >= 5) {
-    for (let i = 2; i <= 7; i++) {
+    for (let i = 6; i <= 11; i++) {
       data.push(updateData[updateData.length - i]);
       labels.push(dates[updateData.length - i]);
     }
@@ -60,11 +61,11 @@ const ProfileChart = (props) => {
   if (!loadedFont) {
     return (
       <View>
-        <Text>Loading...</Text>
+        <ActivityIndicator />
       </View>
     );
   }
-
+  // TODO Add a funcion that awaits half a second before displaying the graph. This allows to make sure the data is retrieved before it is generated
   return (
     <View style={styles.container}>
       <LineChart

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
@@ -46,6 +47,21 @@ const UserProfile = (props) => {
       props.shouldStopLoading();
     }
   };
+  // TODO REMOVE THE CODE BELOW BEFORE COMMIT
+  const newGetPastUpdates = async () => {
+    try {
+      const response = await fetch(`${URL}/updates/me`, {
+        method: 'get',
+        headers: new Headers({
+          Authorization: `Bearer ${props.isUserLoggedIn.token}`,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const updatesComponent = props.updatesFetched.map((update, index) => {
     return (
@@ -77,6 +93,12 @@ const UserProfile = (props) => {
   return (
     <ScrollView style={styles.fullView}>
       <View style={styles.usernameAndEmailContainer}>
+        <Button
+          title={'Update data'}
+          onPress={() => {
+            newGetPastUpdates();
+          }}
+        />
         <Text style={styles.userName}>{props.isUserLoggedIn.user.name}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
