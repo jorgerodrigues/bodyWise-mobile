@@ -1,11 +1,40 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, AppState } from 'react-native';
 import dayjs from 'dayjs';
 import { useFonts, Oxygen_300Light } from '@expo-google-fonts/oxygen';
 
 import SingleDate from './SingleDate';
 
 const DateDisplay = () => {
+  const [currentFullDate, setCurrentFullDate] = useState(
+    dayjs().format('DD-MMM-YYYY')
+  );
+  const [tomorrowFullDate, setTomorrowFullDate] = useState(
+    dayjs().add(1, 'day').format('DD-MMM-YYYY')
+  );
+  const [yesterdayFullDate, setYestdayFullDate] = useState(
+    dayjs().subtract(1, 'day').format('DD-MMM-YYYY')
+  );
+
+  const [currentAppState, setCurrentAppState] = useState();
+
+  useEffect(() => {
+    AppState.addEventListener('change', handleAppStateChange);
+    setCurrentFullDate(dayjs().format('DD-MMM-YYYY'));
+    setTomorrowFullDate(dayjs().add(1, 'day').format('DD-MMM-YYYY'));
+    setYestdayFullDate(dayjs().subtract(1, 'day').format('DD-MMM-YYYY'));
+
+    return () => {
+      AppState.removeEventListener('change', handleAppStateChange);
+    };
+  });
+
+  const handleAppStateChange = () => {
+    setCurrentFullDate(dayjs().format('DD-MMM-YYYY'));
+    setTomorrowFullDate(dayjs().add(1, 'day').format('DD-MMM-YYYY'));
+    setYestdayFullDate(dayjs().subtract(1, 'day').format('DD-MMM-YYYY'));
+  };
+
   const monthsShort = [
     'Jan',
     'Feb',
@@ -20,10 +49,6 @@ const DateDisplay = () => {
     'Nov',
     'Dec',
   ];
-
-  const currentDateFullDate = dayjs().format('DD-MMM-YYYY');
-  const tomorrowFullDate = dayjs().add(1, 'day').format('DD-MMM-YYYY');
-  const yesterdayFullDate = dayjs().subtract(1, 'day').format('DD-MMM-YYYY');
 
   // After getting each date, extract only the date
 
@@ -54,6 +79,8 @@ const DateDisplay = () => {
       </View>
     );
   }
+
+  // try using something like useEffect to update the state
 
   return (
     <View style={styles.dateContainer}>

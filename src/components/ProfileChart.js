@@ -66,7 +66,7 @@ const ProfileChart = (props) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <LineChart
         data={{
           labels: labels,
@@ -76,7 +76,7 @@ const ProfileChart = (props) => {
             },
           ],
         }}
-        width={Dimensions.get('window').width - 10} // from react-native
+        width={Dimensions.get('window').width - 30} // from react-native
         height={220}
         yAxisLabel=''
         yAxisSuffix=''

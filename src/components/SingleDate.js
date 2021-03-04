@@ -6,7 +6,6 @@ const SingleDate = (props) => {
   var textColor = '#fff';
   var daySize = 50;
   var monthYearSize = 13;
-
   if (props.type === 'primary') {
     textColor = '#F5E7B8';
     daySize = 50;

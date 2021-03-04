@@ -51,7 +51,7 @@ const NewUpdate = (props) => {
           },
         }
       );
-      props.successMessageCreated('Your status was saved. :)');
+      props.successMessageCreated('Your status was saved.');
       props.todaysUpdatesAlreadyExists(response);
       props.shouldStopLoading();
     } catch (e) {
@@ -61,7 +61,7 @@ const NewUpdate = (props) => {
   };
 
   const checkForUpdate = async () => {
-    props.updateAlreadyExists(null);
+    props.todaysUpdatesAlreadyExists(null);
     props.shouldStartLoading();
     try {
       const response = await axios.get(`${URL}/updates/latest`, {
@@ -69,6 +69,7 @@ const NewUpdate = (props) => {
           Authorization: `Bearer ${props.isUserLoggedIn.token}`,
         },
       });
+
       const fullData = response.data;
       const todaysDate = dayjs().format('DD-MMM-YYYY');
       const updateDate = dayjs(fullData.createdAt).format('DD-MMM-YYYY');
@@ -99,7 +100,7 @@ const NewUpdate = (props) => {
           },
         }
       );
-      props.successMessageCreated('Your status was updated :)');
+      props.successMessageCreated('Your status was updated.');
       props.shouldStopLoading();
     } catch (e) {
       console.log(e.message);
@@ -107,8 +108,18 @@ const NewUpdate = (props) => {
   };
 
   useEffect(() => {
+    setToday(dayjs().format('DD-MMM-YYYY'));
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
     checkForUpdate();
+
+    return () => {
+      mounted = false;
+    };
   }, [today]);
 
   const [loadedFont] = useFonts({
