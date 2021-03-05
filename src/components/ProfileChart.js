@@ -12,12 +12,14 @@ import dayjs from 'dayjs';
 import { useFonts, Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 const ProfileChart = (props) => {
+  // const fakeData = [2, 4, 5, 1, 2];
+  // const fakeLabels = ['Jan-1', 'Jan-2', 'Jan-3', 'Jan-4', 'Jan-5'];
   var data = [];
   var labels = [];
-  const dates = props.updatesFetched.map((update) => {
+  var updateData = [];
+  var dates = props.updatesFetched.map((update) => {
     return dayjs(update.createdAt).format('DD-MMM');
   });
-  var updateData = [];
   updateData = props.updatesFetched.map((update) => {
     switch (update.howDoYouFeelToday) {
       case 'Very Bad':
@@ -34,11 +36,12 @@ const ProfileChart = (props) => {
         break;
     }
   });
-  updateData.reverse();
+  updateData = updateData.slice(0, 6);
+  dates = dates.slice(0, 6);
   if (updateData.length >= 5) {
-    for (let i = 6; i <= 11; i++) {
+    for (let i = 1; i <= 6; i++) {
       data.push(updateData[updateData.length - i]);
-      labels.push(dates[updateData.length - i]);
+      labels.push(dates[dates.length - i]);
     }
   } else if (updateData.length < 1) {
     updateData = [0];
@@ -58,13 +61,14 @@ const ProfileChart = (props) => {
     Nobile_700Bold,
   });
 
-  if (!loadedFont) {
+  if (!loadedFont || updateData[0] == undefined) {
     return (
       <View>
         <ActivityIndicator />
       </View>
     );
   }
+
   // TODO Add a funcion that awaits half a second before displaying the graph. This allows to make sure the data is retrieved before it is generated
   return (
     <View style={styles.container}>
