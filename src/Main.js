@@ -91,8 +91,13 @@ const Main = (props) => {
                 title: '',
                 headerTransparent: true,
                 headerRight: () => (
-                  <Button onPress={() => signOut()} title='Logout' />
+                  <Button
+                    onPress={() => signOut()}
+                    title='Logout'
+                    color='#786EE2'
+                  />
                 ),
+                headerTintColor: '#786EE2',
               }}
             />
           </>
