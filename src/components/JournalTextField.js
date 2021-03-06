@@ -25,7 +25,6 @@ const TextField = (props) => {
         onChangeText={(e) => {
           props.journalIsUpdated(e);
         }}
-        value={props.journalText}
       />
     </View>
   );

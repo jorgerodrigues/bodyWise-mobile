@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Dimensions,
@@ -38,7 +38,7 @@ const ProfileChart = (props) => {
   });
   updateData = updateData.slice(0, 6);
   dates = dates.slice(0, 6);
-  if (updateData.length >= 5) {
+  if (updateData.length >= 6) {
     for (let i = 1; i <= 6; i++) {
       data.push(updateData[updateData.length - i]);
       labels.push(dates[dates.length - i]);

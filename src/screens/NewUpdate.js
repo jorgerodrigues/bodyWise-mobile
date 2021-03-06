@@ -73,9 +73,6 @@ const NewUpdate = (props) => {
       const fullData = response.data;
       const todaysDate = dayjs().format('DD-MMM-YYYY');
       const updateDate = dayjs(fullData.createdAt).format('DD-MMM-YYYY');
-      console.log('Todays date  ', todaysDate);
-      console.log('UpdatesDate, ', updateDate);
-      console.log('All updates from user  ', props.updatesAreaFetched);
 
       if (todaysDate == updateDate) {
         props.todaysUpdatesAlreadyExists(fullData);
@@ -113,7 +110,6 @@ const NewUpdate = (props) => {
   };
 
   useEffect(() => {
-    console.log('Single useEffect ran');
     setToday(dayjs().format('DD-MMM-YYYY'));
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
@@ -121,7 +117,6 @@ const NewUpdate = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log('Use effect with return ran');
     let mounted = true;
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
