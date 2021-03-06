@@ -86,9 +86,12 @@ const NewUpdate = (props) => {
     }
   };
 
+  // ! The function below updates the already saved item
+
   const updateCurrentUpdate = async () => {
     props.shouldStartLoading();
     const itemToBeUpdated = props.updateAlreadyExists._id;
+    console.log(itemToBeUpdated);
     try {
       await axios.patch(
         `${URL}/updates/${itemToBeUpdated}`,
@@ -135,7 +138,7 @@ const NewUpdate = (props) => {
   if (!loadedFont) {
     return (
       <View>
-        <Text>Loading...</Text>
+        <ActivityIndicator />
       </View>
     );
   }

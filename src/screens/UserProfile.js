@@ -18,6 +18,7 @@ import {
   userSignedOut,
   shouldStartLoading,
   shouldStopLoading,
+  errorMessageCreated,
 } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 import ProfileChart from '../components/ProfileChart';
@@ -59,6 +60,7 @@ const UserProfile = (props) => {
 
   useEffect(() => {
     getPastUserUpdates();
+    props.errorMessageCreated(null);
   }, [props.updateAlreadyExists]);
 
   const [loadedFont] = useFonts({
@@ -135,4 +137,5 @@ export default connect(mapStateToProps, {
   userSignedOut,
   shouldStartLoading,
   shouldStopLoading,
+  errorMessageCreated,
 })(UserProfile);
