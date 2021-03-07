@@ -171,7 +171,10 @@ const NewUpdate = (props) => {
               <Text style={styles.bodyText}>
                 Here's the journal if you feel like doing it today
               </Text>
-              <JournalTextField></JournalTextField>
+              <JournalTextField
+                textField={
+                  props.journalText ? props.journalText : null
+                }></JournalTextField>
             </View>
           ) : (
             <></>
@@ -216,6 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 38,
     alignSelf: 'center',
     marginTop: 15,
+    paddingTop: 5,
   },
   secondHeader: {
     fontFamily: 'Nobile_700Bold',

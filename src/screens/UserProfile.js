@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     color: '#221980',
     fontSize: 40,
     alignSelf: 'center',
+    paddingTop: 10,
   },
   userEmail: {
     fontFamily: 'Oxygen_400Regular',
