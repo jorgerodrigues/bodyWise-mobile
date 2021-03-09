@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, AppState } from 'react-native';
+import { View, StyleSheet, AppState } from 'react-native';
 import dayjs from 'dayjs';
-import { useFonts, Oxygen_300Light } from '@expo-google-fonts/oxygen';
 import SingleDate from './SingleDate';
 import { todaysDateIsSet } from '../actions/index';
 import { connect } from 'react-redux';
@@ -68,20 +67,6 @@ const DateDisplay = (props) => {
     month: monthsShort[dayjs(tomorrowFullDate).get('month')],
     year: dayjs(tomorrowFullDate).get('year'),
   };
-
-  // const [loadedFont] = useFonts({
-  //   Oxygen_300Light,
-  // });
-
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
-  // try using something like useEffect to update the state
 
   return (
     <View style={styles.dateContainer}>

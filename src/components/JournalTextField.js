@@ -1,21 +1,9 @@
 import React from 'react';
 import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { journalIsUpdated } from '../actions/index';
 
 const TextField = (props) => {
-  // const [loadedFont] = useFonts({
-  //   Oxygen_400Regular,
-  // });
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
   return (
     <View>
       <TextInput

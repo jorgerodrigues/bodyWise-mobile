@@ -1,23 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useFonts, Oxygen_300Light } from '@expo-google-fonts/oxygen';
-import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import Svg, { Circle } from 'react-native-svg';
 
 const StatusDisplayProfile = (props) => {
-  // const [loadedFont] = useFonts({
-  //   Oxygen_300Light,
-  //   Nobile_700Bold,
-  // });
-
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
   return (
     <View style={styles.updatesContainer}>
       <View style={styles.statusContainer}>
@@ -65,8 +50,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Nobile_700Bold',
     fontSize: 32,
     color: '#786EE2',
-    // shadowOpacity: 0,
-    // shadowRadius: 0,
   },
   dot: {
     alignSelf: 'center',

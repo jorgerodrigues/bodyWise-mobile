@@ -1,20 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { connect } from 'react-redux';
 
 const SuccessMessage = (props) => {
-  // const [loadedFont] = useFonts({
-  //   Oxygen_400Regular,
-  // });
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
-
   return (
     <View style={styles.successMessage}>
       <Text style={styles.successTextStyle}>{props.message}</Text>

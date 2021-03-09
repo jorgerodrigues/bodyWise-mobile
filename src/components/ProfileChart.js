@@ -9,7 +9,6 @@ import {
 import { LineChart } from 'react-native-chart-kit';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
-import { useFonts, Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 const ProfileChart = (props) => {
   var data = [];
@@ -55,19 +54,13 @@ const ProfileChart = (props) => {
     labels = dates.reverse();
   }
 
-  const [loadedFont] = useFonts({
-    Nobile_700Bold,
-  });
-
-  if (!loadedFont || updateData[0] == undefined) {
+  if (updateData[0] == undefined) {
     return (
       <View>
         <ActivityIndicator />
       </View>
     );
   }
-
-  // TODO Add a funcion that awaits half a second before displaying the graph. This allows to make sure the data is retrieved before it is generated
   return (
     <View style={styles.container}>
       <LineChart

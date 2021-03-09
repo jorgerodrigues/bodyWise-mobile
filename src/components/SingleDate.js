@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { useFonts, Oxygen_300Light } from '@expo-google-fonts/oxygen';
 
 const SingleDate = (props) => {
   var textColor = '#fff';
@@ -15,18 +14,6 @@ const SingleDate = (props) => {
     daySize = 30;
     monthYearSize = 9;
   }
-
-  // const [loadedFont] = useFonts({
-  //   Oxygen_300Light,
-  // });
-
-  // if (!loadedFont) {
-  //   return (
-  //     <View>
-  //       <Text>Loading...</Text>
-  //     </View>
-  //   );
-  // }
 
   return (
     <View style={styles.dateContainer}>

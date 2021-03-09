@@ -71,21 +71,6 @@ const Main = (props) => {
     isUserLoggedIn();
   }, []);
 
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-    Oxygen_700Bold,
-    Oxygen_300Light,
-    Nobile_700Bold,
-  });
-
-  if (!loadedFont) {
-    return (
-      <View>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
