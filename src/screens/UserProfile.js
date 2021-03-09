@@ -7,8 +7,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
-import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { URL } from '../config/environment';
@@ -59,14 +57,14 @@ const UserProfile = (props) => {
   });
 
   useEffect(() => {
+    let mounted = true;
     getPastUserUpdates();
     props.errorMessageCreated(null);
-  }, [props.updateAlreadyExists]);
 
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-    Nobile_700Bold,
-  });
+    return () => {
+      mounted = false;
+    };
+  }, [props.updateAlreadyExists]);
 
   if (props.isLoading == true) {
     return (
@@ -104,6 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     alignSelf: 'center',
     paddingTop: 10,
+    textTransform: 'capitalize',
   },
   userEmail: {
     fontFamily: 'Oxygen_400Regular',

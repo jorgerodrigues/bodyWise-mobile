@@ -12,7 +12,6 @@ import {
 import { useHeaderHeight } from '@react-navigation/stack';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import * as SecureStore from 'expo-secure-store';
 
 import { createUserAccount } from '../Modules/firebaseFunctions';
@@ -52,18 +51,6 @@ const SignupScreen = (props, { navigation }) => {
   useEffect(() => {
     props.errorMessageCreated(null);
   }, []);
-
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-  });
-
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
 
   return (
     <KeyboardAvoidingView

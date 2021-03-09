@@ -16,17 +16,17 @@ const SingleDate = (props) => {
     monthYearSize = 9;
   }
 
-  const [loadedFont] = useFonts({
-    Oxygen_300Light,
-  });
+  // const [loadedFont] = useFonts({
+  //   Oxygen_300Light,
+  // });
 
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  // if (!loadedFont) {
+  //   return (
+  //     <View>
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.dateContainer}>

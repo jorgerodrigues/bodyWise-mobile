@@ -3,9 +3,9 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 
 const ClickableLink = (props) => {
-  useFonts({
-    Oxygen_400Regular,
-  });
+  // useFonts({
+  //   Oxygen_400Regular,
+  // });
 
   return (
     <View style={styles.buttonContainer}>

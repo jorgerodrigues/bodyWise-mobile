@@ -11,6 +11,7 @@ import { useHeaderHeight } from '@react-navigation/stack';
 import Logo from '../components/Logo';
 import axios from 'axios';
 import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
+import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
@@ -43,25 +44,16 @@ const LoginScreen = (props) => {
     } catch (e) {
       props.shouldStopLoading();
       props.errorMessageCreated('Login failed');
-      // add action ot move the loading status to false
     }
   };
 
   useEffect(() => {
+    let mounted = true;
     props.errorMessageCreated(null);
+    return () => {
+      mounted = false;
+    };
   }, []);
-
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-  });
-
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
 
   return (
     <KeyboardAvoidingView

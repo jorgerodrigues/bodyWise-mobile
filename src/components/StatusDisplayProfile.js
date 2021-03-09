@@ -5,18 +5,18 @@ import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import Svg, { Circle } from 'react-native-svg';
 
 const StatusDisplayProfile = (props) => {
-  const [loadedFont] = useFonts({
-    Oxygen_300Light,
-    Nobile_700Bold,
-  });
+  // const [loadedFont] = useFonts({
+  //   Oxygen_300Light,
+  //   Nobile_700Bold,
+  // });
 
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  // if (!loadedFont) {
+  //   return (
+  //     <View>
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.updatesContainer}>

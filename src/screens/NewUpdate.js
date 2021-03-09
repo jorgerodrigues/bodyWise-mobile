@@ -113,10 +113,15 @@ const NewUpdate = (props) => {
   };
 
   useEffect(() => {
+    let mounted = true;
     setToday(dayjs().format('DD-MMM-YYYY'));
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
     checkForUpdate();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -130,18 +135,6 @@ const NewUpdate = (props) => {
     };
   }, [props.todaysDate]);
 
-  const [loadedFont] = useFonts({
-    Oxygen_400Regular,
-    Nobile_700Bold,
-  });
-
-  if (!loadedFont) {
-    return (
-      <View>
-        <ActivityIndicator />
-      </View>
-    );
-  }
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -220,6 +213,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 15,
     paddingTop: 5,
+    textTransform: 'capitalize',
   },
   secondHeader: {
     fontFamily: 'Nobile_700Bold',

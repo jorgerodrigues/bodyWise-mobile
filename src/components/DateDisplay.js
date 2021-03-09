@@ -69,17 +69,17 @@ const DateDisplay = (props) => {
     year: dayjs(tomorrowFullDate).get('year'),
   };
 
-  const [loadedFont] = useFonts({
-    Oxygen_300Light,
-  });
+  // const [loadedFont] = useFonts({
+  //   Oxygen_300Light,
+  // });
 
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  // if (!loadedFont) {
+  //   return (
+  //     <View>
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
+  // }
 
   // try using something like useEffect to update the state
 

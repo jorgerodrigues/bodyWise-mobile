@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Button } from 'react-native';
+import { StyleSheet, Button, View, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import {
+  useFonts,
+  Oxygen_400Regular,
+  Oxygen_700Bold,
+  Oxygen_300Light,
+} from '@expo-google-fonts/oxygen';
+import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 import {
   userLoggedIn,
@@ -60,10 +67,24 @@ const Main = (props) => {
       console.log(e.message);
     }
   };
-
   useEffect(() => {
     isUserLoggedIn();
   }, []);
+
+  const [loadedFont] = useFonts({
+    Oxygen_400Regular,
+    Oxygen_700Bold,
+    Oxygen_300Light,
+    Nobile_700Bold,
+  });
+
+  if (!loadedFont) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>

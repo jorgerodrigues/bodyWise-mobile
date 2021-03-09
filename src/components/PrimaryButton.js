@@ -1,19 +1,25 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import { useFonts, Oxygen_700Bold } from '@expo-google-fonts/oxygen';
 
 const PrimaryButton = (props) => {
-  const [loadedFont] = useFonts({
-    Oxygen_700Bold,
-  });
+  // const [loadedFont] = useFonts({
+  //   Oxygen_700Bold,
+  // });
 
-  if (!loadedFont) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  // if (!loadedFont) {
+  //   return (
+  //     <View>
+  //       <ActivityIndicator />
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.buttonContainer}>

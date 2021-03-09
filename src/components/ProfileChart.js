@@ -12,8 +12,6 @@ import dayjs from 'dayjs';
 import { useFonts, Nobile_700Bold } from '@expo-google-fonts/nobile';
 
 const ProfileChart = (props) => {
-  // const fakeData = [2, 4, 5, 1, 2];
-  // const fakeLabels = ['Jan-1', 'Jan-2', 'Jan-3', 'Jan-4', 'Jan-5'];
   var data = [];
   var labels = [];
   var updateData = [];
