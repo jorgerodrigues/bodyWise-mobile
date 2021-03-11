@@ -9,8 +9,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
-import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
@@ -36,6 +34,8 @@ const NewUpdate = (props) => {
   const userName = props.isUserLoggedIn.user.name;
   const [today, setToday] = useState(dayjs().format('DD-MMM-YYYY'));
 
+  // #######################
+
   const saveUpdate = async (props) => {
     props.shouldStartLoading();
     try {
@@ -52,13 +52,15 @@ const NewUpdate = (props) => {
         }
       );
       props.successMessageCreated('Your status was saved.');
-      props.todaysUpdatesAlreadyExists(response);
+      props.todaysUpdatesAlreadyExists(response.data);
       props.shouldStopLoading();
     } catch (e) {
       console.log(e);
       props.shouldStopLoading();
     }
   };
+
+  // #######################
 
   const checkForUpdate = async () => {
     props.todaysUpdatesAlreadyExists(null);
@@ -86,12 +88,13 @@ const NewUpdate = (props) => {
     }
   };
 
-  // ! The function below updates the already saved item
+  // #######################
 
   const updateCurrentUpdate = async () => {
     props.shouldStartLoading();
+    console.log(props.updateAlreadyExists);
     const itemToBeUpdated = props.updateAlreadyExists._id;
-    console.log(itemToBeUpdated);
+    console.log(`${URL}/updates/${itemToBeUpdated}`);
     try {
       await axios.patch(
         `${URL}/updates/${itemToBeUpdated}`,
@@ -109,8 +112,11 @@ const NewUpdate = (props) => {
       props.shouldStopLoading();
     } catch (e) {
       console.log(e.message);
+      props.shouldStartLoading();
     }
   };
+
+  // #######################
 
   useEffect(() => {
     let mounted = true;
@@ -134,6 +140,8 @@ const NewUpdate = (props) => {
       mounted = false;
     };
   }, [props.todaysDate]);
+
+  // #######################
 
   return (
     <KeyboardAvoidingView

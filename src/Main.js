@@ -6,17 +6,11 @@ import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import {
-  useFonts,
-  Oxygen_400Regular,
-  Oxygen_700Bold,
-  Oxygen_300Light,
-} from '@expo-google-fonts/oxygen';
-import { Nobile_700Bold } from '@expo-google-fonts/nobile';
-
-import {
   userLoggedIn,
   userSignedOut,
   errorMessageCreated,
+  shouldStartLoading,
+  shouldStopLoading,
 } from './actions/index';
 import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
@@ -29,6 +23,7 @@ const Stack = createStackNavigator();
 
 const Main = (props) => {
   const isUserLoggedIn = async () => {
+    props.shouldStartLoading();
     const secureToken = await SecureStore.getItemAsync('token');
     if (secureToken) {
       try {
@@ -38,12 +33,14 @@ const Main = (props) => {
           },
         });
         props.userLoggedIn({ ...response.data, token: secureToken });
+        props.shouldStopLoading();
       } catch (e) {
         console.log(e.message);
+        props.shouldStopLoading();
       }
-
       return true;
     }
+    props.shouldStopLoading();
     props.userSignedOut();
     return false;
   };
@@ -146,4 +143,6 @@ export default connect(mapStateToProps, {
   userLoggedIn,
   userSignedOut,
   errorMessageCreated,
+  shouldStartLoading,
+  shouldStopLoading,
 })(Main);

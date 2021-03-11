@@ -6,6 +6,7 @@ import { todaysDateIsSet } from '../actions/index';
 import { connect } from 'react-redux';
 
 const DateDisplay = (props) => {
+  //Setting current dates as part of the state
   const [currentFullDate, setCurrentFullDate] = useState(
     dayjs().format('DD-MMM-YYYY')
   );
@@ -16,6 +17,7 @@ const DateDisplay = (props) => {
     dayjs().subtract(1, 'day').format('DD-MMM-YYYY')
   );
 
+  // Sets and tracks the current date on the date display upon change while the app is in background
   useEffect(() => {
     AppState.addEventListener('change', handleAppStateChange);
     setCurrentFullDate(dayjs().format('DD-MMM-YYYY'));
@@ -28,6 +30,7 @@ const DateDisplay = (props) => {
     };
   });
 
+  // Sets and tracks the current date on the date display
   const handleAppStateChange = () => {
     setCurrentFullDate(dayjs().format('DD-MMM-YYYY'));
     setTomorrowFullDate(dayjs().add(1, 'day').format('DD-MMM-YYYY'));
@@ -50,8 +53,7 @@ const DateDisplay = (props) => {
     'Dec',
   ];
 
-  // After getting each date, extract only the date
-
+  // Formatting the date
   const yesterdaysDate = {
     day: dayjs(yesterdayFullDate).get('date'),
     month: monthsShort[dayjs(yesterdayFullDate).get('month')],
