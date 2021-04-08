@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -90,7 +91,7 @@ const NewUpdate = (props) => {
 
   // #######################
 
-  const updateCurrentUpdate = async () => {
+  const updateCurrentUpdate = async ({ navigation }) => {
     props.shouldStartLoading();
     console.log(props.updateAlreadyExists);
     const itemToBeUpdated = props.updateAlreadyExists._id;
@@ -198,6 +199,12 @@ const NewUpdate = (props) => {
             />
           )}
         </View>
+        <Button
+          title={'go to foodTracking'}
+          onPress={() => {
+            props.navigation.navigate('FoodTracking');
+          }}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Button, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
@@ -16,8 +16,11 @@ import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 import UserProfile from './screens/UserProfile';
+import { FoodTracking } from './screens/FoodTracking';
 import { URL } from './config/environment';
 import { loggingOut } from './Modules/firebaseFunctions';
+
+// Just a random comment
 
 const Stack = createStackNavigator();
 
@@ -94,13 +97,16 @@ const Main = (props) => {
                 title: '',
                 headerTransparent: true,
                 headerRight: () => (
-                  <Button
-                    onPress={() => signOut()}
-                    title='Logout'
-                    color='#786EE2'
-                  />
+                  <Button onPress={() => signOut()} title='Logout' color='#786EE2' />
                 ),
                 headerTintColor: '#786EE2',
+              }}
+            />
+            <Stack.Screen
+              name='FoodTracking'
+              component={FoodTracking}
+              options={{
+                title: 'Food Tracking page',
               }}
             />
           </>
