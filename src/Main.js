@@ -106,7 +106,9 @@ const Main = (props) => {
               name='FoodTracking'
               component={FoodTracking}
               options={{
-                title: 'Food Tracking page',
+                title: 'Food tracking',
+                headerTintColor: '#F8FAFC',
+                headerTransparent: true,
               }}
             />
           </>
