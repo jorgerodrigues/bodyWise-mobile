@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { DotMarker } from '../components/DotMarker';
 import { RecessedVerticalBar } from '../components/RecessedVerticalBar';
 
@@ -11,6 +11,7 @@ export const FoodTracking: FC = () => {
       <RecessedVerticalBar style={styles.verticalBar}>
         <DotMarker></DotMarker>
       </RecessedVerticalBar>
+      <Text style={styles.mealLabel}>Breakfast</Text>
     </View>
   );
 };
@@ -18,6 +19,7 @@ export const FoodTracking: FC = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#786EE2',
   },
   verticalBar: {
@@ -25,5 +27,12 @@ const styles = StyleSheet.create({
     width: 50,
     marginTop: 120,
     marginLeft: 40,
+  },
+  mealLabel: {
+    fontSize: 24,
+    fontFamily: 'Oxygen_300Light',
+    color: '#F8FAFC',
+    marginTop: 130,
+    marginLeft: 8,
   },
 });

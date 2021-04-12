@@ -1,3 +1,4 @@
+//TODO : import the theme on the App.js and load it into the redux state
 const palette = {
   purple: '#786EE2',
   purpleDark: '#221980',

@@ -49,3 +49,8 @@ export const todaysDateIsSet = (data) => ({
   type: 'TODAYS_DATE',
   payload: data,
 });
+
+export const themeIsLoaded = (data) => ({
+  type: 'THEME_IS_LOADED',
+  payload: data,
+});

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -13,14 +13,20 @@ import {
   Oxygen_300Light,
 } from '@expo-google-fonts/oxygen';
 import { Nobile_700Bold } from '@expo-google-fonts/nobile';
+import { theme } from './src/Design/Theme';
+import { themeIsLoaded } from './src/actions';
 
 if (__DEV__) {
   import('./src/config/ReactToTronConfig');
 }
-
-const store = createStore(allReducers, Reactotron.createEnhancer());
+export const store = createStore(allReducers, Reactotron.createEnhancer());
 
 export default function App() {
+  // theme loading to the state
+  useEffect(() => {
+    store.dispatch(themeIsLoaded(theme));
+  }, []);
+
   const [loadedFont] = useFonts({
     Oxygen_400Regular,
     Oxygen_700Bold,

@@ -7,6 +7,7 @@ import updatesAreFetched from './updatesAreFetchedReducer';
 import updateAlreadyExistsReducer from './updateAlreadyExistsReducer';
 import isLoadingReducer from './isLoadingReducer';
 import todaysDateReducer from './todaysDateReducer';
+import themeReducer from './themeReducer';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
   updateAlreadyExists: updateAlreadyExistsReducer,
   isLoading: isLoadingReducer,
   todaysDate: todaysDateReducer,
+  theme: themeReducer,
 });
 
 export default allReducers;
