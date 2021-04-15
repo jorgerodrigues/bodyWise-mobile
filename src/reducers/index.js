@@ -8,6 +8,7 @@ import updateAlreadyExistsReducer from './updateAlreadyExistsReducer';
 import isLoadingReducer from './isLoadingReducer';
 import todaysDateReducer from './todaysDateReducer';
 import themeReducer from './themeReducer';
+import newMealReducer from './newMealReducer';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -19,6 +20,7 @@ const allReducers = combineReducers({
   isLoading: isLoadingReducer,
   todaysDate: todaysDateReducer,
   theme: themeReducer,
+  newMeal: newMealReducer,
 });
 
 export default allReducers;

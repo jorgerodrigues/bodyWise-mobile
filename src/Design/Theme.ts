@@ -1,5 +1,5 @@
 //TODO : import the theme on the App.js and load it into the redux state
-const palette = {
+export const palette = {
   purple: '#786EE2',
   purpleDark: '#221980',
   purpleLight: '#A8A1EC',
@@ -19,17 +19,22 @@ const palette = {
 export const theme = {
   colors: {
     background: palette.purple,
+    backgroundDark: palette.purple,
     foreground: palette.black,
     primary: palette.purple,
     success: palette.yellow,
     danger: palette.red,
     failure: palette.red,
   },
+
+  palette: { ...palette },
   spacing: {
     s: 8,
     m: 16,
     l: 24,
     xl: 40,
+    xxl: 80,
+    fromTop: 130,
   },
   textVariants: {
     header: {
@@ -39,6 +44,14 @@ export const theme = {
     },
     body: {
       fontFamily: 'Oxygen_400Regular',
+      fontSize: 14,
+    },
+    subHeaderLight: {
+      fontFamily: 'Oxygen_300Light',
+      fontSize: 24,
+    },
+    bodyLight: {
+      fontFamily: 'Oxygen_300Light',
       fontSize: 14,
     },
   },

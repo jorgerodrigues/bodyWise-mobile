@@ -13,8 +13,6 @@ interface AppProps {
 }
 
 export const RecessedVerticalBar: FC<AppProps> = (props: AppProps) => {
-  console.log(props);
-
   return (
     <View style={props.style}>
       <LinearGradient

@@ -54,3 +54,8 @@ export const themeIsLoaded = (data) => ({
   type: 'THEME_IS_LOADED',
   payload: data,
 });
+
+export const newMealAdded = (data) => ({
+  type: 'MEAL_ADDED',
+  payload: data,
+});

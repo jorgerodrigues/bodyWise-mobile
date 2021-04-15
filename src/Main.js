@@ -3,6 +3,7 @@ import { StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import {
@@ -16,11 +17,10 @@ import LoginScreen from './screens/Login';
 import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 import UserProfile from './screens/UserProfile';
-import { FoodTracking } from './screens/FoodTracking';
+import FoodTracking from './screens/FoodTracking';
+import { FoodDetails } from './screens/FoodDetails';
 import { URL } from './config/environment';
 import { loggingOut } from './Modules/firebaseFunctions';
-
-// Just a random comment
 
 const Stack = createStackNavigator();
 
@@ -71,6 +71,11 @@ const Main = (props) => {
     isUserLoggedIn();
   }, []);
 
+  const navigateToPage = (pageName) => {
+    const navigation = useNavigation();
+    navigation.navigate(pageName);
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -111,6 +116,7 @@ const Main = (props) => {
                 headerTransparent: true,
               }}
             />
+            <Stack.Screen name='FoodDetails' component={FoodDetails} options={{}} />
           </>
         ) : (
           <>
@@ -131,19 +137,10 @@ const Main = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  textInput: {
-    backgroundColor: '#E9F1F7',
-    borderWidth: 0,
-    borderRadius: 10,
-    width: 244,
-    height: 44,
-  },
-});
-
 const mapStateToProps = (state) => {
   return {
     isUserLoggedIn: state.isLoggedIn,
+    theme: state.theme,
   };
 };
 

@@ -93,9 +93,8 @@ const NewUpdate = (props) => {
 
   const updateCurrentUpdate = async ({ navigation }) => {
     props.shouldStartLoading();
-    console.log(props.updateAlreadyExists);
     const itemToBeUpdated = props.updateAlreadyExists._id;
-    console.log(`${URL}/updates/${itemToBeUpdated}`);
+
     try {
       await axios.patch(
         `${URL}/updates/${itemToBeUpdated}`,
@@ -259,6 +258,7 @@ const mapStateToProps = (state) => {
     isLoading: state.isLoading,
     todaysDate: state.todaysDate,
     updatesAreaFetched: state.updatesAreaFetched,
+    theme: state.theme,
   };
 };
 

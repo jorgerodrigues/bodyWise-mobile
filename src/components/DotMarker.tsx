@@ -18,7 +18,7 @@ export const DotMarker: FC = () => {
 const styles = StyleSheet.create({
   dot: {
     alignSelf: 'center',
-    paddingVertical: 5,
+    paddingVertical: 30,
     shadowColor: 'black',
     shadowOffset: {
       width: 1,
