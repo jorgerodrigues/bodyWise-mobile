@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 const PrimaryButton = (props) => {
   return (
@@ -8,7 +9,12 @@ const PrimaryButton = (props) => {
         onPress={() => {
           props.callback();
         }}>
-        <View style={styles.button}>
+        <View
+          style={{
+            ...styles.button,
+            backgroundColor: props.theme.colors.background,
+            height: props.theme.spacing.xl,
+          }}>
           <Text style={styles.buttonText}>{props.title}</Text>
         </View>
       </TouchableOpacity>
@@ -18,15 +24,28 @@ const PrimaryButton = (props) => {
 
 const styles = StyleSheet.create({
   button: {
-    height: 40,
     width: 161,
-    backgroundColor: '#786EE2',
     justifyContent: 'center',
+    borderRadius: 8,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: 'black',
   },
 
   buttonContainer: {
     alignItems: 'center',
     margin: 20,
+    shadowOffset: {
+      width: -0.5,
+      height: -0.5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: 'white',
   },
 
   buttonText: {
@@ -38,4 +57,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PrimaryButton;
+const mapStateToProps = (state) => {
+  return {
+    theme: state.theme,
+  };
+};
+
+export default connect(mapStateToProps, {})(PrimaryButton);

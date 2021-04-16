@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { DotMarker } from '../components/DotMarker';
 import { RecessedVerticalBar } from '../components/RecessedVerticalBar';
 import { connect } from 'react-redux';
@@ -14,8 +14,16 @@ const fakeData: fakeInfo = [
     mealContent: ['Peanut', 'Apple', 'Capuccino'],
   },
   {
+    mealType: 'Breakfast',
+    mealContent: ['Peanut', 'Apple', 'Capuccino'],
+  },
+  {
     mealType: 'Lunch',
     mealContent: ['Meat', 'Beans', 'Salad'],
+  },
+  {
+    mealType: 'Breakfast',
+    mealContent: ['Peanut', 'Apple', 'Capuccino'],
   },
   {
     mealType: 'Lunch',
@@ -29,18 +37,52 @@ interface AppProps {
   navigation: any;
 }
 
-// TODO: Add a function that takes the number of items for that day and generates enough dots
-// TODO: Add the text components outside of the recessed bar and figure how to align them to the dots
+//
 const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
-  const generateMarkers: React.ReactNode = fakeData.map((e, index) => {
-    return (
-      <View key={index}>
-        <DotMarker></DotMarker>
-      </View>
-    );
-  });
+  //
+  const generateMarkers = (): React.ReactNode => {
+    return fakeData.map((e, index) => {
+      return (
+        <View key={index} style={{ marginVertical: 31, alignSelf: 'center' }}>
+          <DotMarker></DotMarker>
+        </View>
+      );
+    });
+  };
 
-  const generateMealContent = () => {
+  const generateFullListOfMealsWithContent = (): React.ReactNode => {
+    return fakeData.map(
+      (e): React.ReactNode => {
+        return (
+          <View
+            style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }}>
+            <View
+              style={{
+                ...styles.mealTypeContainer,
+              }}>
+              <Text
+                style={{
+                  ...styles.mealType,
+                  fontSize: theme.textVariants.subHeaderLight.fontSize,
+                  fontFamily: theme.textVariants.subHeaderLight.fontFamily,
+                }}>
+                {e.mealType}
+              </Text>
+            </View>
+            <View
+              style={{
+                ...styles.mealContentContainer,
+                marginLeft: theme.spacing.xxl,
+              }}>
+              {generateMealContent()}
+            </View>
+          </View>
+        );
+      }
+    );
+  };
+
+  const generateMealContent = (): React.ReactNode => {
     for (let i = 0; i <= fakeData.length - 1; i++) {
       return fakeData[i].mealContent.map((e) => {
         return (
@@ -58,36 +100,17 @@ const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
 
   return (
     <ScrollView
-      style={{ ...styles.background, backgroundColor: theme.colors.background }}>
+      contentContainerStyle={{
+        ...styles.background,
+        backgroundColor: theme.colors.background,
+      }}>
       <View style={{ flexDirection: 'row' }}>
         <RecessedVerticalBar style={styles.verticalBar}>
-          {generateMarkers}
+          {generateMarkers()}
         </RecessedVerticalBar>
-        <View style={styles.mealInfoContainer}>
-          <View
-            style={{
-              ...styles.mealTypeContainer,
-              marginTop: theme.spacing.fromTop,
-            }}>
-            <Text
-              style={{
-                ...styles.mealType,
-                fontSize: theme.textVariants.subHeaderLight.fontSize,
-                fontFamily: theme.textVariants.subHeaderLight.fontFamily,
-                paddingTop: theme.spacing.l,
-                paddingBottom: theme.spacing.xl,
-              }}>
-              Breakfast
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.mealContentContainer,
-              marginTop: theme.spacing.fromTop + theme.spacing.m,
-              marginLeft: theme.spacing.xxl,
-            }}>
-            {generateMealContent()}
-          </View>
+        <View
+          style={{ flexDirection: 'column', marginTop: theme.spacing.fromTop - 13 }}>
+          {generateFullListOfMealsWithContent()}
         </View>
       </View>
       <PrimaryButton
@@ -102,6 +125,7 @@ const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    flexDirection: 'column',
   },
   verticalBar: {
     height: 650,
@@ -111,11 +135,11 @@ const styles = StyleSheet.create({
   },
   mealInfoContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
   },
   mealTypeContainer: {
     marginHorizontal: 10,
-    marginTop: 130,
+    alignSelf: 'center',
   },
   mealType: {
     color: '#F8FAFC',
@@ -123,6 +147,7 @@ const styles = StyleSheet.create({
   mealContentContainer: {
     flexDirection: 'column',
     marginLeft: 80,
+    alignSelf: 'center',
   },
   mealContent: {},
 });
