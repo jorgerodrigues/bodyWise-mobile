@@ -1,25 +1,50 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { Theme } from '../@types';
+import SingleLineTextInput from '../components/SingleLineTextInput';
 
-export const FoodDetails: FC = () => {
+interface AppProps {
+  theme: Theme;
+}
+
+const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
+  const styles = StyleSheet.create({
+    containerView: {
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: props.theme.colors.background,
+    },
+    inputLabel: {
+      color: props.theme.palette.blueLight,
+      ...props.theme.textVariants.body,
+      alignSelf: 'center',
+    },
+    inputContainer: {
+      marginVertical: props.theme.spacing.l,
+    },
+  });
+
   return (
-    <View>
-      <View>
-        <Text>Meal Type</Text>
-        <TextInput></TextInput>
-      </View>
-      <View>
-        <Text>What did you eat?</Text>
-        <TextInput
-          style={{
-            margin: 2,
-            backgroundColor: 'white',
-            height: 20,
-            width: 100,
-          }}></TextInput>
+    <View style={styles.containerView}>
+      <View style={{ marginTop: props.theme.spacing.fromTop }}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>Meal Type</Text>
+          <SingleLineTextInput></SingleLineTextInput>
+        </View>
+        <View>
+          <Text style={styles.inputLabel}>What did you eat?</Text>
+          <SingleLineTextInput></SingleLineTextInput>
+        </View>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const mapStateToProps = (state) => {
+  return {
+    theme: state.theme,
+  };
+};
+
+export default connect(mapStateToProps, {})(FoodDetails);

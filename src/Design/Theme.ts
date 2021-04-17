@@ -1,4 +1,3 @@
-//TODO : import the theme on the App.js and load it into the redux state
 export const palette = {
   purple: '#786EE2',
   purpleDark: '#221980',
@@ -16,20 +15,26 @@ export const palette = {
   white: '#FFFFFF',
 };
 
+const fonts = {
+  body: 'Oxygen_400Regular',
+  bodyLight: 'Oxygen_300Light',
+  header: 'Nobile_700Bold',
+};
+
 export const theme = {
   colors: {
     background: palette.purple,
     backgroundDark: palette.purple,
     foreground: palette.black,
     primary: palette.purple,
-    success: palette.yellow,
-    danger: palette.red,
+    success: palette.purple,
+    danger: palette.yellow,
     failure: palette.red,
   },
 
   palette: { ...palette },
   spacing: {
-    s: 8,
+    s: 10,
     m: 16,
     l: 24,
     xl: 40,
@@ -38,21 +43,33 @@ export const theme = {
   },
   textVariants: {
     header: {
-      fontFamily: 'Nobile_700Bold',
+      fontFamily: fonts.header,
       fontSize: 38,
       fontWeight: 'bold',
     },
     body: {
-      fontFamily: 'Oxygen_400Regular',
+      fontFamily: fonts.body,
       fontSize: 14,
     },
     subHeaderLight: {
-      fontFamily: 'Oxygen_300Light',
+      fontFamily: fonts.bodyLight,
       fontSize: 24,
     },
     bodyLight: {
-      fontFamily: 'Oxygen_300Light',
+      fontFamily: fonts.bodyLight,
       fontSize: 14,
+    },
+  },
+  textFields: {
+    singleLine: {
+      backgroundColor: palette.blue,
+      fontFamily: fonts.body,
+      fontSize: 14,
+      borderRadius: 10,
+      width: 250,
+      height: 40,
+      color: palette.black,
+      paddingHorizontal: 10,
     },
   },
 };

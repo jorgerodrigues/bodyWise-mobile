@@ -7,7 +7,7 @@ import { StateAppProps, Theme } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
 
 // Fake data for testing the component
-type fakeInfo = [{ mealType: string; mealContent: [string] }];
+type fakeInfo = { mealType: string; mealContent: string[] }[];
 const fakeData: fakeInfo = [
   {
     mealType: 'Breakfast',

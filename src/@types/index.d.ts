@@ -38,6 +38,19 @@ export interface Theme {
       fontSize: int;
     };
   };
+  textFields: {
+    singleLine: {
+      fontFamily: string;
+      fontSize: int;
+      backgroundColor: string;
+      borderWidth: int;
+      borderRadius: int;
+      width: int;
+      height: int;
+      color: string;
+      marginHorizontal: int;
+    };
+  };
 }
 
 export interface User {

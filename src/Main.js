@@ -18,7 +18,7 @@ import SignupScreen from './screens/Signup';
 import NewUpdateScreen from './screens/NewUpdate';
 import UserProfile from './screens/UserProfile';
 import FoodTracking from './screens/FoodTracking';
-import { FoodDetails } from './screens/FoodDetails';
+import FoodDetails from './screens/FoodDetails';
 import { URL } from './config/environment';
 import { loggingOut } from './Modules/firebaseFunctions';
 
@@ -116,7 +116,15 @@ const Main = (props) => {
                 headerTransparent: true,
               }}
             />
-            <Stack.Screen name='FoodDetails' component={FoodDetails} options={{}} />
+            <Stack.Screen
+              name='FoodDetails'
+              component={FoodDetails}
+              options={{
+                title: '',
+                headerTintColor: props.theme.palette.blueLight,
+                headerTransparent: true,
+              }}
+            />
           </>
         ) : (
           <>
