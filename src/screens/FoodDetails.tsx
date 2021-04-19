@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { Theme } from '../@types';
 import SingleLineTextInput from '../components/SingleLineTextInput';
+import SingleTag from '../components/SingleTag';
 
 interface AppProps {
   theme: Theme;
@@ -37,6 +38,9 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
           <SingleLineTextInput></SingleLineTextInput>
         </View>
       </View>
+      <SingleTag title={'Bacon'}></SingleTag>
+      <SingleTag title={'Eggs'}></SingleTag>
+      <SingleTag title={'Bananas'}></SingleTag>
     </View>
   );
 };
