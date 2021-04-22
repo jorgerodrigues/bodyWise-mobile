@@ -84,9 +84,10 @@ const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
 
   const generateMealContent = (): React.ReactNode => {
     for (let i = 0; i <= fakeData.length - 1; i++) {
-      return fakeData[i].mealContent.map((e) => {
+      return fakeData[i].mealContent.map((e, index) => {
         return (
           <Text
+            key={index}
             style={{
               color: theme.palette.greyTransparent,
               fontFamily: theme.textVariants.bodyLight.fontFamily,

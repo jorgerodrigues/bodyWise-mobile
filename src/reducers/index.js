@@ -9,6 +9,7 @@ import isLoadingReducer from './isLoadingReducer';
 import todaysDateReducer from './todaysDateReducer';
 import themeReducer from './themeReducer';
 import newMealReducer from './newMealReducer';
+import foodsEatenReducer from './foodsEatenReducer';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -21,6 +22,7 @@ const allReducers = combineReducers({
   todaysDate: todaysDateReducer,
   theme: themeReducer,
   newMeal: newMealReducer,
+  foodsEaten: foodsEatenReducer,
 });
 
 export default allReducers;

@@ -14,6 +14,7 @@ const PrimaryButton = (props) => {
             ...styles.button,
             backgroundColor: props.theme.colors.background,
             height: props.theme.spacing.xl,
+            width: props.width || 160,
           }}>
           <Text style={styles.buttonText}>{props.title}</Text>
         </View>
@@ -24,7 +25,6 @@ const PrimaryButton = (props) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: 161,
     justifyContent: 'center',
     borderRadius: 8,
     shadowOffset: {

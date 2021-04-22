@@ -5,12 +5,17 @@ import { Theme } from '../@types';
 
 interface AppProps {
   theme: Theme;
+  width: number;
+  children: React.ReactElement;
 }
 
 const SingleLineTextInput: FC<AppProps> = (props: AppProps): React.ReactElement => {
   const styles = StyleSheet.create({
     textInput: {
       ...props.theme.textFields.singleLine,
+      width:
+        props.theme.textFields.singleLine.width * props.width ||
+        props.theme.textFields.singleLine.width,
       marginTop: props.theme.spacing.s,
       alignSelf: 'center',
     },
@@ -18,7 +23,9 @@ const SingleLineTextInput: FC<AppProps> = (props: AppProps): React.ReactElement 
 
   return (
     <>
-      <TextInput style={styles.textInput}></TextInput>
+      <TextInput style={styles.textInput}>
+        {props.children ? props.children : <></>}
+      </TextInput>
     </>
   );
 };

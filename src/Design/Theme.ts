@@ -44,7 +44,7 @@ export const theme = {
   textVariants: {
     header: {
       fontFamily: fonts.header,
-      fontSize: 38,
+      fontSize: 36,
       fontWeight: 'bold',
     },
     body: {

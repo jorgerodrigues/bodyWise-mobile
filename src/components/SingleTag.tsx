@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Theme } from '../@types';
 
 interface AppProps {
   theme: Theme;
+  primaryColor: string;
+  textColor: string;
   title: string;
+  onPress: () => void;
 }
 
 const SingleTag: FC<AppProps> = (props: AppProps): React.ReactElement => {
   const styles = StyleSheet.create({
     shadowContainer: {
       flexDirection: 'row',
-      backgroundColor: props.theme.palette.blueLight,
+      backgroundColor: props.primaryColor,
       alignItems: 'center',
       width: props.title.length * 14,
       height: 30,
@@ -34,22 +37,25 @@ const SingleTag: FC<AppProps> = (props: AppProps): React.ReactElement => {
       shadowRadius: 2,
       shadowColor: 'white',
       marginTop: 10,
+      marginHorizontal: 5,
     },
     tagText: {
       fontFamily: props.theme.textVariants.bodyLight.fontFamily,
       fontSize: props.theme.textVariants.bodyLight.fontSize,
-      color: props.theme.palette.purple,
+      color: props.textColor,
       marginHorizontal: 3,
     },
   });
 
   return (
-    <View style={styles.tagContainer}>
-      <View style={styles.shadowContainer}>
-        <Text style={{ ...styles.tagText, marginLeft: 5 }}>x</Text>
-        <Text style={styles.tagText}>{props.title ? props.title : <></>}</Text>
+    <TouchableOpacity onPress={props.onPress}>
+      <View style={styles.tagContainer}>
+        <View style={styles.shadowContainer}>
+          <Text style={{ ...styles.tagText, marginLeft: 5 }}>x</Text>
+          <Text style={styles.tagText}>{props.title ? props.title : <></>}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -59,4 +65,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SingleTag);
+export default connect(mapStateToProps, {})(SingleTag);

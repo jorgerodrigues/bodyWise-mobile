@@ -59,3 +59,13 @@ export const newMealAdded = (data) => ({
   type: 'MEAL_ADDED',
   payload: data,
 });
+
+export const newFoodEaten = (data) => ({
+  type: 'FOOD_ADDED',
+  payload: data,
+});
+
+export const foodEatenRemoved = (data) => ({
+  type: 'FOOD_REMOVED',
+  payload: data,
+});
