@@ -10,7 +10,6 @@ interface payloadItemsEaten {
 const foodsEatenReducer = (state = [], action: mealAction) => {
   switch (action.type) {
     case 'FOOD_ADDED':
-      console.log('Adding food...');
       state.push(action.payload);
       return state;
     case 'FOOD_REMOVED':

@@ -17,7 +17,7 @@ const SingleTag: FC<AppProps> = (props: AppProps): React.ReactElement => {
       flexDirection: 'row',
       backgroundColor: props.primaryColor,
       alignItems: 'center',
-      width: props.title.length * 14,
+      paddingHorizontal: 5,
       height: 30,
       borderRadius: 3,
       shadowOffset: {

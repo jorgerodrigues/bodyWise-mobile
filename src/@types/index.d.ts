@@ -25,6 +25,11 @@ export interface Theme {
       fontSize: int;
       fontWeight: string;
     };
+    subHeader: {
+      fontFamily: string;
+      fontSize: int;
+      fontWeight: string;
+    };
     subHeaderLight: {
       fontFamily: string;
       fontSize: int;

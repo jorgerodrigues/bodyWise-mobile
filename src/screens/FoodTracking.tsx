@@ -52,10 +52,11 @@ const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
 
   const generateFullListOfMealsWithContent = (): React.ReactNode => {
     return fakeData.map(
-      (e): React.ReactNode => {
+      (e, index): React.ReactNode => {
         return (
           <View
-            style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }}>
+            style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }}
+            key={index}>
             <View
               style={{
                 ...styles.mealTypeContainer,

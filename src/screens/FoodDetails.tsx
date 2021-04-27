@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Theme } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
 import SingleTag from '../components/SingleTag';
+import TagOptions from '../components/TagOptions';
 import { newFoodEaten, foodEatenRemoved } from '../actions/index';
 
 interface AppProps {
@@ -16,18 +17,12 @@ interface AppProps {
   foodEatenRemoved: (data) => { data: any; type: string };
 }
 
-interface FoodsEatenProp {
-  food: 'string';
-  id: number;
-}
-
-interface FoodsEatenArray {
-  [index: string]: FoodsEatenProp;
-}
-
 const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
   const [foodEaten, setFoodEaten] = useState('');
+  const [mealType, setMealType] = useState('');
   const [id, setId] = useState(0);
+
+  const meals = ['Breakfast', 'Snack', 'Lunch', 'Dinner'];
 
   const styles = StyleSheet.create({
     containerView: {
@@ -36,18 +31,30 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
       backgroundColor: props.theme.colors.background,
     },
     inputLabel: {
-      ...props.theme.textVariants.subHeaderLight,
+      ...props.theme.textVariants.subHeader,
       color: props.theme.palette.blueLight,
+      margin: props.theme.spacing.s,
       alignSelf: 'center',
     },
     inputContainer: {
-      marginVertical: props.theme.spacing.l,
+      marginVertical: props.theme.spacing.s,
     },
     textInput: {
       ...props.theme.textFields.singleLine,
       width: props.theme.textFields.singleLine.width,
       marginTop: props.theme.spacing.s,
       alignSelf: 'center',
+    },
+    tagContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignContent: 'space-between',
+      marginVertical: 5,
+    },
+    mealTypeContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      marginTop: props.theme.spacing.s,
     },
   });
 
@@ -57,12 +64,36 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
     setFoodEaten('');
   };
 
-  const removeFood = (food: FoodsEatenProp): void => {
-    props.foodEatenRemoved(food);
+  const generateMealOptions = (): React.ReactNodeArray => {
+    return meals.map(
+      (meal): React.ReactElement => {
+        return (
+          <TagOptions
+            tag={meal}
+            onPress={() => {
+              setMealType(meal);
+            }}
+            textColor={props.theme.palette.purpleLight}
+          />
+        );
+      }
+    );
   };
 
-  const testFunc = () => {
-    console.log('Testing');
+  const generateSelectedMealtype = (): React.ReactNode => {
+    return (
+      <>
+        <SingleTag
+          title={mealType}
+          primaryColor={props.theme.palette.purple}
+          textColor={props.theme.palette.blueLight}
+          key={id * Math.random()}
+          onPress={() => {
+            setMealType('');
+          }}
+        />
+      </>
+    );
   };
 
   const renderListOfEatenFoods = (): React.ReactNode => {
@@ -87,21 +118,20 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
 
   return (
     <View style={styles.containerView}>
-      <View style={{ marginTop: props.theme.spacing.fromTop }}>
+      <View
+        style={{
+          marginTop: props.theme.spacing.fromTop,
+          marginHorizontal: props.theme.spacing.xxl,
+        }}>
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Meal Type</Text>
-          <TextInput style={{ ...styles.textInput }}></TextInput>
-        </View>
-        <View>
-          <Text style={styles.inputLabel}>What did you eat?</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignContent: 'space-between',
-              marginVertical: 5,
-            }}>
-            {renderListOfEatenFoods()}
+          <Text style={styles.inputLabel}>Meal</Text>
+          <View style={styles.tagContainer}>
+            {mealType == '' ? <></> : generateSelectedMealtype()}
           </View>
+          <View style={styles.mealTypeContainer}>{generateMealOptions()}</View>
+        </View>
+        <View style={{ alignSelf: 'center' }}>
+          <Text style={styles.inputLabel}>What did you eat?</Text>
           <View style={{ flexDirection: 'row' }}>
             <TextInput
               value={foodEaten}
@@ -111,9 +141,10 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
                 width: 0.7 * props.theme.textFields.singleLine.width,
               }}></TextInput>
             <View style={{ marginTop: props.theme.spacing.s }}>
-              <PrimaryButton title={'+'} width={50} callback={addNewFood} />
+              <PrimaryButton title={'+'} width={40} callback={addNewFood} />
             </View>
           </View>
+          <View style={styles.tagContainer}>{renderListOfEatenFoods()}</View>
         </View>
       </View>
     </View>
