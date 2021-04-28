@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { Theme } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
 import SingleTag from '../components/SingleTag';
-import TagOptions from '../components/TagOptions';
-import { newFoodEaten, foodEatenRemoved } from '../actions/index';
+import MealsTypesOptions from '../components/MealTypesOptions';
+import { newFoodEaten, foodEatenRemoved, mealTypeSet } from '../actions/index';
 
 interface AppProps {
   theme: Theme;
@@ -13,16 +13,15 @@ interface AppProps {
     food: 'string';
     id: number;
   }[];
+  mealType: string;
   newFoodEaten: (data) => { data: any; type: string };
   foodEatenRemoved: (data) => { data: any; type: string };
+  mealTypeSet: (data) => { data: any; type: string };
 }
 
 const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
   const [foodEaten, setFoodEaten] = useState('');
-  const [mealType, setMealType] = useState('');
   const [id, setId] = useState(0);
-
-  const meals = ['Breakfast', 'Snack', 'Lunch', 'Dinner'];
 
   const styles = StyleSheet.create({
     containerView: {
@@ -64,32 +63,16 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
     setFoodEaten('');
   };
 
-  const generateMealOptions = (): React.ReactNodeArray => {
-    return meals.map(
-      (meal): React.ReactElement => {
-        return (
-          <TagOptions
-            tag={meal}
-            onPress={() => {
-              setMealType(meal);
-            }}
-            textColor={props.theme.palette.purpleLight}
-          />
-        );
-      }
-    );
-  };
-
   const generateSelectedMealtype = (): React.ReactNode => {
     return (
       <>
         <SingleTag
-          title={mealType}
+          title={props.mealType}
           primaryColor={props.theme.palette.purple}
           textColor={props.theme.palette.blueLight}
           key={id * Math.random()}
           onPress={() => {
-            setMealType('');
+            props.mealTypeSet('');
           }}
         />
       </>
@@ -126,9 +109,9 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Meal</Text>
           <View style={styles.tagContainer}>
-            {mealType == '' ? <></> : generateSelectedMealtype()}
+            {props.mealType == '' ? <></> : generateSelectedMealtype()}
           </View>
-          <View style={styles.mealTypeContainer}>{generateMealOptions()}</View>
+          <MealsTypesOptions />
         </View>
         <View style={{ alignSelf: 'center' }}>
           <Text style={styles.inputLabel}>What did you eat?</Text>
@@ -155,9 +138,12 @@ const mapStateToProps = (state) => {
   return {
     theme: state.theme,
     foodsEaten: state.foodsEaten,
+    mealType: state.mealType,
   };
 };
 
-export default connect(mapStateToProps, { newFoodEaten, foodEatenRemoved })(
-  FoodDetails
-);
+export default connect(mapStateToProps, {
+  newFoodEaten,
+  foodEatenRemoved,
+  mealTypeSet,
+})(FoodDetails);

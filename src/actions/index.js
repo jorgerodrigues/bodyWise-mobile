@@ -69,3 +69,8 @@ export const foodEatenRemoved = (data) => ({
   type: 'FOOD_REMOVED',
   payload: data,
 });
+
+export const mealTypeSet = (data) => ({
+  type: 'MEAL_TYPE_SET',
+  payload: data,
+});

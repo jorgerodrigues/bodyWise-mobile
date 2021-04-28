@@ -28,7 +28,7 @@ export interface Theme {
     subHeader: {
       fontFamily: string;
       fontSize: int;
-      fontWeight: string;
+      fontWeight: any;
     };
     subHeaderLight: {
       fontFamily: string;
