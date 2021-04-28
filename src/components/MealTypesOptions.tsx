@@ -28,7 +28,6 @@ const MealTypesOptions = (props): React.ReactElement => {
               tag={option}
               onPress={() => {
                 props.mealTypeSet(option);
-                console.log('Logging', option);
               }}
               textColor={props.theme.palette.purpleLight}
             />
