@@ -3,7 +3,7 @@ const isLoggedInReducer = (state = { user: null, isLogged: false }, action) => {
     case 'USER_LOGGED_IN':
       return { ...action.payload, isLogged: true };
     case 'USER_SIGNED_OUT':
-      return { ...state, isLogged: false };
+      return { user: null, isLogged: false };
     default:
       return state;
   }

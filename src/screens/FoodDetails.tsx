@@ -6,6 +6,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import SingleTag from '../components/SingleTag';
 import MealsTypesOptions from '../components/MealTypesOptions';
 import { newFoodEaten, foodEatenRemoved, mealTypeSet } from '../actions/index';
+import { saveDataToCollection } from '../Modules/firebaseFunctions';
 
 interface AppProps {
   theme: Theme;
@@ -88,7 +89,7 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
               title={e.food}
               primaryColor={props.theme.palette.purple}
               textColor={props.theme.palette.blueLight}
-              key={e.id}
+              key={id * Math.random()}
               onPress={() => {
                 props.foodEatenRemoved(e);
               }}
@@ -97,6 +98,13 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
         );
       }
     );
+  };
+
+  const saveData = async () => {
+    await saveDataToCollection('Meals', {
+      meal: props.mealType,
+      food: props.foodsEaten,
+    });
   };
 
   return (
@@ -130,6 +138,7 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
           <View style={styles.tagContainer}>{renderListOfEatenFoods()}</View>
         </View>
       </View>
+      <PrimaryButton title={'Save'} callback={saveData} />
     </View>
   );
 };

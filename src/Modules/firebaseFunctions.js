@@ -1,14 +1,6 @@
 import * as firebase from 'firebase';
-import { auth } from '../firebase/Firebase';
-
-export const firebaseSignIn = async (email, password) => {
-  try {
-    const response = await auth.signInWithEmailAndPassword(email, password);
-    return response;
-  } catch (err) {
-    console.log('Login has failed', err.message);
-  }
-};
+import { auth, db } from '../firebase/Firebase';
+import { store } from '../../App';
 
 export const loggingOut = async () => {
   try {
@@ -21,13 +13,28 @@ export const loggingOut = async () => {
 export const createUserAccount = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    const currentUser = firebase.auth().currentUser;
-    console.log(currentUser);
   } catch (err) {
     console.log(err);
+    // TODO update state with error message
   }
 };
 
-export const changeUserPassword = () => {};
+export const saveDataToCollection = async (collection, data) => {
+  try {
+    const result = await db.collection(collection).add({ ...data });
+    return result;
+  } catch (e) {
+    console.log(e);
+    // TODO update state with error message
+  }
+};
 
-export const sendEmailConfirmation = () => {};
+export const getAllUserUpdates = async (uid) => {
+  let data = [];
+  const updatesCollection = db.collection('StatusUpdates');
+  const queryResults = await updatesCollection.where('user', '==', uid).get();
+  queryResults.forEach((doc) => {
+    data.push(doc.data());
+  });
+  return data;
+};

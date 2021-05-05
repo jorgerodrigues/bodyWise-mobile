@@ -9,13 +9,10 @@ import {
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import Logo from '../components/Logo';
-import axios from 'axios';
-import { useFonts, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
-import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 
-import { firebaseSignIn } from '../Modules/firebaseFunctions';
+import { firebaseSignIn } from '../Modules/loginFunctions';
 import {
   userLoggedIn,
   errorMessageCreated,
@@ -25,7 +22,6 @@ import {
 import PrimaryButton from '../components/PrimaryButton';
 import ClickableLink from '../components/ClicableLink';
 import ErrorMessage from '../components/ErrorMessage';
-import { URL } from '../config/environment';
 
 const LoginScreen = (props) => {
   const [user, setUser] = useState();
@@ -34,12 +30,7 @@ const LoginScreen = (props) => {
   const userLogin = async () => {
     props.shouldStartLoading();
     try {
-      const firebaseResponse = await firebaseSignIn(user, usersPassword);
-      const response = await axios.post(`${URL}/users/login`, {
-        email: firebaseResponse.user.email,
-      });
-      props.userLoggedIn(response.data);
-      await SecureStore.setItemAsync('token', response.data.token);
+      await firebaseSignIn(user, usersPassword);
       props.errorMessageCreated(null);
     } catch (e) {
       props.shouldStopLoading();

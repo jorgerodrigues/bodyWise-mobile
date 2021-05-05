@@ -1,15 +1,7 @@
 import React, { useEffect } from 'react';
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
+import { ScrollView, View, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import dayjs from 'dayjs';
-import { URL } from '../config/environment';
 
 import {
   updatesAreFetched,
@@ -20,26 +12,18 @@ import {
 } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 import ProfileChart from '../components/ProfileChart';
+import { getAllUserUpdates } from '../Modules/firebaseFunctions';
+import { getAllUsersUpdates } from '../Modules/newUpdateDataManipulation';
 
 const UserProfile = (props) => {
   const allUpdates = [];
 
   const getPastUserUpdates = async () => {
-    props.shouldStartLoading();
-    props.updatesAreFetched([]);
-
     try {
-      const response = await axios.get(`${URL}/updates/me`, {
-        headers: {
-          Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-        },
-      });
-      response.data.forEach((update) => {
-        allUpdates.push(update);
-      });
+      await getAllUsersUpdates(props.isUserLoggedIn.user.UserID);
+      const allUpdates = await getAllUserUpdates(props.isUserLoggedIn.user.UserID);
       props.updatesAreFetched(allUpdates);
       props.shouldStopLoading();
-      return allUpdates;
     } catch (error) {
       console.log(error.message);
       props.shouldStopLoading();
@@ -77,7 +61,7 @@ const UserProfile = (props) => {
   return (
     <ScrollView style={styles.fullView}>
       <View style={styles.usernameAndEmailContainer}>
-        <Text style={styles.userName}>{props.isUserLoggedIn.user.name}</Text>
+        <Text style={styles.userName}>{props.isUserLoggedIn.user.name || 'You'}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
       {allUpdates == [] ? <Text>No updates yet</Text> : <ProfileChart />}

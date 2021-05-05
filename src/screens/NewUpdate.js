@@ -29,31 +29,28 @@ import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
 import ProfileIcon from '../components/ProfileIcon';
+import { saveDataToCollection } from '../Modules/firebaseFunctions';
+import { todaysUpdateExists } from '../Modules/newUpdateDataManipulation';
 import { URL } from '../config/environment';
 
 const NewUpdate = (props) => {
-  const userName = props.isUserLoggedIn.user.name;
   const [today, setToday] = useState(dayjs().format('DD-MMM-YYYY'));
 
   // #######################
 
   const saveUpdate = async (props) => {
     props.shouldStartLoading();
+    const dataToUpdate = {
+      user: props.isUserLoggedIn.user.UserID,
+      howDoYouFeelToday: props.singleUpdate,
+      comments: props.journalText,
+      createdAt: props.todaysDate,
+      updatedAt: props.todaysDate,
+    };
     try {
-      const response = await axios.post(
-        `${URL}/me/how-do-you-feel`,
-        {
-          howDoYouFeelToday: props.singleUpdate,
-          comments: props.journalText,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-          },
-        }
-      );
+      await saveDataToCollection('StatusUpdates', dataToUpdate);
+      props.todaysUpdatesAlreadyExists(dataToUpdate);
       props.successMessageCreated('Your status was saved.');
-      props.todaysUpdatesAlreadyExists(response.data);
       props.shouldStopLoading();
     } catch (e) {
       console.log(e);
@@ -62,36 +59,8 @@ const NewUpdate = (props) => {
   };
 
   // #######################
-
-  const checkForUpdate = async () => {
-    props.todaysUpdatesAlreadyExists(null);
-    props.shouldStartLoading();
-    try {
-      const response = await axios.get(`${URL}/updates/latest`, {
-        headers: {
-          Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-        },
-      });
-
-      const fullData = response.data;
-      const todaysDate = dayjs().format('DD-MMM-YYYY');
-      const updateDate = dayjs(fullData.createdAt).format('DD-MMM-YYYY');
-
-      if (todaysDate == updateDate) {
-        props.todaysUpdatesAlreadyExists(fullData);
-        props.singleUpdateIsSet(fullData.howDoYouFeelToday);
-        props.journalIsUpdated(fullData.comments);
-      }
-      props.shouldStopLoading();
-    } catch (e) {
-      console.log(e.message);
-      props.shouldStopLoading();
-    }
-  };
-
-  // #######################
-
-  const updateCurrentUpdate = async ({ navigation }) => {
+  //  TODO update function below to set the newly defined update
+  const updateCurrentUpdate = async () => {
     props.shouldStartLoading();
     const itemToBeUpdated = props.updateAlreadyExists._id;
 
@@ -123,7 +92,7 @@ const NewUpdate = (props) => {
     setToday(dayjs().format('DD-MMM-YYYY'));
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
-    checkForUpdate();
+    todaysUpdateExists(props.isUserLoggedIn.user.UserID);
 
     return () => {
       mounted = false;
@@ -134,7 +103,7 @@ const NewUpdate = (props) => {
     let mounted = true;
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
-    checkForUpdate();
+    todaysUpdateExists(props.isUserLoggedIn.user.UserID);
 
     return () => {
       mounted = false;
@@ -156,7 +125,9 @@ const NewUpdate = (props) => {
           <ProfileIcon style={styles.profileIcon} />
         </TouchableOpacity>
         <View>
-          <Text style={styles.mainHeader}>Hey {userName}</Text>
+          <Text style={styles.mainHeader}>
+            Hey {props.isUserLoggedIn.user.name || 'You'}
+          </Text>
           {props.errorOrSuccessMessage.message == undefined || '' || null ? (
             <></>
           ) : (

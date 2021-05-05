@@ -19,54 +19,11 @@ import NewUpdateScreen from './screens/NewUpdate';
 import UserProfile from './screens/UserProfile';
 import FoodTracking from './screens/FoodTracking';
 import FoodDetails from './screens/FoodDetails';
-import { URL } from './config/environment';
-import { loggingOut } from './Modules/firebaseFunctions';
+import { isUserLoggedIn, loggingOut } from './Modules/loginFunctions';
 
 const Stack = createStackNavigator();
 
 const Main = (props) => {
-  const isUserLoggedIn = async () => {
-    props.shouldStartLoading();
-    const secureToken = await SecureStore.getItemAsync('token');
-    if (secureToken) {
-      try {
-        const response = await axios.get(`${URL}/me`, {
-          headers: {
-            Authorization: `Bearer ${secureToken}`,
-          },
-        });
-        props.userLoggedIn({ ...response.data, token: secureToken });
-        props.shouldStopLoading();
-      } catch (e) {
-        console.log(e.message);
-        props.shouldStopLoading();
-      }
-      return true;
-    }
-    props.shouldStopLoading();
-    props.userSignedOut();
-    return false;
-  };
-
-  const signOut = async () => {
-    try {
-      await axios.post(
-        `${URL}/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-          },
-        }
-      );
-      await loggingOut();
-      props.userSignedOut();
-      await SecureStore.deleteItemAsync('token');
-      props.errorMessageCreated(null);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
   useEffect(() => {
     isUserLoggedIn();
   }, []);
@@ -79,7 +36,7 @@ const Main = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {props.isUserLoggedIn.isLogged ? (
+        {props.isLoggedIn.isLogged ? (
           <>
             <Stack.Screen
               name='NewUpdate'
@@ -102,7 +59,11 @@ const Main = (props) => {
                 title: '',
                 headerTransparent: true,
                 headerRight: () => (
-                  <Button onPress={() => signOut()} title='Logout' color='#786EE2' />
+                  <Button
+                    onPress={() => loggingOut()}
+                    title='Logout'
+                    color='#786EE2'
+                  />
                 ),
                 headerTintColor: '#786EE2',
               }}
@@ -147,7 +108,7 @@ const Main = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    isUserLoggedIn: state.isLoggedIn,
+    isLoggedIn: state.isLoggedIn,
     theme: state.theme,
   };
 };
