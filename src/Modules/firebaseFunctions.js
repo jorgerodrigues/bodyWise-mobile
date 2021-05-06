@@ -10,9 +10,22 @@ export const loggingOut = async () => {
   }
 };
 
-export const createUserAccount = async (email, password) => {
+export const createUserAccount = async (email, password, displayName) => {
+  console.log('UserName: ', displayName);
   try {
-    await firebase.auth().createUserWithEmailAndPassword(email, password);
+    await auth.createUserWithEmailAndPassword(email, password);
+    await updateUserName(displayName);
+    store.dispatch({
+      type: 'USER_LOGGED_IN',
+      payload: {
+        user: {
+          UserID: auth.currentUser.uid,
+          email: auth.currentUser.email,
+          name: auth.currentUser.displayName || 'You',
+        },
+        isLogged: true,
+      },
+    });
   } catch (err) {
     console.log(err);
     // TODO update state with error message
@@ -29,12 +42,15 @@ export const saveDataToCollection = async (collection, data) => {
   }
 };
 
-export const getAllUserUpdates = async (uid) => {
-  let data = [];
-  const updatesCollection = db.collection('StatusUpdates');
-  const queryResults = await updatesCollection.where('user', '==', uid).get();
-  queryResults.forEach((doc) => {
-    data.push(doc.data());
-  });
-  return data;
+export const updateUserName = async (name) => {
+  console.log('Username being set ', name);
+  const user = auth.currentUser;
+  try {
+    await user.updateProfile({
+      displayName: name,
+    });
+    console.log('Final user: ', auth.currentUser);
+  } catch (e) {
+    console.log(e);
+  }
 };

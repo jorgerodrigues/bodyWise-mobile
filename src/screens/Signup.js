@@ -32,15 +32,8 @@ const SignupScreen = (props, { navigation }) => {
     if (usersPassword !== usersPasswordConfirm) {
       return props.errorMessageCreated('The passwords do not match');
     }
-
     try {
-      const response = await axios.post(`${URL}/users/signup`, {
-        name: name,
-        email: user,
-      });
-      props.userLoggedIn(response.data);
-      await SecureStore.setItemAsync('token', response.data.token);
-      await createUserAccount(user, usersPassword);
+      await createUserAccount(user, usersPassword, name);
       props.errorMessageCreated(null);
     } catch (e) {
       console.log(e.message);
@@ -166,6 +159,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { userLoggedIn, errorMessageCreated })(
-  SignupScreen
-);
+export default connect(mapStateToProps, { userLoggedIn, errorMessageCreated })(SignupScreen);

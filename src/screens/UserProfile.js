@@ -12,16 +12,14 @@ import {
 } from '../actions';
 import StatusDisplayProfile from '../components/StatusDisplayProfile';
 import ProfileChart from '../components/ProfileChart';
-import { getAllUserUpdates } from '../Modules/firebaseFunctions';
 import { getAllUsersUpdates } from '../Modules/newUpdateDataManipulation';
 
 const UserProfile = (props) => {
-  const allUpdates = [];
+  let allUpdates = [];
 
   const getPastUserUpdates = async () => {
     try {
-      await getAllUsersUpdates(props.isUserLoggedIn.user.UserID);
-      const allUpdates = await getAllUserUpdates(props.isUserLoggedIn.user.UserID);
+      allUpdates = await getAllUsersUpdates(props.isUserLoggedIn.user.UserID);
       props.updatesAreFetched(allUpdates);
       props.shouldStopLoading();
     } catch (error) {

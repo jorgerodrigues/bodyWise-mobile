@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import { db } from '../firebase/Firebase';
 
 interface updateType {
-  user: string;
-  howDoYouFeelToday: string;
-  comments: string;
-  createdAt: string;
-  updatedAt: string;
+  user?: string;
+  howDoYouFeelToday?: string;
+  comments?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export const todaysUpdateExists = async (uid: string): Promise<void> => {
@@ -51,16 +51,17 @@ export const todaysUpdateExists = async (uid: string): Promise<void> => {
   }
 };
 
-export const getAllUsersUpdates = async (uid: string): [updateType] => {
+export const getAllUsersUpdates = async (uid: string): Promise<[updateType]> => {
   store.dispatch({
     type: 'START_LOADING',
   });
+
   let allUpdatesData: [updateType] = [];
   const updatesCollection = db.collection('StatusUpdates');
   const queryResults = await updatesCollection.where('user', '==', uid).get();
   queryResults.forEach((doc) => {
     if (doc.exists) {
-      const newData = doc.data();
+      const newData: updateType = doc.data();
       allUpdatesData.push(newData);
     }
   });
