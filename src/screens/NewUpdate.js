@@ -10,7 +10,6 @@ import {
   Button,
 } from 'react-native';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import dayjs from 'dayjs';
 
 import {
@@ -29,12 +28,11 @@ import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
 import ProfileIcon from '../components/ProfileIcon';
-import { saveDataToCollection } from '../Modules/firebaseFunctions';
+import { saveUpdateToCollection } from '../Modules/firebaseFunctions';
 import {
   todaysUpdateExists,
   updateCurrentStatusUpdate,
 } from '../Modules/newUpdateDataManipulation';
-import { URL } from '../config/environment';
 
 const NewUpdate = (props) => {
   const [today, setToday] = useState(dayjs().format('DD-MMM-YYYY'));
@@ -50,7 +48,7 @@ const NewUpdate = (props) => {
       updatedAt: today,
     };
     try {
-      await saveDataToCollection('StatusUpdates', dataToUpdate);
+      await saveUpdateToCollection('StatusUpdates', dataToUpdate);
     } catch (e) {
       console.log(e);
       props.shouldStopLoading();

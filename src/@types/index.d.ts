@@ -59,18 +59,14 @@ export interface Theme {
 }
 
 export interface User {
-  _id: string;
+  UserID: string;
   name: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: int;
 }
 
 export interface IsLoggedIn {
   user: User;
   isLogged: boolean;
-  token: string;
 }
 
 export interface ErrorOrSucessMessage {
@@ -101,4 +97,11 @@ export interface StateAppProps {
   updateAlreadyExists?: SingleUpdate;
   isLoading?: boolean;
   todaysDate?: string;
+  mealType: string;
+  foodsEaten: [
+    {
+      food: string;
+      id: number;
+    }
+  ];
 }

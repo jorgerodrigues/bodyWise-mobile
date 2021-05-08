@@ -6,7 +6,8 @@ import PrimaryButton from '../components/PrimaryButton';
 import SingleTag from '../components/SingleTag';
 import MealsTypesOptions from '../components/MealTypesOptions';
 import { newFoodEaten, foodEatenRemoved, mealTypeSet } from '../actions/index';
-import { saveDataToCollection } from '../Modules/firebaseFunctions';
+import { saveUpdateToCollection } from '../Modules/firebaseFunctions';
+import { saveMealToCollection } from '../Modules/mealsDataManipulation';
 
 interface AppProps {
   theme: Theme;
@@ -15,6 +16,15 @@ interface AppProps {
     id: number;
   }[];
   mealType: string;
+  isUserLoggedIn: {
+    user: {
+      UserID: string;
+      email: string;
+      name: string;
+    };
+    isLogged: boolean;
+  };
+  todaysDate: string;
   newFoodEaten: (data) => { data: any; type: string };
   foodEatenRemoved: (data) => { data: any; type: string };
   mealTypeSet: (data) => { data: any; type: string };
@@ -60,7 +70,7 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
 
   const addNewFood = (): void => {
     setId(id + 1);
-    props.newFoodEaten({ food: foodEaten, id: id });
+    props.newFoodEaten({ food: foodEaten.toLowerCase(), id: id });
     setFoodEaten('');
   };
 
@@ -101,9 +111,11 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
   };
 
   const saveData = async () => {
-    await saveDataToCollection('Meals', {
-      meal: props.mealType,
+    await saveMealToCollection('Meals', {
+      meal: props.mealType.toLowerCase(),
       food: props.foodsEaten,
+      createdAt: props.todaysDate,
+      user: props.isUserLoggedIn.user.UserID,
     });
   };
 
@@ -126,6 +138,8 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
           <View style={{ flexDirection: 'row' }}>
             <TextInput
               value={foodEaten}
+              autoCorrect={false}
+              autoCapitalize={'none'}
               onChangeText={(text) => setFoodEaten(text)}
               style={{
                 ...styles.textInput,
@@ -148,6 +162,8 @@ const mapStateToProps = (state) => {
     theme: state.theme,
     foodsEaten: state.foodsEaten,
     mealType: state.mealType,
+    todaysDate: state.todaysDate,
+    isUserLoggedIn: state.isLoggedIn,
   };
 };
 

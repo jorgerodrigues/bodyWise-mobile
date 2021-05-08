@@ -10,7 +10,6 @@ import {
 import { useHeaderHeight } from '@react-navigation/stack';
 import Logo from '../components/Logo';
 import { connect } from 'react-redux';
-import * as SecureStore from 'expo-secure-store';
 
 import { firebaseSignIn } from '../Modules/loginFunctions';
 import {
@@ -80,10 +79,7 @@ const LoginScreen = (props) => {
         {props.isLoading ? (
           <ActivityIndicator />
         ) : (
-          <PrimaryButton
-            title={'Login'}
-            callback={() => userLogin(user, usersPassword)}
-          />
+          <PrimaryButton title={'Login'} callback={() => userLogin(user, usersPassword)} />
         )}
       </View>
       <ClickableLink

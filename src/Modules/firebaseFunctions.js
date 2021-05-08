@@ -22,7 +22,7 @@ export const createUserAccount = async (email, password, displayName) => {
   }
 };
 
-export const saveDataToCollection = async (collection, data) => {
+export const saveUpdateToCollection = async (collection, data) => {
   store.dispatch({ type: 'START_LOADING' });
   try {
     const result = await db

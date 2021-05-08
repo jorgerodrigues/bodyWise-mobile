@@ -10,9 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import * as SecureStore from 'expo-secure-store';
 
 import { createUserAccount } from '../Modules/firebaseFunctions';
 
@@ -20,7 +18,6 @@ import PrimaryButton from '../components/PrimaryButton';
 import Logo from '../components/Logo';
 import ErrorMessage from '../components/ErrorMessage';
 import { userLoggedIn, errorMessageCreated } from '../actions';
-import { URL } from '../config/environment';
 
 const SignupScreen = (props, { navigation }) => {
   const [user, setUser] = useState();
