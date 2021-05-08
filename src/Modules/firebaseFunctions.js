@@ -1,17 +1,7 @@
-import * as firebase from 'firebase';
 import { auth, db } from '../firebase/Firebase';
 import { store } from '../../App';
 
-export const loggingOut = async () => {
-  try {
-    await firebase.auth().signOut();
-  } catch (err) {
-    return console.log('Logout has failed. ', err.message);
-  }
-};
-
 export const createUserAccount = async (email, password, displayName) => {
-  console.log('UserName: ', displayName);
   try {
     await auth.createUserWithEmailAndPassword(email, password);
     await updateUserName(displayName);
@@ -33,8 +23,22 @@ export const createUserAccount = async (email, password, displayName) => {
 };
 
 export const saveDataToCollection = async (collection, data) => {
+  store.dispatch({ type: 'START_LOADING' });
   try {
-    const result = await db.collection(collection).add({ ...data });
+    const result = await db
+      .collection(collection)
+      .doc(`${data.createdAt}${data.user}`)
+      .set({ ...data });
+    store.dispatch({
+      type: 'UPDATE_EXISTS',
+      payload: data,
+    });
+    store.dispatch({
+      type: 'SUCCESS_MESSAGE_CREATED',
+      payload: 'Your status was saved',
+    });
+    store.dispatch({ type: 'STOP_LOADING' });
+    console.log(result);
     return result;
   } catch (e) {
     console.log(e);

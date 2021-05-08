@@ -30,7 +30,10 @@ import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
 import ProfileIcon from '../components/ProfileIcon';
 import { saveDataToCollection } from '../Modules/firebaseFunctions';
-import { todaysUpdateExists } from '../Modules/newUpdateDataManipulation';
+import {
+  todaysUpdateExists,
+  updateCurrentStatusUpdate,
+} from '../Modules/newUpdateDataManipulation';
 import { URL } from '../config/environment';
 
 const NewUpdate = (props) => {
@@ -39,19 +42,15 @@ const NewUpdate = (props) => {
   // #######################
 
   const saveUpdate = async (props) => {
-    props.shouldStartLoading();
     const dataToUpdate = {
       user: props.isUserLoggedIn.user.UserID,
       howDoYouFeelToday: props.singleUpdate,
       comments: props.journalText,
-      createdAt: props.todaysDate,
-      updatedAt: props.todaysDate,
+      createdAt: today,
+      updatedAt: today,
     };
     try {
       await saveDataToCollection('StatusUpdates', dataToUpdate);
-      props.todaysUpdatesAlreadyExists(dataToUpdate);
-      props.successMessageCreated('Your status was saved.');
-      props.shouldStopLoading();
     } catch (e) {
       console.log(e);
       props.shouldStopLoading();
@@ -61,27 +60,20 @@ const NewUpdate = (props) => {
   // #######################
   //  TODO update function below to set the newly defined update
   const updateCurrentUpdate = async () => {
-    props.shouldStartLoading();
-    const itemToBeUpdated = props.updateAlreadyExists._id;
+    const newData = {
+      user: props.isUserLoggedIn.user.UserID,
+      howDoYouFeelToday: props.singleUpdate,
+      comments: props.journalText,
+      createdAt: today,
+      updatedAt: today,
+    };
 
     try {
-      await axios.patch(
-        `${URL}/updates/${itemToBeUpdated}`,
-        {
-          howDoYouFeelToday: props.singleUpdate,
-          comments: props.journalText,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${props.isUserLoggedIn.token}`,
-          },
-        }
-      );
-      props.successMessageCreated('Your status was updated.');
-      props.shouldStopLoading();
+      console.log('Trying to update');
+      await updateCurrentStatusUpdate(newData.user, today, newData);
     } catch (e) {
       console.log(e.message);
-      props.shouldStartLoading();
+      props.shouldStopLoading();
     }
   };
 
@@ -113,10 +105,7 @@ const NewUpdate = (props) => {
   // #######################
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior='position'
-      keyboardVerticalOffset={1}>
+    <KeyboardAvoidingView style={styles.container} behavior='position' keyboardVerticalOffset={1}>
       <ScrollView>
         <TouchableOpacity
           onPress={() => {
@@ -125,9 +114,7 @@ const NewUpdate = (props) => {
           <ProfileIcon style={styles.profileIcon} />
         </TouchableOpacity>
         <View>
-          <Text style={styles.mainHeader}>
-            Hey {props.isUserLoggedIn.user.name || 'You'}
-          </Text>
+          <Text style={styles.mainHeader}>Hey {props.isUserLoggedIn.user.name || 'You'}</Text>
           {props.errorOrSuccessMessage.message == undefined || '' || null ? (
             <></>
           ) : (
@@ -144,9 +131,7 @@ const NewUpdate = (props) => {
                 Here's the journal if you feel like doing it today
               </Text>
               <JournalTextField
-                textField={
-                  props.journalText ? props.journalText : null
-                }></JournalTextField>
+                textField={props.journalText ? props.journalText : null}></JournalTextField>
             </View>
           ) : (
             <></>
@@ -164,7 +149,7 @@ const NewUpdate = (props) => {
             <PrimaryButton
               title={'Update'}
               callback={() => {
-                updateCurrentUpdate(props);
+                updateCurrentUpdate();
               }}
             />
           )}

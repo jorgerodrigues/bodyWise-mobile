@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { auth, db } from '../firebase/Firebase';
+import { auth } from '../firebase/Firebase';
 import { store } from '../../App';
 
 export const firebaseSignIn = async (
@@ -35,6 +35,14 @@ export const firebaseSignIn = async (
 };
 
 export const loggingOut = async (): Promise<void> => {
+  store.dispatch({
+    type: 'JOURNAL_IS_UPDATED',
+    payload: '',
+  });
+  store.dispatch({
+    type: 'UPDATE_IS_SET',
+    payload: null,
+  });
   try {
     await firebase.auth().signOut();
     store.dispatch({

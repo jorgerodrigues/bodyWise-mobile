@@ -67,3 +67,30 @@ export const getAllUsersUpdates = async (uid: string): Promise<[updateType]> => 
   });
   return allUpdatesData;
 };
+
+export const updateCurrentStatusUpdate = async (
+  userID: string,
+  date: string,
+  newContent: any
+): Promise<void> => {
+  store.dispatch({ type: 'START_LOADING' });
+  try {
+    await db
+      .collection('StatusUpdates')
+      .doc(`${date}${userID}`)
+      .set({ ...newContent });
+    store.dispatch({
+      type: 'UPDATE_EXISTS',
+      payload: newContent,
+    });
+    store.dispatch({
+      type: 'SUCCESS_MESSAGE_CREATED',
+      payload: 'Your status was saved',
+    });
+    store.dispatch({ type: 'STOP_LOADING' });
+  } catch (e) {
+    console.log(e.message);
+    store.dispatch({ type: 'STOP_LOADING' });
+    // TODO update state with error message
+  }
+};

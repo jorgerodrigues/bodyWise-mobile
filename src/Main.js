@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Button } from 'react-native';
+import { Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import * as SecureStore from 'expo-secure-store';
-import axios from 'axios';
 import {
   userLoggedIn,
   userSignedOut,
@@ -59,11 +57,7 @@ const Main = (props) => {
                 title: '',
                 headerTransparent: true,
                 headerRight: () => (
-                  <Button
-                    onPress={() => loggingOut()}
-                    title='Logout'
-                    color='#786EE2'
-                  />
+                  <Button onPress={() => loggingOut()} title='Logout' color='#786EE2' />
                 ),
                 headerTintColor: '#786EE2',
               }}
