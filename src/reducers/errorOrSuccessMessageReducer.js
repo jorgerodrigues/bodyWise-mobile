@@ -5,7 +5,8 @@ const errorOrSuccessMessageReducer = (state = '', action) => {
 
     case 'SUCCESS_MESSAGE_CREATED':
       return { message: action.payload, type: 'SuccessMessage' };
-
+    case 'FOOD_CLEANED':
+      return (state = '');
     default:
       return state;
   }

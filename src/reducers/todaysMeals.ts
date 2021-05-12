@@ -3,7 +3,7 @@ interface mealAction {
   payload: string;
 }
 
-const todaysMeals = (state = '', action: mealAction) => {
+const todaysMeals = (state = [], action: mealAction) => {
   switch (action.type) {
     case 'ALL_TODAYS_MEALS_FETCHED':
       return action.payload;

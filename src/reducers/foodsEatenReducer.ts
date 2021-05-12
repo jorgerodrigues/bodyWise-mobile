@@ -21,6 +21,8 @@ const foodsEatenReducer = (state = [], action: mealAction) => {
       });
       state = newState;
       return state;
+    case 'FOOD_CLEANED':
+      return (state = []);
     default:
       return state;
   }

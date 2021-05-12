@@ -6,7 +6,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
 import SingleTag from '../components/SingleTag';
 import MealsTypesOptions from '../components/MealTypesOptions';
-import { newFoodEaten, foodEatenRemoved, mealTypeSet } from '../actions/index';
+import { newFoodEaten, foodEatenRemoved, mealTypeSet, foodEatenCleaned } from '../actions/index';
 import { saveMealToCollection } from '../Modules/mealsDataManipulation';
 
 interface AppProps {
@@ -29,6 +29,8 @@ interface AppProps {
   newFoodEaten: (data) => { data: any; type: string };
   foodEatenRemoved: (data) => { data: any; type: string };
   mealTypeSet: (data) => { data: any; type: string };
+  foodEatenCleaned: () => { type: string };
+  navigation: any;
 }
 
 const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
@@ -92,23 +94,21 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
   };
 
   const renderListOfEatenFoods = (): React.ReactNode => {
-    return props.foodsEaten.map(
-      (e): React.ReactElement => {
-        return (
-          <>
-            <SingleTag
-              title={e.food}
-              primaryColor={props.theme.palette.purple}
-              textColor={props.theme.palette.blueLight}
-              key={id * Math.random()}
-              onPress={() => {
-                props.foodEatenRemoved(e);
-              }}
-            />
-          </>
-        );
-      }
-    );
+    return props.foodsEaten.map((e): React.ReactElement => {
+      return (
+        <>
+          <SingleTag
+            title={e.food}
+            primaryColor={props.theme.palette.purple}
+            textColor={props.theme.palette.blueLight}
+            key={id * Math.random()}
+            onPress={() => {
+              props.foodEatenRemoved(e);
+            }}
+          />
+        </>
+      );
+    });
   };
 
   const saveData = async () => {
@@ -118,6 +118,9 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
       createdAt: props.todaysDate,
       user: props.isUserLoggedIn.user.UserID,
     });
+    // todo clean up the data from state while navigating back
+    props.foodEatenCleaned();
+    props.navigation.navigate('FoodTracking');
   };
 
   return (
@@ -178,4 +181,5 @@ export default connect(mapStateToProps, {
   newFoodEaten,
   foodEatenRemoved,
   mealTypeSet,
+  foodEatenCleaned,
 })(FoodDetails);

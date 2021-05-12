@@ -26,9 +26,10 @@ const FoodTracking: FC<StateAppProps> = ({
   todaysMealsSet,
   todaysMeals,
 }: AppProps) => {
+  //
   useEffect(() => {
     fetchAllMeals();
-  }, []);
+  });
   //
   const generateMarkers = (): React.ReactNode => {
     return todaysMeals.map((e, index) => {
@@ -42,7 +43,6 @@ const FoodTracking: FC<StateAppProps> = ({
 
   const generateFullListOfMealsWithContent = (): React.ReactNode => {
     return todaysMeals.map((e, index): React.ReactNode => {
-      console.log('MEAL: ', e.meal);
       return (
         <View style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }} key={index}>
           <View

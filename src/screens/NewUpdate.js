@@ -152,9 +152,9 @@ const NewUpdate = (props) => {
             />
           )}
         </View>
-        <Button
-          title={'go to foodTracking'}
-          onPress={() => {
+        <PrimaryButton
+          title={'Food Tracking'}
+          callback={() => {
             props.navigation.navigate('FoodTracking');
           }}
         />
