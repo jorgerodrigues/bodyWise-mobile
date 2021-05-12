@@ -74,3 +74,8 @@ export const mealTypeSet = (data) => ({
   type: 'MEAL_TYPE_SET',
   payload: data,
 });
+
+export const todaysMealsSet = (data) => ({
+  type: 'ALL_TODAYS_MEALS_FETCHED',
+  payload: data,
+});

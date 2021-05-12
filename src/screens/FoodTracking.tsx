@@ -1,47 +1,37 @@
-import React, { FC } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
 import { DotMarker } from '../components/DotMarker';
 import { RecessedVerticalBar } from '../components/RecessedVerticalBar';
 import { connect } from 'react-redux';
-import { StateAppProps, Theme } from '../@types';
+import { StateAppProps, Theme, IsLoggedIn, TodaysMeal } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
-
-// Fake data for testing the component
-type fakeInfo = { mealType: string; mealContent: string[] }[];
-const fakeData: fakeInfo = [
-  {
-    mealType: 'Breakfast',
-    mealContent: ['Peanut', 'Apple', 'Capuccino'],
-  },
-  {
-    mealType: 'Breakfast',
-    mealContent: ['Peanut', 'Apple', 'Capuccino'],
-  },
-  {
-    mealType: 'Lunch',
-    mealContent: ['Meat', 'Beans', 'Salad'],
-  },
-  {
-    mealType: 'Breakfast',
-    mealContent: ['Peanut', 'Apple', 'Capuccino'],
-  },
-  {
-    mealType: 'Lunch',
-    mealContent: ['Meat', 'Beans', 'Salad'],
-  },
-];
-// end of fake data
+import { fetchAllMealsOfToday } from '../Modules/mealsDataManipulation';
+import { todaysMealsSet } from '../actions/index';
 
 interface AppProps {
   theme: Theme;
   navigation: any;
+  isUserLoggedIn: IsLoggedIn;
+  todaysDate: string;
+  todaysMealsSet: any;
+  todaysMeals: [TodaysMeal];
 }
 
 //
-const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
+const FoodTracking: FC<StateAppProps> = ({
+  theme,
+  navigation,
+  isUserLoggedIn,
+  todaysDate,
+  todaysMealsSet,
+  todaysMeals,
+}: AppProps) => {
+  useEffect(() => {
+    fetchAllMeals();
+  }, []);
   //
   const generateMarkers = (): React.ReactNode => {
-    return fakeData.map((e, index) => {
+    return todaysMeals.map((e, index) => {
       return (
         <View key={index} style={{ marginVertical: 31, alignSelf: 'center' }}>
           <DotMarker></DotMarker>
@@ -51,53 +41,53 @@ const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
   };
 
   const generateFullListOfMealsWithContent = (): React.ReactNode => {
-    return fakeData.map(
-      (e, index): React.ReactNode => {
-        return (
+    return todaysMeals.map((e, index): React.ReactNode => {
+      console.log('MEAL: ', e.meal);
+      return (
+        <View style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }} key={index}>
           <View
-            style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }}
-            key={index}>
-            <View
+            style={{
+              ...styles.mealTypeContainer,
+            }}>
+            <Text
               style={{
-                ...styles.mealTypeContainer,
+                ...styles.mealType,
+                fontSize: theme.textVariants.subHeaderLight.fontSize,
+                fontFamily: theme.textVariants.subHeaderLight.fontFamily,
               }}>
-              <Text
-                style={{
-                  ...styles.mealType,
-                  fontSize: theme.textVariants.subHeaderLight.fontSize,
-                  fontFamily: theme.textVariants.subHeaderLight.fontFamily,
-                }}>
-                {e.mealType}
-              </Text>
-            </View>
-            <View
-              style={{
-                ...styles.mealContentContainer,
-                marginLeft: theme.spacing.xxl,
-              }}>
-              {generateMealContent()}
-            </View>
+              {e.meal}
+            </Text>
           </View>
-        );
-      }
-    );
+          <View
+            style={{
+              ...styles.mealContentContainer,
+              marginLeft: theme.spacing.xxl,
+            }}>
+            {generateMealContent(e.food)}
+          </View>
+        </View>
+      );
+    });
   };
 
-  const generateMealContent = (): React.ReactNode => {
-    for (let i = 0; i <= fakeData.length - 1; i++) {
-      return fakeData[i].mealContent.map((e, index) => {
-        return (
-          <Text
-            key={index}
-            style={{
-              color: theme.palette.greyTransparent,
-              fontFamily: theme.textVariants.bodyLight.fontFamily,
-            }}>
-            {e}
-          </Text>
-        );
-      });
-    }
+  const generateMealContent = (foods): React.ReactNode => {
+    return foods.map((e) => {
+      return (
+        <Text
+          key={e.id}
+          style={{
+            color: theme.palette.greyTransparent,
+            fontFamily: theme.textVariants.bodyLight.fontFamily,
+          }}>
+          {e.food}
+        </Text>
+      );
+    });
+  };
+
+  const fetchAllMeals = async (): Promise<void> => {
+    const meals = await fetchAllMealsOfToday(isUserLoggedIn.user.UserID, todaysDate);
+    todaysMealsSet(meals);
   };
 
   return (
@@ -107,11 +97,8 @@ const FoodTracking: FC<StateAppProps> = ({ theme, navigation }: AppProps) => {
         backgroundColor: theme.colors.background,
       }}>
       <View style={{ flexDirection: 'row' }}>
-        <RecessedVerticalBar style={styles.verticalBar}>
-          {generateMarkers()}
-        </RecessedVerticalBar>
-        <View
-          style={{ flexDirection: 'column', marginTop: theme.spacing.fromTop - 13 }}>
+        <RecessedVerticalBar style={styles.verticalBar}>{generateMarkers()}</RecessedVerticalBar>
+        <View style={{ flexDirection: 'column', marginTop: theme.spacing.fromTop - 13 }}>
           {generateFullListOfMealsWithContent()}
         </View>
       </View>
@@ -154,10 +141,13 @@ const styles = StyleSheet.create({
   mealContent: {},
 });
 
-const mapStateToProps = (state: StateAppProps): { theme: Theme } => {
+const mapStateToProps = (state: StateAppProps) => {
   return {
     theme: state.theme,
+    isUserLoggedIn: state.isLoggedIn,
+    todaysDate: state.todaysDate,
+    todaysMeals: state.todaysMeals,
   };
 };
 
-export default connect(mapStateToProps, {})(FoodTracking);
+export default connect(mapStateToProps, { todaysMealsSet })(FoodTracking);

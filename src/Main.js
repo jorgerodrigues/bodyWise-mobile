@@ -51,6 +51,15 @@ const Main = (props) => {
               }}
             />
             <Stack.Screen
+              name='FoodTracking'
+              component={FoodTracking}
+              options={{
+                title: 'Food tracking',
+                headerTintColor: '#F8FAFC',
+                headerTransparent: true,
+              }}
+            />
+            <Stack.Screen
               name='UserProfile'
               component={UserProfile}
               options={{
@@ -62,15 +71,7 @@ const Main = (props) => {
                 headerTintColor: '#786EE2',
               }}
             />
-            <Stack.Screen
-              name='FoodTracking'
-              component={FoodTracking}
-              options={{
-                title: 'Food tracking',
-                headerTintColor: '#F8FAFC',
-                headerTransparent: true,
-              }}
-            />
+
             <Stack.Screen
               name='FoodDetails'
               component={FoodDetails}

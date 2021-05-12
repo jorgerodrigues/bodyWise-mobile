@@ -87,6 +87,18 @@ export interface UpdatesFetched {
   [SingleUpdate];
 }
 
+export interface FoodEaten {
+  food: string;
+  id: number;
+}
+
+export interface TodaysMeal {
+  createdAt: string;
+  food: [FoodEaten];
+  meal: string;
+  user: string;
+}
+
 export interface StateAppProps {
   theme: Theme;
   isLoggedIn?: isLoggedIn;
@@ -97,11 +109,7 @@ export interface StateAppProps {
   updateAlreadyExists?: SingleUpdate;
   isLoading?: boolean;
   todaysDate?: string;
-  mealType: string;
-  foodsEaten: [
-    {
-      food: string;
-      id: number;
-    }
-  ];
+  mealType?: string;
+  foodsEaten?: [FoodEaten];
+  todaysMeals?: [TodaysMeal];
 }

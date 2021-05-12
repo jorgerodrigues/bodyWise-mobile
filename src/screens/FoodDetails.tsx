@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import { Theme } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
+import SuccessMessage from '../components/SuccessMessage';
 import SingleTag from '../components/SingleTag';
 import MealsTypesOptions from '../components/MealTypesOptions';
 import { newFoodEaten, foodEatenRemoved, mealTypeSet } from '../actions/index';
-import { saveUpdateToCollection } from '../Modules/firebaseFunctions';
 import { saveMealToCollection } from '../Modules/mealsDataManipulation';
 
 interface AppProps {
@@ -25,6 +25,7 @@ interface AppProps {
     isLogged: boolean;
   };
   todaysDate: string;
+  errorOrSuccessMessage: { type: string; message: string };
   newFoodEaten: (data) => { data: any; type: string };
   foodEatenRemoved: (data) => { data: any; type: string };
   mealTypeSet: (data) => { data: any; type: string };
@@ -126,6 +127,11 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
           marginTop: props.theme.spacing.fromTop,
           marginHorizontal: props.theme.spacing.xxl,
         }}>
+        {props.errorOrSuccessMessage.message ? (
+          <SuccessMessage message={props.errorOrSuccessMessage.message} />
+        ) : (
+          <></>
+        )}
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Meal</Text>
           <View style={styles.tagContainer}>
@@ -164,6 +170,7 @@ const mapStateToProps = (state) => {
     mealType: state.mealType,
     todaysDate: state.todaysDate,
     isUserLoggedIn: state.isLoggedIn,
+    errorOrSuccessMessage: state.errorOrSuccessMessage,
   };
 };
 
