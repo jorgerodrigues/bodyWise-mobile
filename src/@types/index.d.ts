@@ -12,6 +12,7 @@ export interface Theme {
     [key: string]: string;
   };
   spacing: {
+    xs: int;
     s: int;
     m: int;
     l: int;

@@ -34,6 +34,7 @@ export const theme = {
 
   palette: { ...palette },
   spacing: {
+    xs: 4,
     s: 10,
     m: 16,
     l: 24,

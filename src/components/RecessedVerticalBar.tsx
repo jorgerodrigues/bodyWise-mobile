@@ -21,7 +21,7 @@ export const RecessedVerticalBar: FC<AppProps> = (props: AppProps) => {
         locations={[0.2, 0.8, 1]}
         start={{ x: -1, y: 0 }}
         end={{ x: 1, y: 0 }}>
-        {props.children ? props.children : <></>}
+        {/* {props.children ? props.children : <></>} */}
       </LinearGradient>
     </View>
   );
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     backgroundColor: '#786EE2',
-
+    zIndex: 10000,
     height: 650,
     width: 50,
     alignContent: 'center',

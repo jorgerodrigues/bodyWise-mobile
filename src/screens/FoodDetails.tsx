@@ -118,7 +118,6 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
       createdAt: props.todaysDate,
       user: props.isUserLoggedIn.user.UserID,
     });
-    // todo clean up the data from state while navigating back
     props.foodEatenCleaned();
     props.navigation.navigate('FoodTracking');
   };

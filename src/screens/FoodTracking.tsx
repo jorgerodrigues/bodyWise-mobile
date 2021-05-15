@@ -29,12 +29,12 @@ const FoodTracking: FC<StateAppProps> = ({
   //
   useEffect(() => {
     fetchAllMeals();
-  });
+  }, []);
   //
   const generateMarkers = (): React.ReactNode => {
     return todaysMeals.map((e, index) => {
       return (
-        <View key={index} style={{ marginVertical: 31, alignSelf: 'center' }}>
+        <View key={index} style={{ alignSelf: 'center', height: 85 }}>
           <DotMarker></DotMarker>
         </View>
       );
@@ -44,26 +44,42 @@ const FoodTracking: FC<StateAppProps> = ({
   const generateFullListOfMealsWithContent = (): React.ReactNode => {
     return todaysMeals.map((e, index): React.ReactNode => {
       return (
-        <View style={{ ...styles.mealInfoContainer, marginVertical: theme.spacing.l }} key={index}>
+        <View
+          style={{
+            ...styles.mealInfoContainer,
+            marginVertical: theme.spacing.l,
+            height: 50,
+            paddingVertical: theme.spacing.xs,
+          }}
+          key={index}>
+          <DotMarker></DotMarker>
           <View
             style={{
-              ...styles.mealTypeContainer,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: theme.spacing.xl * 6.5,
+              paddingVertical: 2,
             }}>
-            <Text
+            <View
               style={{
-                ...styles.mealType,
-                fontSize: theme.textVariants.subHeaderLight.fontSize,
-                fontFamily: theme.textVariants.subHeaderLight.fontFamily,
+                ...styles.mealTypeContainer,
               }}>
-              {e.meal}
-            </Text>
-          </View>
-          <View
-            style={{
-              ...styles.mealContentContainer,
-              marginLeft: theme.spacing.xxl,
-            }}>
-            {generateMealContent(e.food)}
+              <Text
+                style={{
+                  ...styles.mealType,
+
+                  fontSize: theme.textVariants.subHeaderLight.fontSize,
+                  fontFamily: theme.textVariants.subHeaderLight.fontFamily,
+                }}>
+                {e.meal}
+              </Text>
+            </View>
+            <View
+              style={{
+                ...styles.mealContentContainer,
+              }}>
+              {generateMealContent(e.food)}
+            </View>
           </View>
         </View>
       );
@@ -78,6 +94,7 @@ const FoodTracking: FC<StateAppProps> = ({
           style={{
             color: theme.palette.greyTransparent,
             fontFamily: theme.textVariants.bodyLight.fontFamily,
+            textAlign: 'right',
           }}>
           {e.food}
         </Text>
@@ -92,13 +109,23 @@ const FoodTracking: FC<StateAppProps> = ({
 
   return (
     <ScrollView
-      contentContainerStyle={{
+      decelerationRate={'fast'}
+      style={{
         ...styles.background,
         backgroundColor: theme.colors.background,
       }}>
-      <View style={{ flexDirection: 'row' }}>
-        <RecessedVerticalBar style={styles.verticalBar}>{generateMarkers()}</RecessedVerticalBar>
-        <View style={{ flexDirection: 'column', marginTop: theme.spacing.fromTop - 13 }}>
+      <View style={{ flexDirection: 'row', marginLeft: 40 }}>
+        <RecessedVerticalBar style={{ ...styles.verticalBar, height: todaysMeals.length * 100 }}>
+          <View style={{ paddingTop: 20 }}>{generateMarkers()}</View>
+        </RecessedVerticalBar>
+        <View
+          style={{
+            flexDirection: 'column',
+            position: 'absolute',
+            alignItems: 'flex-start',
+            marginTop: theme.spacing.fromTop - 13,
+            marginLeft: 5,
+          }}>
           {generateFullListOfMealsWithContent()}
         </View>
       </View>
@@ -117,26 +144,24 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   verticalBar: {
-    height: 650,
     width: 50,
     marginTop: 120,
-    marginLeft: 40,
   },
   mealInfoContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    overflow: 'hidden',
   },
   mealTypeContainer: {
-    marginHorizontal: 10,
-    alignSelf: 'center',
+    marginLeft: 10,
   },
   mealType: {
+    alignSelf: 'flex-start',
     color: '#F8FAFC',
   },
   mealContentContainer: {
     flexDirection: 'column',
-    marginLeft: 80,
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
+    alignContent: 'flex-end',
   },
   mealContent: {},
 });
