@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Button,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -49,10 +50,14 @@ const NewUpdate = (props) => {
     };
     try {
       await saveUpdateToCollection('StatusUpdates', dataToUpdate);
+      props.navigation.navigate('FoodTracking');
     } catch (e) {
       console.log(e);
       props.shouldStopLoading();
     }
+  };
+  const goToFoodTracking = () => {
+    props.navigation.navigate('FoodTracking');
   };
 
   // #######################
@@ -67,8 +72,8 @@ const NewUpdate = (props) => {
     };
 
     try {
-      console.log('Trying to update');
       await updateCurrentStatusUpdate(newData.user, today, newData);
+      goToFoodTracking();
     } catch (e) {
       console.log(e.message);
       props.shouldStopLoading();
@@ -83,7 +88,9 @@ const NewUpdate = (props) => {
     props.todaysUpdatesAlreadyExists(null);
     props.shouldStopLoading();
     todaysUpdateExists(props.isUserLoggedIn.user.UserID);
-
+    if (props.updateAlreadyExists != null) {
+      goToFoodTracking();
+    }
     return () => {
       mounted = false;
     };

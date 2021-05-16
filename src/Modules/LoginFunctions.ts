@@ -69,7 +69,6 @@ export const isUserLoggedIn = async (): Promise<void> => {
       });
       return true;
     } else {
-      console.log('No user');
       return false;
     }
   });

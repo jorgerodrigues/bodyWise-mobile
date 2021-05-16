@@ -1,5 +1,6 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useLayoutEffect, useCallback } from 'react';
 import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
+import ProfileIcon from '../components/ProfileIcon';
 import { DotMarker } from '../components/DotMarker';
 import { RecessedVerticalBar } from '../components/RecessedVerticalBar';
 import { connect } from 'react-redux';
@@ -8,6 +9,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import { fetchAllMealsOfToday } from '../Modules/mealsDataManipulation';
 import { todaysMealsSet } from '../actions/index';
 import { useFocusEffect } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface AppProps {
   theme: Theme;
@@ -30,11 +32,31 @@ const FoodTracking: FC<StateAppProps> = ({
   //
 
   useFocusEffect(
-    React.useCallback(() => {
-      console.log('UseFocusEffect running');
+    useCallback(() => {
       fetchAllMeals();
     }, [])
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('UserProfile')}
+          style={{ marginBottom: 35, marginTop: -15 }}>
+          <ProfileIcon />
+        </TouchableOpacity>
+      ),
+      headerLeft: () => (
+        <View style={{ position: 'absolute', marginTop: 10, marginLeft: 10 }}>
+          <Button
+            title={'Your update'}
+            onPress={() => navigation.navigate('NewUpdate')}
+            color={theme.palette.blueLight}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
 
   const generateMarkers = (): React.ReactNode => {
     return todaysMeals.map((e, index) => {

@@ -54,7 +54,7 @@ const Main = (props) => {
               name='FoodTracking'
               component={FoodTracking}
               options={{
-                title: 'Food tracking',
+                title: '',
                 headerTintColor: '#F8FAFC',
                 headerTransparent: true,
               }}
@@ -104,6 +104,7 @@ const Main = (props) => {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.isLoggedIn,
+    updateAlreadyExists: state.updateAlreadyExists,
     theme: state.theme,
   };
 };

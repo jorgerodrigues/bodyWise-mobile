@@ -38,7 +38,6 @@ export const saveUpdateToCollection = async (collection, data) => {
       payload: 'Your status was saved',
     });
     store.dispatch({ type: 'STOP_LOADING' });
-    console.log(result);
     return result;
   } catch (e) {
     console.log(e);
@@ -47,13 +46,11 @@ export const saveUpdateToCollection = async (collection, data) => {
 };
 
 export const updateUserName = async (name) => {
-  console.log('Username being set ', name);
   const user = auth.currentUser;
   try {
     await user.updateProfile({
       displayName: name,
     });
-    console.log('Final user: ', auth.currentUser);
   } catch (e) {
     console.log(e);
   }
