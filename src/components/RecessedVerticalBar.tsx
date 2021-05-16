@@ -7,7 +7,6 @@ interface AppProps {
     height: number;
     width: number;
     marginTop: number;
-    marginLeft: number;
   };
   children?: React.ReactNode;
 }

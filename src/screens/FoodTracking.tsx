@@ -7,6 +7,7 @@ import { StateAppProps, Theme, IsLoggedIn, TodaysMeal } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
 import { fetchAllMealsOfToday } from '../Modules/mealsDataManipulation';
 import { todaysMealsSet } from '../actions/index';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface AppProps {
   theme: Theme;
@@ -27,14 +28,18 @@ const FoodTracking: FC<StateAppProps> = ({
   todaysMeals,
 }: AppProps) => {
   //
-  useEffect(() => {
-    fetchAllMeals();
-  }, []);
-  //
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('UseFocusEffect running');
+      fetchAllMeals();
+    }, [])
+  );
+
   const generateMarkers = (): React.ReactNode => {
     return todaysMeals.map((e, index) => {
       return (
-        <View key={index} style={{ alignSelf: 'center', height: 85 }}>
+        <View key={index} style={{ alignSelf: 'center' }}>
           <DotMarker></DotMarker>
         </View>
       );
@@ -48,7 +53,7 @@ const FoodTracking: FC<StateAppProps> = ({
           style={{
             ...styles.mealInfoContainer,
             marginVertical: theme.spacing.l,
-            height: 50,
+            height: 70,
             paddingVertical: theme.spacing.xs,
           }}
           key={index}>
@@ -58,7 +63,7 @@ const FoodTracking: FC<StateAppProps> = ({
               flexDirection: 'row',
               justifyContent: 'space-between',
               width: theme.spacing.xl * 6.5,
-              paddingVertical: 2,
+              paddingVertical: theme.spacing.s,
             }}>
             <View
               style={{
@@ -67,7 +72,6 @@ const FoodTracking: FC<StateAppProps> = ({
               <Text
                 style={{
                   ...styles.mealType,
-
                   fontSize: theme.textVariants.subHeaderLight.fontSize,
                   fontFamily: theme.textVariants.subHeaderLight.fontFamily,
                 }}>
@@ -115,7 +119,7 @@ const FoodTracking: FC<StateAppProps> = ({
         backgroundColor: theme.colors.background,
       }}>
       <View style={{ flexDirection: 'row', marginLeft: 40 }}>
-        <RecessedVerticalBar style={{ ...styles.verticalBar, height: todaysMeals.length * 100 }}>
+        <RecessedVerticalBar style={{ ...styles.verticalBar, height: todaysMeals.length * 118 }}>
           <View style={{ paddingTop: 20 }}>{generateMarkers()}</View>
         </RecessedVerticalBar>
         <View
