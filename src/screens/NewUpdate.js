@@ -7,9 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ActivityIndicator,
-  Button,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
