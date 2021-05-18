@@ -1,5 +1,13 @@
 import React, { FC, useState } from 'react';
-import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Keyboard,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Theme } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
@@ -122,45 +130,47 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
 
   return (
     <View style={styles.containerView}>
-      <KeyboardAvoidingView behavior='position'>
-        <View
-          style={{
-            marginTop: props.theme.spacing.fromTop,
-            marginBottom: props.theme.spacing.xxl,
-            marginHorizontal: props.theme.spacing.xl,
-          }}>
-          {props.errorOrSuccessMessage.message ? (
-            <SuccessMessage message={props.errorOrSuccessMessage.message} />
-          ) : (
-            <></>
-          )}
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Meal</Text>
-            <View style={styles.tagContainer}>
-              {props.mealType == '' ? <></> : generateSelectedMealtype()}
-            </View>
-            <MealsTypesOptions />
-          </View>
-          <View style={{ alignSelf: 'center', width: '100%' }}>
-            <Text style={styles.inputLabel}>What did you eat?</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <TextInput
-                value={foodEaten}
-                autoCorrect={false}
-                autoCapitalize={'none'}
-                onChangeText={(text) => setFoodEaten(text)}
-                style={{
-                  ...styles.textInput,
-                }}></TextInput>
-              <View style={{ marginTop: props.theme.spacing.s }}>
-                <PrimaryButton title={'+'} width={40} callback={addNewFood} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView behavior='position'>
+          <View
+            style={{
+              marginTop: props.theme.spacing.fromTop,
+              marginBottom: props.theme.spacing.xxl,
+              marginHorizontal: props.theme.spacing.xl,
+            }}>
+            {props.errorOrSuccessMessage.message ? (
+              <SuccessMessage message={props.errorOrSuccessMessage.message} />
+            ) : (
+              <></>
+            )}
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputLabel}>Meal</Text>
+              <View style={styles.tagContainer}>
+                {props.mealType == '' ? <></> : generateSelectedMealtype()}
               </View>
+              <MealsTypesOptions />
             </View>
-            <View style={styles.tagContainer}>{renderListOfEatenFoods()}</View>
+            <View style={{ alignSelf: 'center', width: '100%' }}>
+              <Text style={styles.inputLabel}>What did you eat?</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <TextInput
+                  value={foodEaten}
+                  autoCorrect={false}
+                  autoCapitalize={'none'}
+                  onChangeText={(text) => setFoodEaten(text)}
+                  style={{
+                    ...styles.textInput,
+                  }}></TextInput>
+                <View style={{ marginTop: props.theme.spacing.s }}>
+                  <PrimaryButton title={'+'} width={40} callback={addNewFood} />
+                </View>
+              </View>
+              <View style={styles.tagContainer}>{renderListOfEatenFoods()}</View>
+            </View>
           </View>
-        </View>
-        <PrimaryButton title={'Save'} callback={saveData} />
-      </KeyboardAvoidingView>
+          <PrimaryButton title={'Save'} callback={saveData} />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
