@@ -17,23 +17,24 @@ const MealTypesOptions = (props): React.ReactElement => {
       flexDirection: 'row',
       flexWrap: 'wrap',
       marginTop: props.theme.spacing.s,
+      justifyContent: 'center',
+      marginBottom: props.theme.spacing.l,
     },
   });
   return (
     <View style={styles.selectableTagContainer}>
-      {meals.map(
-        (option): React.ReactElement => {
-          return (
-            <TagOptions
-              tag={option}
-              onPress={() => {
-                props.mealTypeSet(option);
-              }}
-              textColor={props.theme.palette.purpleLight}
-            />
-          );
-        }
-      )}
+      {meals.map((option, index): React.ReactElement => {
+        return (
+          <TagOptions
+            key={index * Math.random()}
+            tag={option}
+            onPress={() => {
+              props.mealTypeSet(option);
+            }}
+            textColor={props.theme.palette.purpleLight}
+          />
+        );
+      })}
     </View>
   );
 };

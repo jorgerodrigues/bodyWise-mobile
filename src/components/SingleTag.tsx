@@ -8,6 +8,7 @@ interface AppProps {
   primaryColor: string;
   textColor: string;
   title: string;
+  key: number;
   onPress: () => void;
 }
 
@@ -48,7 +49,7 @@ const SingleTag: FC<AppProps> = (props: AppProps): React.ReactElement => {
   });
 
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={props.onPress} key={props.key}>
       <View style={styles.tagContainer}>
         <View style={styles.shadowContainer}>
           <Text style={{ ...styles.tagText, marginLeft: 5 }}>x</Text>

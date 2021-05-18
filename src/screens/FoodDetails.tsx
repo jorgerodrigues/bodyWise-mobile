@@ -46,7 +46,7 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
     inputLabel: {
       ...props.theme.textVariants.subHeader,
       color: props.theme.palette.blueLight,
-      margin: props.theme.spacing.s,
+      marginVertical: props.theme.spacing.s,
       alignSelf: 'center',
     },
     inputContainer: {
@@ -54,15 +54,15 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
     },
     textInput: {
       ...props.theme.textFields.singleLine,
-      width: props.theme.textFields.singleLine.width,
+      width: 0.7 * props.theme.textFields.singleLine.width,
       marginTop: props.theme.spacing.s,
+      marginLeft: props.theme.spacing.s,
       alignSelf: 'center',
     },
     tagContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
-      alignContent: 'space-between',
-      marginVertical: 5,
+      justifyContent: 'center',
     },
     mealTypeContainer: {
       flexDirection: 'row',
@@ -96,17 +96,15 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
   const renderListOfEatenFoods = (): React.ReactNode => {
     return props.foodsEaten.map((e): React.ReactElement => {
       return (
-        <>
-          <SingleTag
-            title={e.food}
-            primaryColor={props.theme.palette.purple}
-            textColor={props.theme.palette.blueLight}
-            key={id * Math.random()}
-            onPress={() => {
-              props.foodEatenRemoved(e);
-            }}
-          />
-        </>
+        <SingleTag
+          title={e.food}
+          primaryColor={props.theme.palette.purple}
+          textColor={props.theme.palette.blueLight}
+          key={id * Math.random()}
+          onPress={() => {
+            props.foodEatenRemoved(e);
+          }}
+        />
       );
     });
   };
@@ -128,7 +126,8 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
         <View
           style={{
             marginTop: props.theme.spacing.fromTop,
-            marginHorizontal: props.theme.spacing.xxl,
+            marginBottom: props.theme.spacing.xxl,
+            marginHorizontal: props.theme.spacing.xl,
           }}>
           {props.errorOrSuccessMessage.message ? (
             <SuccessMessage message={props.errorOrSuccessMessage.message} />
@@ -142,9 +141,9 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
             </View>
             <MealsTypesOptions />
           </View>
-          <View style={{ alignSelf: 'center' }}>
+          <View style={{ alignSelf: 'center', width: '100%' }}>
             <Text style={styles.inputLabel}>What did you eat?</Text>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <TextInput
                 value={foodEaten}
                 autoCorrect={false}
@@ -152,7 +151,6 @@ const FoodDetails: FC<AppProps> = (props): React.ReactElement => {
                 onChangeText={(text) => setFoodEaten(text)}
                 style={{
                   ...styles.textInput,
-                  width: 0.7 * props.theme.textFields.singleLine.width,
                 }}></TextInput>
               <View style={{ marginTop: props.theme.spacing.s }}>
                 <PrimaryButton title={'+'} width={40} callback={addNewFood} />

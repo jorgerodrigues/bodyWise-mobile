@@ -16,6 +16,7 @@ const generateTagOptions: FC<AppProps> = (props): React.ReactElement => {
       marginHorizontal: props.theme.spacing.s,
       ...props.theme.textVariants.bodyLight,
       color: props.textColor,
+      fontSize: 18,
     },
   });
   return (
