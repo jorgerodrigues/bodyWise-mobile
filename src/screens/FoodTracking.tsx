@@ -6,6 +6,7 @@ import { RecessedVerticalBar } from '../components/RecessedVerticalBar';
 import { connect } from 'react-redux';
 import { StateAppProps, Theme, IsLoggedIn, TodaysMeal } from '../@types';
 import PrimaryButton from '../components/PrimaryButton';
+import RoundPrimaryButton from '../components/RoundPrimaryButton';
 import { fetchAllMealsOfToday } from '../Modules/mealsDataManipulation';
 import { todaysMealsSet } from '../actions/index';
 import { useFocusEffect } from '@react-navigation/native';
@@ -136,7 +137,7 @@ const FoodTracking: FC<StateAppProps> = ({
   return (
     <ScrollView
       decelerationRate={'fast'}
-      style={{
+      contentContainerStyle={{
         ...styles.background,
         backgroundColor: theme.colors.background,
       }}>
@@ -155,11 +156,21 @@ const FoodTracking: FC<StateAppProps> = ({
           {generateFullListOfMealsWithContent()}
         </View>
       </View>
-      <PrimaryButton
-        title={'New meal'}
-        callback={() => {
-          navigation.navigate('FoodDetails');
-        }}></PrimaryButton>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+          marginBottom: theme.spacing.l,
+          marginRight: theme.spacing.s,
+        }}>
+        <RoundPrimaryButton
+          title={'+'}
+          callback={() => {
+            navigation.navigate('FoodDetails');
+          }}
+        />
+      </View>
     </ScrollView>
   );
 };
