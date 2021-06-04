@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -27,6 +27,7 @@ import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
 import ProfileIcon from '../components/ProfileIcon';
+import HowDoIFeelSlider from '../components/HowDoIFeelSlider/HowDoIFeelSlider';
 import { saveUpdateToCollection } from '../Modules/firebaseFunctions';
 import {
   todaysUpdateExists,
@@ -126,7 +127,8 @@ const NewUpdate = (props) => {
           <DateDisplay></DateDisplay>
 
           <Text style={styles.secondHeader}>How do you feel today?</Text>
-          <SingleStatus fill={'#D7D4F7'}></SingleStatus>
+          <HowDoIFeelSlider />
+          {/* <SingleStatus fill={'#D7D4F7'}></SingleStatus> */}
 
           {props.singleUpdate ? (
             <View>

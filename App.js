@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 
 import allReducers from './src/reducers/index';
 import Main from './src/Main';
-import Reactotron from './src/config/ReactToTronConfig';
 import {
   useFonts,
   Oxygen_400Regular,
@@ -16,10 +15,9 @@ import { Nobile_700Bold } from '@expo-google-fonts/nobile';
 import { theme } from './src/Design/Theme';
 import { themeIsLoaded } from './src/actions';
 
-if (__DEV__) {
-  import('./src/config/ReactToTronConfig');
-}
-export const store = createStore(allReducers, Reactotron.createEnhancer());
+import reactotron from './src/config/ReactToTronConfig';
+
+export const store = createStore(allReducers, reactotron.createEnhancer());
 
 export default function App() {
   // theme loading to the state

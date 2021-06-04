@@ -58,7 +58,10 @@ export const getAllUsersUpdates = async (uid: string): Promise<[updateType]> => 
 
   let allUpdatesData: [updateType] = [];
   const updatesCollection = db.collection('StatusUpdates');
-  const queryResults = await updatesCollection.where('user', '==', uid).get();
+  const queryResults = await updatesCollection
+    .where('user', '==', uid)
+    .orderBy('createdAt', 'desc')
+    .get();
   queryResults.forEach((doc) => {
     if (doc.exists) {
       const newData: updateType = doc.data();

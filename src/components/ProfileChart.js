@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Dimensions,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import { View, Dimensions, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
@@ -34,6 +28,7 @@ const ProfileChart = (props) => {
     }
   });
   updateData = updateData.slice(0, 6);
+  console.log(updateData);
   dates = dates.slice(0, 6);
   if (updateData.length >= 6) {
     for (let i = 1; i <= 6; i++) {
