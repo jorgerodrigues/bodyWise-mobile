@@ -44,8 +44,8 @@ const NewUpdate = (props) => {
       howDoYouFeelToday: props.singleUpdate,
       preciseValue: props.updatePreciseValue,
       comments: props.journalText,
-      createdAt: today,
-      updatedAt: today,
+      createdAt: new Date(today),
+      updatedAt: new Date(today),
     };
     try {
       await saveUpdateToCollection('StatusUpdates', dataToUpdate);
@@ -67,8 +67,8 @@ const NewUpdate = (props) => {
       howDoYouFeelToday: props.singleUpdate,
       preciseValue: props.updatePreciseValue,
       comments: props.journalText,
-      createdAt: today,
-      updatedAt: today,
+      createdAt: new Date(today),
+      updatedAt: new Date(today),
     };
 
     try {

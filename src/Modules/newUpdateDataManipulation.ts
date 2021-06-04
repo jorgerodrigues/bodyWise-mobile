@@ -80,7 +80,7 @@ export const updateCurrentStatusUpdate = async (
   try {
     await db
       .collection('StatusUpdates')
-      .doc(`${date}${userID}`)
+      .doc(`${dayjs(date).format('DD-MMM-YYYY')}${userID}`)
       .set({ ...newContent });
     store.dispatch({
       type: 'UPDATE_EXISTS',

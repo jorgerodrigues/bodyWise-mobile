@@ -1,5 +1,6 @@
 import { auth, db } from '../firebase/Firebase';
 import { store } from '../../App';
+import dayjs from 'dayjs';
 
 export const createUserAccount = async (email, password, displayName) => {
   try {
@@ -27,7 +28,7 @@ export const saveUpdateToCollection = async (collection, data) => {
   try {
     const result = await db
       .collection(collection)
-      .doc(`${data.createdAt}${data.user}`)
+      .doc(`${dayjs(data.createdAt).format('DD-MMM-YYYY')}${data.user}`)
       .set({ ...data });
     store.dispatch({
       type: 'UPDATE_EXISTS',

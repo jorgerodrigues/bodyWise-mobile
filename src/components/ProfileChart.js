@@ -28,7 +28,6 @@ const ProfileChart = (props) => {
     }
   });
   updateData = updateData.slice(0, 6);
-  console.log(updateData);
   dates = dates.slice(0, 6);
   if (updateData.length >= 6) {
     for (let i = 1; i <= 6; i++) {
