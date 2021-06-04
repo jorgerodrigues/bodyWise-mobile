@@ -3,10 +3,11 @@ import { View, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { connect } from 'react-redux';
 
-import { singleUpdateIsSet } from '../../actions';
+import { singleUpdateIsSet, updateValueSet } from '../../actions';
 
 interface AppProps {
   singleUpdateIsSet: (arg: string) => void;
+  updateValueSet: (arg: number) => void;
 }
 
 const HowDoIFeelSlider = (props: AppProps) => {
@@ -14,7 +15,9 @@ const HowDoIFeelSlider = (props: AppProps) => {
   const currentValue = useRef(howDoIFeelToday);
 
   const statusIsSet = () => {
+    console.log('Props: ', props);
     const status = sliderText(currentValue.current);
+    props.updateValueSet(currentValue.current);
     props.singleUpdateIsSet(status);
   };
 
@@ -69,4 +72,4 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-export default connect(mapStateToProps, { singleUpdateIsSet })(HowDoIFeelSlider);
+export default connect(mapStateToProps, { singleUpdateIsSet, updateValueSet })(HowDoIFeelSlider);

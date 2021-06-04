@@ -12,6 +12,7 @@ import newMealReducer from './newMealReducer';
 import foodsEatenReducer from './foodsEatenReducer';
 import mealType from './mealType';
 import todaysMeals from './todaysMeals';
+import updatePreciseValue from './updatePreciseValue';
 
 const allReducers = combineReducers({
   isLoggedIn: isLoggedInReducer,
@@ -27,6 +28,7 @@ const allReducers = combineReducers({
   foodsEaten: foodsEatenReducer,
   mealType: mealType,
   todaysMeals: todaysMeals,
+  updatePreciseValue,
 });
 
 export default allReducers;

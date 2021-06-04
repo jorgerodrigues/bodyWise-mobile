@@ -22,7 +22,6 @@ import {
   shouldStopLoading,
 } from '../actions/index';
 import DateDisplay from '../components/DateDisplay';
-import SingleStatus from '../components/SingleStatus';
 import JournalTextField from '../components/JournalTextField';
 import PrimaryButton from '../components/PrimaryButton';
 import SuccessMessage from '../components/SuccessMessage';
@@ -43,6 +42,7 @@ const NewUpdate = (props) => {
     const dataToUpdate = {
       user: props.isUserLoggedIn.user.UserID,
       howDoYouFeelToday: props.singleUpdate,
+      preciseValue: props.updatePreciseValue,
       comments: props.journalText,
       createdAt: today,
       updatedAt: today,
@@ -65,6 +65,7 @@ const NewUpdate = (props) => {
     const newData = {
       user: props.isUserLoggedIn.user.UserID,
       howDoYouFeelToday: props.singleUpdate,
+      preciseValue: props.updatePreciseValue,
       comments: props.journalText,
       createdAt: today,
       updatedAt: today,
@@ -128,8 +129,6 @@ const NewUpdate = (props) => {
 
           <Text style={styles.secondHeader}>How do you feel today?</Text>
           <HowDoIFeelSlider />
-          {/* <SingleStatus fill={'#D7D4F7'}></SingleStatus> */}
-
           {props.singleUpdate ? (
             <View>
               <Text style={styles.bodyText}>
@@ -220,6 +219,7 @@ const mapStateToProps = (state) => {
     todaysDate: state.todaysDate,
     updatesAreaFetched: state.updatesAreaFetched,
     theme: state.theme,
+    updatePreciseValue: state.updatePreciseValue,
   };
 };
 

@@ -83,3 +83,8 @@ export const todaysMealsSet = (data) => ({
   type: 'ALL_TODAYS_MEALS_FETCHED',
   payload: data,
 });
+
+export const updateValueSet = (data) => ({
+  type: 'UPDATE_VALUE_SET',
+  payload: data,
+});
