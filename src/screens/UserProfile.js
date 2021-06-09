@@ -19,6 +19,7 @@ const UserProfile = (props) => {
 
   const getPastUserUpdates = async () => {
     try {
+      props.shouldStartLoading();
       allUpdates = await getAllUsersUpdates(props.isUserLoggedIn.user.UserID);
       props.updatesAreFetched(allUpdates);
       props.shouldStopLoading();
@@ -31,7 +32,7 @@ const UserProfile = (props) => {
   const updatesComponent = props.updatesFetched.map((update, index) => {
     return (
       <StatusDisplayProfile
-        date={dayjs(update.createdAt.toDate()).format('DD-MMM-YYYY')}
+        date={dayjs(update.createdAt).format('DD-MMM-YYYY')}
         update={update.howDoYouFeelToday}
         key={index}
       />
@@ -62,12 +63,11 @@ const UserProfile = (props) => {
         <Text style={styles.userName}>{props.isUserLoggedIn.user.name || 'You'}</Text>
         <Text style={styles.userEmail}>{props.isUserLoggedIn.user.email}</Text>
       </View>
-      {props.updatesFetched == [] ? (
+      {(props.updatesFetched == []) | (props.updatesFetched[0] == 'no update') ? (
         <Text>No updates yet</Text>
       ) : (
         <ProfileChart dates={props.updatesFetched} />
       )}
-
       <View style={styles.allUpdates}>{updatesComponent}</View>
     </ScrollView>
   );

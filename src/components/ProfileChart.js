@@ -14,12 +14,9 @@ const ProfileChart = (props) => {
     if (props.updatesFetched.length < 1) {
       return console.log('No updates fetched');
     }
-    var dates = props.updatesFetched.map((update) => {
-      console.log('CreatedAt: ', update.createdAt);
-      // todo : this seems to be an async operation and I need to figure how to coordinate that with the chart display
-      const date = update.createdAt.toDate();
-      console.log(dayjs(date).format('DD-MMM'));
-      return dayjs(update.createdAt.toDate()).format('DD-MMM');
+    const dates = props.updatesFetched.map((update) => {
+      const date = update.createdAt;
+      return dayjs(date).format('DD-MMM');
     });
     return dates;
   };
@@ -30,7 +27,7 @@ const ProfileChart = (props) => {
     switch (update.howDoYouFeelToday) {
       case 'Very Bad':
         return 1;
-      case 'Not well':
+      case 'Bad':
         return 2;
       case 'Ok':
         return 3;
@@ -43,7 +40,6 @@ const ProfileChart = (props) => {
     }
   });
   updateData = updateData.slice(0, 6);
-  console.log(updateData);
   dates = dates.slice(0, 6);
   if (updateData.length >= 6) {
     for (let i = 1; i <= 6; i++) {

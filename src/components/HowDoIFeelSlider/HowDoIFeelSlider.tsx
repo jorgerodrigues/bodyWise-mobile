@@ -15,7 +15,6 @@ const HowDoIFeelSlider = (props: AppProps) => {
   const currentValue = useRef(howDoIFeelToday);
 
   const statusIsSet = () => {
-    console.log('Props: ', props);
     const status = sliderText(currentValue.current);
     props.updateValueSet(currentValue.current);
     props.singleUpdateIsSet(status);

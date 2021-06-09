@@ -68,7 +68,12 @@ export const getAllUsersUpdates = async (uid: string): Promise<[updateType]> => 
       allUpdatesData.push(newData);
     }
   });
-  return allUpdatesData;
+
+  const fullData = allUpdatesData.map((update) => {
+    return { ...update, createdAt: update.createdAt.toDate() };
+  });
+
+  return fullData;
 };
 
 export const updateCurrentStatusUpdate = async (
@@ -85,6 +90,11 @@ export const updateCurrentStatusUpdate = async (
     store.dispatch({
       type: 'UPDATE_EXISTS',
       payload: newContent,
+    });
+    const allUpdates = await getAllUsersUpdates(newContent.user);
+    store.dispatch({
+      type: 'UPDATES_ARE_FETCHED',
+      payload: allUpdates,
     });
     store.dispatch({
       type: 'SUCCESS_MESSAGE_CREATED',
