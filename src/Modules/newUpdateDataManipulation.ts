@@ -28,7 +28,7 @@ export const todaysUpdateExists = async (uid: string): Promise<void> => {
       .get();
     queryResults.forEach((doc) => {
       const fullData = doc.data();
-      if (todaysDate == fullData.createdAt) {
+      if (todaysDate == fullData.createdAt.toDate()) {
         store.dispatch({
           type: 'UPDATE_EXISTS',
           payload: fullData,

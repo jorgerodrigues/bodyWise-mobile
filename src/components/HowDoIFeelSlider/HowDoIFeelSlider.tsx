@@ -32,7 +32,7 @@ const HowDoIFeelSlider = (props: AppProps) => {
       return 'Ok';
     }
     if (value <= 8) {
-      return 'Good';
+      return 'Well';
     } else {
       return 'Very Well';
     }

@@ -5,12 +5,27 @@ import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
 const ProfileChart = (props) => {
-  var data = [];
-  var labels = [];
-  var updateData = [];
-  var dates = props.updatesFetched.map((update) => {
-    return dayjs(update.createdAt).format('DD-MMM');
-  });
+  let data = [];
+  let labels = [];
+  let updateData = [];
+  let dates;
+
+  const generateDates = () => {
+    if (props.updatesFetched.length < 1) {
+      return console.log('No updates fetched');
+    }
+    var dates = props.updatesFetched.map((update) => {
+      console.log('CreatedAt: ', update.createdAt);
+      // todo : this seems to be an async operation and I need to figure how to coordinate that with the chart display
+      const date = update.createdAt.toDate();
+      console.log(dayjs(date).format('DD-MMM'));
+      return dayjs(update.createdAt.toDate()).format('DD-MMM');
+    });
+    return dates;
+  };
+
+  dates = generateDates();
+
   updateData = props.updatesFetched.map((update) => {
     switch (update.howDoYouFeelToday) {
       case 'Very Bad':
@@ -28,6 +43,7 @@ const ProfileChart = (props) => {
     }
   });
   updateData = updateData.slice(0, 6);
+  console.log(updateData);
   dates = dates.slice(0, 6);
   if (updateData.length >= 6) {
     for (let i = 1; i <= 6; i++) {
@@ -48,7 +64,7 @@ const ProfileChart = (props) => {
     labels = dates.reverse();
   }
 
-  if (updateData[0] == undefined) {
+  while (updateData[0] == undefined) {
     return (
       <View>
         <ActivityIndicator />
